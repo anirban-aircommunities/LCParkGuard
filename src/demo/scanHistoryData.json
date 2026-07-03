@@ -1,0 +1,48 @@
+{
+    "list": [
+        {
+            "id": "1",
+            "licensePlate": "ABC101",
+            "parkingSpot": "N/A",
+            "propertyName": "John Doe",
+            "address": "Unknown1",
+            "status": "unregistered",
+            "scannedAt": "Jun 18, 2026",
+            "source": "manual",
+            "sentToTowingCompany": true
+        },
+        {
+            "id": "2",
+            "licensePlate": "ABC201",
+            "parkingSpot": "N/A",
+            "propertyName": "John Doe",
+            "address": "Unknown2",
+            "status": "registered",
+            "scannedAt": "Jun 18, 2026",
+            "source": "manual",
+            "sentToTowingCompany": true
+        },
+        {
+            "id": "3",
+            "licensePlate": "ABC301",
+            "parkingSpot": "N/A",
+            "propertyName": "John Doe",
+            "address": "Unknown3",
+            "status": "unregistered",
+            "scannedAt": "Jun 18, 2026",
+            "source": "manual",
+            "sentToTowingCompany": true
+        },
+        {
+            "id": "4",
+            "licensePlate": "ABC301",
+            "parkingSpot": "N/A",
+            "propertyName": "John Doe",
+            "address": "Unknown3",
+            "status": "unregistered",
+            "scannedAt": "Jun 18, 2026",
+            "source": "manual",
+            "sentToTowingCompany": true
+        }
+    ]
+}

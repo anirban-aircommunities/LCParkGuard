@@ -1,0 +1,15 @@
+{
+    "list": [
+        {
+            "id": "1",
+            "licensePlate": "ABC101",
+            "parkingSpot": "XYZ101",
+            "propertyName": "Unknown",
+            "address": "Denver",
+            "towingCompany": "Air Communities",
+            "towingPhone": "(303) 901-2847",
+            "addedAt": "Jul 1, 2026",
+            "status": "pending"
+        }
+    ]
+}

@@ -1,0 +1,106 @@
+{
+  "project": "Park Guard (LCParkGuard)",
+  "scanDate": "2026-05-19",
+  "reactNativeVersion": "0.84.1",
+  "description": "Authoritative component versions for Black Duck / Polaris BOM correction. Commit this file with package-lock.json and ios/Podfile.lock on every dependency upgrade.",
+  "requiredScanInputs": [
+    "LCParkGuard/package-lock.json",
+    "LCParkGuard/ios/Podfile.lock",
+    "LCParkGuard/package.json"
+  ],
+  "components": [
+    {
+      "name": "react-native",
+      "declaredVersion": "0.84.1",
+      "installedVersion": "0.84.1",
+      "source": "package.json, package-lock.json",
+      "purl": "pkg:npm/react-native@0.84.1",
+      "notes": "If Black Duck shows 0.83.1, the scan used a stale lockfile or wrong branch. Re-scan after pushing package-lock.json."
+    },
+    {
+      "name": "react",
+      "declaredVersion": "19.2.3",
+      "installedVersion": "19.2.3",
+      "source": "package.json, package-lock.json",
+      "purl": "pkg:npm/react@19.2.3",
+      "notes": "CVE-2025-55182 affects react-server-dom on 19.2.0. This app has no react-server-dom packages."
+    },
+    {
+      "name": "hermes-engine",
+      "declaredVersion": "250829098.0.9",
+      "installedVersion": "250829098.0.9",
+      "source": "ios/Podfile.lock",
+      "purl": "pkg:cocoapods/hermes-engine@250829098.0.9",
+      "notes": "Native JS engine (Hermes V1). NOT facebookhermes 0.14.0."
+    },
+    {
+      "name": "hermes-compiler",
+      "declaredVersion": "250829098.0.9",
+      "installedVersion": "250829098.0.9",
+      "source": "package-lock.json (transitive via react-native@0.84.1)",
+      "purl": "pkg:npm/hermes-compiler@250829098.0.9",
+      "notes": "Build-time compiler. Black Duck often maps to facebookhermes 0.14.0 — incorrect KB match."
+    },
+    {
+      "name": "hermes-parser",
+      "declaredVersion": "0.32.0",
+      "installedVersion": "0.32.0",
+      "source": "package-lock.json (Metro/babel)",
+      "purl": "pkg:npm/hermes-parser@0.32.0",
+      "notes": "Metro bundler parser only. Does not share legacy Hermes engine CVEs (facebook/hermes#937)."
+    },
+    {
+      "name": "glob",
+      "declaredVersion": "10.5.0",
+      "installedVersion": "10.5.0",
+      "source": "package.json overrides, package-lock.json",
+      "purl": "pkg:npm/glob@10.5.0",
+      "notes": "Override removes inflight@1.0.6 (transitive via glob@7). inflight should not appear in lockfile."
+    }
+  ],
+  "blackduckCorrections": [
+    {
+      "incorrectKbComponent": "facebookhermes",
+      "incorrectKbVersion": "0.14.0",
+      "incorrectDependencyTree": "react-native/0.83.1 → hermes-compiler/0.14.0",
+      "correctComponent": "hermes-compiler",
+      "correctVersion": "250829098.0.9",
+      "correctNativeComponent": "hermes-engine",
+      "correctNativeVersion": "250829098.0.9",
+      "disposition": "NOT_AFFECTED",
+      "rationale": "Stale scan or KB fuzzy-match. RN 0.84.1 lockfile pins hermes-compiler 250829098.0.9; iOS uses hermes-engine 250829098.0.9. Legacy CVEs target Hermes <=0.12.x, not this stack."
+    },
+    {
+      "incorrectKbComponent": "react-native",
+      "incorrectKbVersion": "0.83.1",
+      "correctComponent": "react-native",
+      "correctVersion": "0.84.1",
+      "disposition": "REMEDIATED",
+      "rationale": "Upgraded to 0.84.1. If tree still shows 0.83.1, Polaris scanned an old commit or branch without updated package-lock.json."
+    },
+    {
+      "incorrectKbComponent": "React from Facebook",
+      "incorrectKbVersion": "19.2.0",
+      "correctComponent": "react",
+      "correctVersion": "19.2.3",
+      "disposition": "NOT_AFFECTED",
+      "rationale": "Patched React installed. CVE-2025-55182 requires react-server-dom RSC server; not present in React Native mobile client."
+    },
+    {
+      "incorrectKbComponent": "Boost C++ Libraries - boost",
+      "incorrectKbVersion": "1.59.0",
+      "correctComponent": "ReactNativeDependencies",
+      "correctVersion": "0.84.1",
+      "disposition": "NOT_AFFECTED",
+      "rationale": "RN 0.84 iOS uses ReactNativeDependencies prebuilts; separate boost 1.59.0 pod is not in current Podfile.lock. Black Duck KB default version mismatch. If boost 1.84.0 appears under RN 0.83.x tree, scan is stale — re-scan 0.84.1 branch."
+    },
+    {
+      "incorrectKbComponent": "inflight",
+      "incorrectKbVersion": "1.0.6",
+      "correctComponent": "glob",
+      "correctVersion": "10.5.0",
+      "disposition": "REMEDIATED",
+      "rationale": "npm override glob@10.5.0 removes inflight from dependency tree. Verify package-lock.json has no inflight entries."
+    }
+  ]
+}
