@@ -11,17 +11,11 @@ type ScanHistoryCardViewProps = {
     iconName?: string;
     iconSize?: number;
     labelIconAdditionalStyle?: any;
-    licensePlate?: string;
-    parkingSpot?: string;
-    propertyName?: string;
-    address?: string;
-    status?: string;
-    scannedAt?: string;
-    source?: string;
-    sentToTowingCompany?: boolean;
+    item?: any;
+    hasBottomButtons?: boolean;
 }
 
-const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, iconName, iconSize, labelIconAdditionalStyle, licensePlate, parkingSpot, propertyName, address, status, scannedAt, source, sentToTowingCompany }: any) => (
+const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, iconName, iconSize, labelIconAdditionalStyle, item, hasBottomButtons }: any) => (
     <View style={styles.outerContainer}>
         <View style={{ flex: 1, flexDirection: 'row' }}>
             {checkbox &&
@@ -29,13 +23,13 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
                     <SvgXml xml={iconName} height={iconSize} width={iconSize} />
                 </TouchableOpacity>}
             <View style={styles.frontRow}>
-                <Text style={[styles.heading, checkbox && {paddingLeft: 10}]}>{licensePlate}</Text>
-                {status && <Text style={styles.scannedText}>{status}</Text>}
+                <Text style={[styles.heading, checkbox && {paddingLeft: 10}]}>{(item as any)?.licensePlate}</Text>
+                {(item as any)?.status && <Text style={styles.scannedText}>{(item as any)?.status}</Text>}
             </View>
         </View>
         <UserInteractionItem
-            labelText={`${address} - Unit ${parkingSpot}`}
-            iconName={propertySelectionIcon.colored}
+            labelText={`${(item as any)?.carOwner} - Unit ${(item as any)?.parkingSpot}`}
+            // iconName={propertySelectionIcon.colored}
             haveItemHeader
             iconSize={16}
             labelSize={13}
@@ -44,8 +38,8 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelContainerAdditionalStyle={styles.subContainer}
         />
         <UserInteractionItem
-            labelText={scannedAt}
-            iconName={propertySelectionIcon.colored}
+            labelText={`Current Location - Unit ${(item as any)?.address}`}
+            // iconName={propertySelectionIcon.colored}
             haveItemHeader
             iconSize={16}
             labelSize={13}
@@ -54,8 +48,8 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelContainerAdditionalStyle={styles.subContainer}
         />
         <UserInteractionItem
-            labelText={`Entered by: ${propertyName}`}
-            iconName={propertySelectionIcon.colored}
+            labelText={(item as any)?.scannedAt}
+            // iconName={propertySelectionIcon.colored}
             haveItemHeader
             iconSize={16}
             labelSize={13}
@@ -63,6 +57,44 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelIconAdditionalStyle={styles.subItem}
             labelContainerAdditionalStyle={styles.subContainer}
         />
+        <UserInteractionItem
+            labelText={`Entered by: ${(item as any)?.propertyName}`}
+            // iconName={propertySelectionIcon.colored}
+            haveItemHeader
+            iconSize={16}
+            labelSize={13}
+            labelTextAdditionalStyle={styles.subText}
+            labelIconAdditionalStyle={styles.subItem}
+            labelContainerAdditionalStyle={styles.subContainer}
+        />
+        <UserInteractionItem
+            labelText={`${(item as any)?.description}`}
+            // iconName={propertySelectionIcon.colored}
+            haveItemHeader
+            iconSize={16}
+            labelSize={13}
+            item={item}
+            isDesc
+            labelTextAdditionalStyle={styles.subText}
+            labelIconAdditionalStyle={styles.subItem}
+            labelContainerAdditionalStyle={styles.subContainer}
+            numberOfLines={2}
+        />
+        {/* Mark buttons */}
+        {hasBottomButtons && <View style={styles.bottomButtonContainerStyle}>
+            <TouchableOpacity
+                activeOpacity={0.7}
+                style={styles.bottomButtonStyle}    
+            >
+                <Text style={styles.bottomButtonTextStyle}>Mark as Towed</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                activeOpacity={0.7}
+                style={[styles.bottomButtonStyle, {backgroundColor: 'rgba(0, 255, 0, 0.5)'}]}    
+            >
+                <Text style={styles.bottomButtonTextStyle}>Mark as Resolved</Text>
+            </TouchableOpacity>
+        </View>}
     </View>
 );
 
@@ -95,14 +127,32 @@ const styles = StyleSheet.create({
         padding: 5,
         borderRadius: 10
     },
-    subText: { fontWeight: '300', paddingLeft: 0 },
+    subText: { fontWeight: '300', paddingLeft: 0, color: "#000", fontSize: 16 },
     subItem: { padding: 0, alignItems: 'flex-start' },
-    subContainer: { marginBottom: 0 },
+    subContainer: { marginTop: 10 },
     iconContainer: {
         borderRadius: 15,
         backgroundColor: Colors.white,
         justifyContent: 'center',
         alignItems: 'center',
     },
+    bottomButtonContainerStyle: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 10
+    },
+    bottomButtonStyle: {
+        flex: 0.48,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: 'rgba(255, 0, 0, 0.5)',
+        borderRadius: 10
+    },
+    bottomButtonTextStyle: {
+        color: '#000'
+    }
 })
 

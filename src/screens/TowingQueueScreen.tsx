@@ -18,7 +18,7 @@ import { markAsSentToTowingCompany } from '../redux/slices/scanHistorySlice';
 import { removeFromTowingQueue } from '../redux/slices/towingQueueSlice';
 import AppFooter from '../components/AppFooter';
 import UserInteractionItem from '../components/UserInteractionItem';
-import { locationPinIcon, propertySelectionIcon } from '../components/Icons';
+import { downArrowIcon, locationPinIcon, propertySelectionIcon } from '../components/Icons';
 import * as scanHistoryData from "../demo/scanHistoryData.json";
 import EmptyListComponent from '../components/EmptyListComponent';
 import { scanHistoryTexts } from '../constants/Constants';
@@ -102,8 +102,8 @@ const TowingQueueScreen = () => {
           labelText={"Towing Queue"}
           iconName={propertySelectionIcon.colored}
           haveItemHeader
-          haveItemDescription
-          haveButton
+          haveItemDescription={false}
+          haveButton={false}
           descText={"Please select records to send to the towing company"}
           all={undefined}
           unauthorized={undefined}
@@ -112,23 +112,17 @@ const TowingQueueScreen = () => {
         </View>
         <FlatList
           data={scanHistoryData.list}
-          /* Empty List Component */
           ListEmptyComponent={
+            // Empty List Component 
             <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />
           }
           renderItem={({ item, index }) => (
             <ScanHistoryCardView
-              id={item.id}
               checkbox
-              iconName={propertySelectionIcon.colored}
+              iconName={downArrowIcon.grey}
               iconSize={15}
-              licensePlate={item.licensePlate}
-              address={item.address}
-              source={item.source}
-              parkingSpot={item.parkingSpot}
-              scannedAt={item.scannedAt}
-              propertyName={item.propertyName}
-              status={item.status}
+              item={item}
+              hasBottomButtons
             />
           )}
         />

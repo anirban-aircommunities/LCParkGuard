@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Dimensions, FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Colors, PANTONE7546, PANTONE7546_RGBA_DEEP, PANTONE7546_RGBA_LIGHT } from "../constants/Colors";
 import { SvgXml } from "react-native-svg";
 import { downArrowIcon, upArrowIcon } from "./Icons";
 import { scanTypes } from "../constants/Constants";
+import ReadMore from '@fawazahmed/react-native-read-more';
 
 type UserInteractionItemProps = {
     haveItemHeader?: boolean;
@@ -29,6 +30,9 @@ type UserInteractionItemProps = {
     all: number | undefined;
     unauthorized: number | undefined;
     valid: number | undefined;
+    numberOfLines?: number | undefined;
+    item?: any;
+    isDesc?: boolean;
 }
 const renderInteractingFeature = (interactionType: string, value: any, onChange: () => void, placeholder: any, dropdownItems: any, setSelectedItem: (item: any) => void, selectedItem: any, selectedTab: any, setSelectedTab: (item: any, index: number) => void, all: number | undefined, unauthorized: number | undefined, valid: number | undefined) => {
     const [isPropertyDropdownOpen, setIsPropertyDropdownOpen] = useState(false);
@@ -121,16 +125,26 @@ const renderInteractingFeature = (interactionType: string, value: any, onChange:
     }
 }
 
-const UserInteractionItem: React.FC<UserInteractionItemProps> = ({ haveItemHeader, haveItemDescription, haveButton, descText, iconName, iconSize, labelIconAdditionalStyle, labelText, labelSize, labelTextAdditionalStyle, labelContainerAdditionalStyle, interactionType, value, onChange, placeholder, dropdownItems, setSelectedItem, selectedItem, selectedTab, setSelectedTab, all, unauthorized, valid } : any) => (
+const UserInteractionItem: React.FC<UserInteractionItemProps> = ({ haveItemHeader, haveItemDescription, haveButton, descText, iconName, iconSize, labelIconAdditionalStyle, labelText, labelSize, labelTextAdditionalStyle, labelContainerAdditionalStyle, interactionType, value, onChange, placeholder, dropdownItems, setSelectedItem, selectedItem, selectedTab, setSelectedTab, all, unauthorized, valid, numberOfLines, item, isDesc } : any) => (
     <View style={styles.container}>
+        {/* Label Text Row */}
         {
             haveItemHeader &&
-            <View style={[styles.bottomMarginBottom, haveButton && [styles.edgeToEdge]]}>
+            <View style={haveButton && [styles.edgeToEdge]}>
                 <View style={[styles.itemContainer, labelContainerAdditionalStyle]}>
-                    <View style={[styles.iconContainer, labelIconAdditionalStyle]}>
+                    {iconName && <View style={[styles.iconContainer, labelIconAdditionalStyle]}>
                         <SvgXml xml={iconName} height={iconSize} width={iconSize}/>
-                    </View>
-                    <Text style={[styles.labelText, {fontSize: labelSize}, labelTextAdditionalStyle]}>{labelText}</Text>
+                    </View>}
+                    <ReadMore 
+                        numberOfLines={numberOfLines}
+                        seeLessStyle={styles.seeMore}
+                        seeLessText="Less"
+                        seeMoreText="More"
+                        seeMoreStyle={styles.seeMore}
+                        style={[styles.labelText, {fontSize: labelSize}, labelTextAdditionalStyle]}
+                    >
+                        {labelText}{isDesc && <Text style={styles.descScannedAt}> ({(item as any)?.scannedAt})</Text>}
+                    </ReadMore>
                 </View>
                 {haveButton && 
                 <TouchableOpacity activeOpacity={0.7}   >
@@ -138,7 +152,9 @@ const UserInteractionItem: React.FC<UserInteractionItemProps> = ({ haveItemHeade
                 </TouchableOpacity>}
             </View>
         }
-        {haveItemDescription && <Text style={styles.descText}>{descText}</Text>}
+        {/* Subheading Row */}
+        {haveItemDescription && <Text style={styles.descText} numberOfLines={numberOfLines}>{descText}</Text>}
+        {/* Text Field / Dropdown / Tabs - Interaction with user */}
         {interactionType && renderInteractingFeature(interactionType, value, onChange, placeholder, dropdownItems, setSelectedItem, selectedItem, selectedTab, setSelectedTab, all, unauthorized, valid)}
     </View>
 )
@@ -186,7 +202,6 @@ const styles = StyleSheet.create({
         color: PANTONE7546_RGBA_DEEP,
         fontSize: 14
     },
-    bottomMarginBottom: {marginBottom: 10},
     descText: {
         fontStyle: 'italic',
         color: PANTONE7546_RGBA_DEEP,
@@ -292,4 +307,12 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 14,
     },
+    descScannedAt: {
+        color: '#808080',
+        fontSize: 13
+    },
+    seeMore: {
+        color: '#0000ff',
+        textDecorationLine: 'underline'
+    }
 })

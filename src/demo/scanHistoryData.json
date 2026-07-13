@@ -2,47 +2,42 @@
     "list": [
         {
             "id": "1",
-            "licensePlate": "ABC101",
+            "carOwner": "Rebecca Thompson",
+            "licensePlate": "ABC123",
             "parkingSpot": "N/A",
             "propertyName": "John Doe",
-            "address": "Unknown1",
+            "address": "ADA Area",
             "status": "unregistered",
-            "scannedAt": "Jun 18, 2026",
+            "scannedAt": "Jun 18, 2026 at 3:33 am",
             "source": "manual",
-            "sentToTowingCompany": true
+            "sentToTowingCompany": true,
+            "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
         },
         {
             "id": "2",
-            "licensePlate": "ABC201",
+            "carOwner": "Rebecca Thompson",
+            "licensePlate": "ABC123",
             "parkingSpot": "N/A",
             "propertyName": "John Doe",
-            "address": "Unknown2",
-            "status": "registered",
-            "scannedAt": "Jun 18, 2026",
+            "address": "ADA Area",
+            "status": "unregistered",
+            "scannedAt": "Jun 18, 2026 at 3:33 am",
             "source": "manual",
-            "sentToTowingCompany": true
+            "sentToTowingCompany": true,
+            "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
         },
         {
             "id": "3",
-            "licensePlate": "ABC301",
+            "carOwner": "Rebecca Thompson",
+            "licensePlate": "ABC123",
             "parkingSpot": "N/A",
             "propertyName": "John Doe",
-            "address": "Unknown3",
-            "status": "unregistered",
-            "scannedAt": "Jun 18, 2026",
+            "address": "ADA Area",
+            "status": "registered",
+            "scannedAt": "Jun 18, 2026 at 3:33 am",
             "source": "manual",
-            "sentToTowingCompany": true
-        },
-        {
-            "id": "4",
-            "licensePlate": "ABC301",
-            "parkingSpot": "N/A",
-            "propertyName": "John Doe",
-            "address": "Unknown3",
-            "status": "unregistered",
-            "scannedAt": "Jun 18, 2026",
-            "source": "manual",
-            "sentToTowingCompany": true
+            "sentToTowingCompany": true,
+            "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
         }
     ]
 }

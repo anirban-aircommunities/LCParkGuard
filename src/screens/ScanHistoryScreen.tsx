@@ -49,9 +49,6 @@ const ScanHistoryScreen = () => {
   useEffect(() => {
     getRecordCount();
   }, [selectedTab])
-  useEffect(() => {
-    Alert.alert("", Config)
-  }, []);
 
 
   return (
@@ -105,16 +102,7 @@ const ScanHistoryScreen = () => {
             !selectedTab.dataType ||
             (selectedTab.dataType && item?.status == selectedTab.dataType) 
           ) &&
-          <ScanHistoryCardView
-            id={item.id}
-            licensePlate={item.licensePlate}
-            address={item.address}
-            source={item.source}
-            parkingSpot={item.parkingSpot}
-            scannedAt={item.scannedAt}
-            propertyName={item.propertyName}
-            status={item.status}
-          />
+          <ScanHistoryCardView item={item} />
         )}
       />
       {/* Email-to-self button */}

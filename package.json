@@ -17,6 +17,7 @@
     "blackduck:detect": "bash scripts/blackduck-scan.sh detect"
   },
   "dependencies": {
+    "@fawazahmed/react-native-read-more": "^3.0.4",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-community/netinfo": "^12.0.1",
     "@react-native-picker/picker": "^2.7.5",
