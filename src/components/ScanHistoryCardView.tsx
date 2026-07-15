@@ -60,6 +60,9 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelTextAdditionalStyle={styles.subText}
             labelIconAdditionalStyle={styles.subItem}
             labelContainerAdditionalStyle={styles.subContainer}
+            all={undefined}
+            unauthorized={undefined}
+            valid={undefined}
         />
         {/* Location */}
         <UserInteractionItem
@@ -71,6 +74,9 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelTextAdditionalStyle={styles.subText}
             labelIconAdditionalStyle={styles.subItem}
             labelContainerAdditionalStyle={styles.subContainer}
+            all={undefined}
+            unauthorized={undefined}
+            valid={undefined}
         />
         {/* Scanned Timestamp */}
         <UserInteractionItem
@@ -82,6 +88,9 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelTextAdditionalStyle={styles.subText}
             labelIconAdditionalStyle={styles.subItem}
             labelContainerAdditionalStyle={styles.subContainer}
+            all={undefined}
+            unauthorized={undefined}
+            valid={undefined}
         />
         {/* User who has scanned */}
         <UserInteractionItem
@@ -93,6 +102,9 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelTextAdditionalStyle={styles.subText}
             labelIconAdditionalStyle={styles.subItem}
             labelContainerAdditionalStyle={styles.subContainer}
+            all={undefined}
+            unauthorized={undefined}
+            valid={undefined}
         />
         {/* Description */}
         <UserInteractionItem
@@ -107,6 +119,9 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelIconAdditionalStyle={styles.subItem}
             labelContainerAdditionalStyle={styles.subContainer}
             numberOfLines={2}
+            all={undefined}
+            unauthorized={undefined}
+            valid={undefined}
         />
         {/* Mark buttons */}
         {hasBottomButtons && <View style={styles.bottomButtonContainerStyle}>

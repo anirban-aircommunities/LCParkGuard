@@ -76,13 +76,13 @@ const TowingQueueScreen = () => {
     <View style={styles.queueItem}>
       <TouchableOpacity
         style={styles.checkbox}
-        onPress={() => toggleSelection(item.id)}>
+        onPress={() => toggleSelection((item as any)?.id)}>
         <View
           style={[
             styles.checkboxInner,
-            selectedItems.has(item.id) && styles.checkboxChecked,
+            selectedItems.has((item as any)?.id) && styles.checkboxChecked,
           ]}>
-          {selectedItems.has(item.id) && (
+          {selectedItems.has((item as any)?.id) && (
             <Text style={styles.checkmark}>✓</Text>
           )}
         </View>
@@ -92,7 +92,7 @@ const TowingQueueScreen = () => {
           {item.licensePlate} - {item.parkingSpot}
         </Text>
         <Text style={styles.propertyName}>{item.propertyName}</Text>
-        <Text style={styles.timeChecked}>Time Checked: {formatDate(item.addedAt)}</Text>
+        <Text style={styles.timeChecked}>Time Checked: {formatDate((item as any)?.addedAt)}</Text>
       </View>
     </View>
   );
