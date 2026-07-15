@@ -13,12 +13,14 @@ import { Colors } from '../constants/Colors';
 import { scanHistoryTexts, scanTypes, timePeriodArray } from '../constants/Constants';
 import EmptyListComponent from '../components/EmptyListComponent';
 import CustomButton from '../components/CustomButton';
-import { propertySelectionIcon } from '../components/Icons';
+import { checkboxes, downArrowIcon, messaging, propertySelectionIcon } from '../components/Icons';
 import ScanHistoryCardView from '../components/ScanHistoryCardView';
 import * as scanHistoryData from "../demo/scanHistoryData.json";
 import UserInteractionItem from '../components/UserInteractionItem';
+import { useSelector } from 'react-redux';
 
 const ScanHistoryScreen = () => {
+  const scanHistoryItems = useSelector((state: any) => state?.scanHistory?.items);
   const [licensePlate, changeLicensePlate] = useState("");
   const [selectedTimePeriod, setSelectedTimePeriod] = useState(timePeriodArray[0]);
   const [selectedTab, setSelectedTab] = useState(scanTypes[0]);
@@ -92,7 +94,7 @@ const ScanHistoryScreen = () => {
       </View>
       {/* Card View */}
       <FlatList
-        data={scanHistoryData.list}
+        data={scanHistoryItems}
         /* Empty List Component */ 
         ListEmptyComponent={
           <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />
@@ -102,7 +104,7 @@ const ScanHistoryScreen = () => {
             !selectedTab.dataType ||
             (selectedTab.dataType && item?.status == selectedTab.dataType) 
           ) &&
-          <ScanHistoryCardView item={item} />
+          <ScanHistoryCardView item={item} statusIconName={messaging} statusIconSize={15} />
         )}
       />
       {/* Email-to-self button */}

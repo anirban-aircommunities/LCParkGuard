@@ -133,7 +133,7 @@ const UserInteractionItem: React.FC<UserInteractionItemProps> = ({ haveItemHeade
             <View style={haveButton && [styles.edgeToEdge]}>
                 <View style={[styles.itemContainer, labelContainerAdditionalStyle]}>
                     {iconName && <View style={[styles.iconContainer, labelIconAdditionalStyle]}>
-                        <SvgXml xml={iconName} height={iconSize} width={iconSize}/>
+                        <SvgXml xml={iconName} height={iconSize} width={iconSize} />
                     </View>}
                     <ReadMore 
                         numberOfLines={numberOfLines}
@@ -141,13 +141,14 @@ const UserInteractionItem: React.FC<UserInteractionItemProps> = ({ haveItemHeade
                         seeLessText="Less"
                         seeMoreText="More"
                         seeMoreStyle={styles.seeMore}
+                        wrapperStyle={styles.readMoreWrapper}
                         style={[styles.labelText, {fontSize: labelSize}, labelTextAdditionalStyle]}
                     >
-                        {labelText}{isDesc && <Text style={styles.descScannedAt}> ({(item as any)?.scannedAt})</Text>}
+                        {labelText} {isDesc && <Text style={styles.descScannedAt}>({(item as any)?.scannedAt})</Text>}
                     </ReadMore>
                 </View>
                 {haveButton && 
-                <TouchableOpacity activeOpacity={0.7}   >
+                <TouchableOpacity activeOpacity={0.7}>
                     <Text style={styles.labelButtonText}>Select All</Text>
                 </TouchableOpacity>}
             </View>
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
     },
     itemContainer: {
+        // flex: 0.85,
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -190,10 +192,11 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         color: PANTONE7546_RGBA_DEEP,
         borderColor: PANTONE7546_RGBA_LIGHT,
-        marginBottom: 10,
+        marginVertical: 10,
         borderRadius: 10
     },
     edgeToEdge: {
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'    
@@ -211,6 +214,7 @@ const styles = StyleSheet.create({
     dropdownContainer: {
         position: 'relative',
         marginBottom: 16,
+        marginTop: 10,
         zIndex: 1000,
     },
     dropdownButton: {
@@ -314,5 +318,6 @@ const styles = StyleSheet.create({
     seeMore: {
         color: '#0000ff',
         textDecorationLine: 'underline'
-    }
+    },
+    readMoreWrapper: {flex: 0.8}
 })

@@ -8,7 +8,50 @@ interface ScanHistoryState {
 }
 
 const initialState: ScanHistoryState = {
-  items: [],
+  items: [
+    {
+      "id": "1",
+      "carOwner": "Rebecca Thompson",
+      "licensePlate": "ABC123",
+      "parkingSpot": "N/A",
+      "isChecked": false,
+      "propertyName": "John Doe",
+      "address": "ADA Area",
+      "status": "unregistered",
+      "scannedAt": "Jun 18, 2026 at 3:33 am",
+      "source": "manual",
+      "sentToTowingCompany": false,
+      "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
+  },
+  {
+      "id": "2",
+      "carOwner": "Rebecca Thompson",
+      "licensePlate": "ABC123",
+      "parkingSpot": "N/A",
+      "isChecked": true,
+      "propertyName": "John Doe",
+      "address": "ADA Area",
+      "status": "unregistered",
+      "scannedAt": "Jun 18, 2026 at 3:33 am",
+      "source": "manual",
+      "sentToTowingCompany": true,
+      "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
+  },
+  {
+      "id": "3",
+      "carOwner": "Rebecca Thompson",
+      "licensePlate": "ABC123",
+      "parkingSpot": "N/A",
+      "isChecked": false,
+      "propertyName": "John Doe",
+      "address": "ADA Area",
+      "status": "registered",
+      "scannedAt": "Jun 18, 2026 at 3:33 am",
+      "source": "manual",
+      "sentToTowingCompany": true,
+      "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
+  }
+  ],
   loading: false,
   error: null,
 };

@@ -1,11 +1,13 @@
 export interface TowingQueueItem {
-  id: string;
-  licensePlate: string;
-  parkingSpot: string;
-  propertyName: string;
-  address: string;
-  towingCompany: string;
-  towingPhone: string;
-  addedAt: string;
-  status: 'pending' | 'in-progress' | 'completed';
+  id?: number | string;
+  carOwner?: string;
+  licensePlate?: string;
+  parkingSpot?: string;
+  isChecked?: boolean;
+  propertyName?: string;
+  address?: string;
+  status?: 'pending' | 'in-progress' | 'completed';
+  scannedAt?: string;
+  source?: string;
+  description?: string
 }

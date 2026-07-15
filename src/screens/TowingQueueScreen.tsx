@@ -15,19 +15,21 @@ import { TowingQueueItem } from '../models/TowingQueue';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { markAsSentToTowingCompany } from '../redux/slices/scanHistorySlice';
-import { removeFromTowingQueue } from '../redux/slices/towingQueueSlice';
+import { removeFromTowingQueue, selectItems } from '../redux/slices/towingQueueSlice';
 import AppFooter from '../components/AppFooter';
 import UserInteractionItem from '../components/UserInteractionItem';
-import { downArrowIcon, locationPinIcon, propertySelectionIcon } from '../components/Icons';
+import { checkboxes, downArrowIcon, locationPinIcon, propertySelectionIcon } from '../components/Icons';
 import * as scanHistoryData from "../demo/scanHistoryData.json";
 import EmptyListComponent from '../components/EmptyListComponent';
-import { scanHistoryTexts } from '../constants/Constants';
+import { scanHistoryTexts, towingQueueTexts } from '../constants/Constants';
 import ScanHistoryCardView from '../components/ScanHistoryCardView';
+import { useNavigation } from '@react-navigation/native';
 
 const TowingQueueScreen = () => {
-  const { items } = useTowingQueueViewModel();
   const dispatch = useDispatch();
-  const { items: scanHistoryItems } = useSelector((state: RootState) => state.scanHistory);
+  const navigation = useNavigation();
+  const towingQueueItems = useSelector((state: any) => state?.towingQueue?.items);
+  const towingQueueSelectedItems = useSelector((state: any) => state?.towingQueue?.selectedItems);
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
 
   const toggleSelection = (id: string) => {
@@ -40,13 +42,13 @@ const TowingQueueScreen = () => {
     setSelectedItems(newSelected);
   };
 
-  const selectAll = () => {
-    if (selectedItems.size === items.length) {
-      setSelectedItems(new Set());
-    } else {
-      setSelectedItems(new Set(items.map((item) => item.id)));
-    }
-  };
+  // const selectAll = () => {
+  //   if (selectedItems.size === items.length) {
+  //     setSelectedItems(new Set());
+  //   } else {
+  //     setSelectedItems(new Set(items.map((item) => item.id)));
+  //   }
+  // };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -97,36 +99,44 @@ const TowingQueueScreen = () => {
 
   return (
     <ScrollView style={styles.outerContainer}>
-      <View style={styles.innerContainer}>
+      {/* Sub Header with Select All feature */}
+      {/* <View style={styles.innerContainer}>
         <UserInteractionItem
           labelText={"Towing Queue"}
           iconName={propertySelectionIcon.colored}
           haveItemHeader
-          haveItemDescription={false}
-          haveButton={false}
+          haveItemDescription={true}
+          haveButton={true}
           descText={"Please select records to send to the towing company"}
           all={undefined}
           unauthorized={undefined}
           valid={undefined}
         />
-        </View>
-        <FlatList
-          data={scanHistoryData.list}
-          ListEmptyComponent={
-            // Empty List Component 
-            <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />
-          }
-          renderItem={({ item, index }) => (
-            <ScanHistoryCardView
-              checkbox
-              iconName={downArrowIcon.grey}
-              iconSize={15}
-              item={item}
-              hasBottomButtons
-            />
-          )}
-        />
-        {/* <View style={styles.header}>
+        </View> */}
+      <FlatList
+        data={towingQueueItems}
+        ListEmptyComponent={
+          // Empty List Component 
+          <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />
+        }
+        renderItem={({ item, index }) => (
+          <ScanHistoryCardView
+            checkbox={false}
+            // selectItem={() => dispatch(selectItems(item))}
+            iconName={item.isChecked ? checkboxes.checked : checkboxes.unchecked}
+            iconSize={item.isChecked ? 20 : 25}
+            item={item}
+            hasBottomButtons
+            markAsTowed={() => {
+              Alert.alert("", towingQueueTexts.markedAsTowed, [{ text: "Ok", onPress: () => navigation.navigate("ScanHistory") }])
+            }}
+            markAsResolved={() => {
+              Alert.alert("", towingQueueTexts.markedAsResolved, [{ text: "Ok", onPress: () => navigation.navigate("ScanHistory") }])
+            }}
+          />
+        )}
+      />
+      {/* <View style={styles.header}>
           <View>
             <Text style={styles.title}>Towing Queue</Text>
             <Text style={styles.subtitle}>
@@ -142,7 +152,7 @@ const TowingQueueScreen = () => {
           )}
         </View> */}
 
-        {/* {items.length > 0 ? (
+      {/* {items.length > 0 ? (
           <FlatList
             data={items}
             renderItem={renderItem}
@@ -156,7 +166,7 @@ const TowingQueueScreen = () => {
           </View>
         )} */}
 
-        {/* {items.length > 0 && (
+      {/* {items.length > 0 && (
           <View style={styles.actionButtons}>
             <TouchableOpacity
               style={[

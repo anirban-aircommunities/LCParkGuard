@@ -1,10 +1,11 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Colors } from "../constants/Colors";
+import { Colors, PANTONE7546 } from "../constants/Colors";
 import UserInteractionItem from "./UserInteractionItem";
 import { propertySelectionIcon } from "./Icons";
 import { ScanHistoryItem } from "../models/ScanHistory";
 import { SvgXml } from "react-native-svg";
+import { scanHistoryTexts } from "../constants/Constants";
 
 type ScanHistoryCardViewProps = {
     checkbox?: boolean;
@@ -13,18 +14,34 @@ type ScanHistoryCardViewProps = {
     labelIconAdditionalStyle?: any;
     item?: any;
     hasBottomButtons?: boolean;
+    selectItem?: () => void; 
+    markAsTowed?: () => void;
+    markAsResolved?: () => void;
+    statusIconName?: string;
+    statusIconSize?: number;
 }
 
-const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, iconName, iconSize, labelIconAdditionalStyle, item, hasBottomButtons }: any) => (
+const getStatus = (item: any) => {
+    if(Object.keys(item)?.includes("sentToTowingCompany")) {
+        return (item as any)?.sentToTowingCompany ? scanHistoryTexts.sent : scanHistoryTexts.texted;
+    } else {
+        return (item as any)?.status;
+    }
+}
+
+const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, iconName, iconSize, labelIconAdditionalStyle, item, hasBottomButtons, selectItem, markAsTowed, markAsResolved, statusIconName, statusIconSize }: any) => (
     <View style={styles.outerContainer}>
-        <View style={{ flex: 1, flexDirection: 'row' }}>
+        <View style={styles.rowStyle}>
             {checkbox &&
-                <TouchableOpacity style={[styles.iconContainer, labelIconAdditionalStyle]}>
+                <TouchableOpacity style={[styles.iconContainer, labelIconAdditionalStyle]} onPress={selectItem}>
                     <SvgXml xml={iconName} height={iconSize} width={iconSize} />
                 </TouchableOpacity>}
             <View style={styles.frontRow}>
-                <Text style={[styles.heading, checkbox && {paddingLeft: 10}]}>{(item as any)?.licensePlate}</Text>
-                {(item as any)?.status && <Text style={styles.scannedText}>{(item as any)?.status}</Text>}
+                <Text style={[styles.heading, checkbox && {paddingLeft: 10}, Object.keys(item).includes("sentToTowingCompany") && {width: '77%'}]}>{(item as any)?.licensePlate}</Text>
+                <View style={[styles.rowStyle, styles.rowBackground]}>
+                    {Object.keys(item).includes("sentToTowingCompany") && <SvgXml xml={statusIconName} height={statusIconSize} width={statusIconSize} color={Colors.white}/>}
+                    <Text style={[styles.scannedText, Object.keys(item).includes("sentToTowingCompany") && {marginLeft: 5}]}>{getStatus(item)}</Text>
+                </View>
             </View>
         </View>
         <UserInteractionItem
@@ -85,11 +102,13 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             <TouchableOpacity
                 activeOpacity={0.7}
                 style={styles.bottomButtonStyle}    
+                onPress={markAsTowed}
             >
                 <Text style={styles.bottomButtonTextStyle}>Mark as Towed</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                activeOpacity={0.7}
+                activeOpacity={0.7} 
+                onPress={markAsResolved}
                 style={[styles.bottomButtonStyle, {backgroundColor: 'rgba(0, 255, 0, 0.5)'}]}    
             >
                 <Text style={styles.bottomButtonTextStyle}>Mark as Resolved</Text>
@@ -117,15 +136,14 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     heading: {
+        width: '70%',
         fontSize: 18,
         fontWeight: 'bold'
     },
     scannedText: {
         color: Colors.white,
+        fontWeight: 'bold',
         fontSize: 13,
-        backgroundColor: Colors.textLight,
-        padding: 5,
-        borderRadius: 10
     },
     subText: { fontWeight: '300', paddingLeft: 0, color: "#000", fontSize: 16 },
     subItem: { padding: 0, alignItems: 'flex-start' },
@@ -153,6 +171,19 @@ const styles = StyleSheet.create({
     },
     bottomButtonTextStyle: {
         color: '#000'
+    },
+    rowStyle: { 
+        flex: 1,
+        flexDirection: 'row',
+        // justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    rowBackground: {
+        padding: 5,
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: PANTONE7546
     }
 })
 

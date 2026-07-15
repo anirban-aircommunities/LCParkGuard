@@ -1,29 +1,59 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TowingQueueItem } from '../../models/TowingQueue'; 
+import { TowingQueueItem } from '../../models/TowingQueue';
 
 interface TowingQueueState {
   items: TowingQueueItem[];
   loading: boolean;
+  selectedItems?: any;
   error: string | null;
 }
 
 const towingQueueItems: TowingQueueItem[] = [
   {
-    id: "1",
-    licensePlate: "ABC101",
-    parkingSpot: "XYZ101",
-    propertyName: "Unknown",
-    address: "Denver",
-    towingCompany: "Air Communities",
-    towingPhone: "(303) 901-2847",
-    addedAt: "Jul 1, 2026",
-    status: "pending"
+    "id": "1",
+    "carOwner": "Rebecca Thompson",
+    "licensePlate": "ABC123",
+    "parkingSpot": "N/A",
+    "isChecked": false,
+    "propertyName": "John Doe",
+    "address": "ADA Area",
+    "status": "pending",
+    "scannedAt": "Jun 18, 2026 at 3:33 am",
+    "source": "manual",
+    "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
+  },
+  {
+    "id": "2",
+    "carOwner": "Rebecca Thompson",
+    "licensePlate": "ABC123",
+    "parkingSpot": "N/A",
+    "isChecked": true,
+    "propertyName": "John Doe",
+    "address": "ADA Area",
+    "status": "in-progress",
+    "scannedAt": "Jun 18, 2026 at 3:33 am",
+    "source": "manual",
+    "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
+  },
+  {
+    "id": "3",
+    "carOwner": "Rebecca Thompson",
+    "licensePlate": "ABC123",
+    "parkingSpot": "N/A",
+    "isChecked": false,
+    "propertyName": "John Doe",
+    "address": "ADA Area",
+    "status": "completed",
+    "scannedAt": "Jun 18, 2026 at 3:33 am",
+    "source": "manual",
+    "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
   }
 ]
 
 const initialState: TowingQueueState = {
   items: towingQueueItems,
   loading: false,
+  selectedItems: [],
   error: null,
 };
 
@@ -43,14 +73,19 @@ const towingQueueSlice = createSlice({
     removeFromTowingQueue: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
     },
+    selectItems: (state, action) => {
+      state.selectedItems.push(action.payload);
+    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
+      state.selectedItems = [];
     },
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
+      state.selectedItems = [];
     },
   },
 });
 
-export const { addToTowingQueue, updateTowingQueueItem, removeFromTowingQueue, setLoading, setError } = towingQueueSlice.actions;
+export const { addToTowingQueue, updateTowingQueueItem, removeFromTowingQueue, selectItems, setLoading, setError } = towingQueueSlice.actions;
 export default towingQueueSlice.reducer;

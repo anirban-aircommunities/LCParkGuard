@@ -71,4 +71,11 @@ export const scanHistoryTexts = {
     emailSentSuccessfully: "Email sent successfully",
     unregistered: "unregistered",
     registered: "registered",
+    sent: "Sent",
+    texted: "Texted"
+}
+// Towing Queue Texts 
+export const towingQueueTexts = {
+    markedAsTowed: "Item is marked as towed successfully",
+    markedAsResolved: "Item is marked as resolved successfully"
 }
