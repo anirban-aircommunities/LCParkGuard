@@ -39,6 +39,7 @@ const renderInteractingFeature = (interactionType: string, value: any, onChange:
     let dropdownItemsList = dropdownItems;
     switch (interactionType) {
         case "textbox":
+            // Text Field 
             return <TextInput
                 value={value}
                 onChange={onChange}
@@ -48,6 +49,7 @@ const renderInteractingFeature = (interactionType: string, value: any, onChange:
                 autoFocus={false}
             />
         case "dropdown":
+            // Dropdown 
             return (
                 <View style={styles.dropdownContainer}>
                     <TouchableOpacity
@@ -93,6 +95,7 @@ const renderInteractingFeature = (interactionType: string, value: any, onChange:
                 </View>
             )
         case "tabs":
+            // Horizontal Tabs
             return (
                 <FlatList
                     style={styles.flatlistContainer}
@@ -132,9 +135,12 @@ const UserInteractionItem: React.FC<UserInteractionItemProps> = ({ haveItemHeade
             haveItemHeader &&
             <View style={haveButton && [styles.edgeToEdge]}>
                 <View style={[styles.itemContainer, labelContainerAdditionalStyle]}>
+                    {/* Label Icon Container */}
                     {iconName && <View style={[styles.iconContainer, labelIconAdditionalStyle]}>
+                        {/* Label Icon */}
                         <SvgXml xml={iconName} height={iconSize} width={iconSize} />
                     </View>}
+                    {/* Label Text, with "Read More" feature */}
                     <ReadMore 
                         numberOfLines={numberOfLines}
                         seeLessStyle={styles.seeMore}
@@ -147,6 +153,7 @@ const UserInteractionItem: React.FC<UserInteractionItemProps> = ({ haveItemHeade
                         {labelText} {isDesc && <Text style={styles.descScannedAt}>({(item as any)?.scannedAt})</Text>}
                     </ReadMore>
                 </View>
+                {/* "Select All" option */}
                 {haveButton && 
                 <TouchableOpacity activeOpacity={0.7}>
                     <Text style={styles.labelButtonText}>Select All</Text>

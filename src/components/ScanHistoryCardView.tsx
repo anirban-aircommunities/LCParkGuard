@@ -31,19 +31,26 @@ const getStatus = (item: any) => {
 
 const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, iconName, iconSize, labelIconAdditionalStyle, item, hasBottomButtons, selectItem, markAsTowed, markAsResolved, statusIconName, statusIconSize }: any) => (
     <View style={styles.outerContainer}>
+        {/* Card Header */}
         <View style={styles.rowStyle}>
             {checkbox &&
+                // Card Header Label Icon
                 <TouchableOpacity style={[styles.iconContainer, labelIconAdditionalStyle]} onPress={selectItem}>
                     <SvgXml xml={iconName} height={iconSize} width={iconSize} />
                 </TouchableOpacity>}
             <View style={styles.frontRow}>
+                {/* Card Header Label Text */}
                 <Text style={[styles.heading, checkbox && {paddingLeft: 10}, Object.keys(item).includes("sentToTowingCompany") && {width: '77%'}]}>{(item as any)?.licensePlate}</Text>
+                {/* Card Header Label Side View */}
                 <View style={[styles.rowStyle, styles.rowBackground]}>
+                    {/* Card Header Label Side Icon */}
                     {Object.keys(item).includes("sentToTowingCompany") && <SvgXml xml={statusIconName} height={statusIconSize} width={statusIconSize} color={Colors.white}/>}
+                    {/* Card Header Label Side Text */}
                     <Text style={[styles.scannedText, Object.keys(item).includes("sentToTowingCompany") && {marginLeft: 5}]}>{getStatus(item)}</Text>
                 </View>
             </View>
         </View>
+        {/* Owner - Parking Spot */}
         <UserInteractionItem
             labelText={`${(item as any)?.carOwner} - Unit ${(item as any)?.parkingSpot}`}
             // iconName={propertySelectionIcon.colored}
@@ -54,6 +61,7 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelIconAdditionalStyle={styles.subItem}
             labelContainerAdditionalStyle={styles.subContainer}
         />
+        {/* Location */}
         <UserInteractionItem
             labelText={`Current Location - Unit ${(item as any)?.address}`}
             // iconName={propertySelectionIcon.colored}
@@ -64,6 +72,7 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelIconAdditionalStyle={styles.subItem}
             labelContainerAdditionalStyle={styles.subContainer}
         />
+        {/* Scanned Timestamp */}
         <UserInteractionItem
             labelText={(item as any)?.scannedAt}
             // iconName={propertySelectionIcon.colored}
@@ -74,6 +83,7 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelIconAdditionalStyle={styles.subItem}
             labelContainerAdditionalStyle={styles.subContainer}
         />
+        {/* User who has scanned */}
         <UserInteractionItem
             labelText={`Entered by: ${(item as any)?.propertyName}`}
             // iconName={propertySelectionIcon.colored}
@@ -84,6 +94,7 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             labelIconAdditionalStyle={styles.subItem}
             labelContainerAdditionalStyle={styles.subContainer}
         />
+        {/* Description */}
         <UserInteractionItem
             labelText={`${(item as any)?.description}`}
             // iconName={propertySelectionIcon.colored}
@@ -99,6 +110,7 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
         />
         {/* Mark buttons */}
         {hasBottomButtons && <View style={styles.bottomButtonContainerStyle}>
+            {/* "Mark as Towed" button */}
             <TouchableOpacity
                 activeOpacity={0.7}
                 style={styles.bottomButtonStyle}    
@@ -106,6 +118,7 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
             >
                 <Text style={styles.bottomButtonTextStyle}>Mark as Towed</Text>
             </TouchableOpacity>
+            {/* "Mark as Resolved" button */}
             <TouchableOpacity
                 activeOpacity={0.7} 
                 onPress={markAsResolved}
