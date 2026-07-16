@@ -60,6 +60,8 @@ export let scanTypes = [
         dataType: "registered"
     },
 ];
+// Header 
+export const headerTitle = "Parking Enforcement";
 // Scan History Texts 
 export const scanHistoryTexts = {
     licensePlateTextField: "Search License Plate",

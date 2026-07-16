@@ -10,7 +10,7 @@ import {
   Alert,
 } from 'react-native';
 import { Colors } from '../constants/Colors';
-import { scanHistoryTexts, scanTypes, timePeriodArray } from '../constants/Constants';
+import { headerTitle, scanHistoryTexts, scanTypes, timePeriodArray } from '../constants/Constants';
 import EmptyListComponent from '../components/EmptyListComponent';
 import CustomButton from '../components/CustomButton';
 import { checkboxes, downArrowIcon, messaging, propertySelectionIcon } from '../components/Icons';
@@ -18,6 +18,7 @@ import ScanHistoryCardView from '../components/ScanHistoryCardView';
 import * as scanHistoryData from "../demo/scanHistoryData.json";
 import UserInteractionItem from '../components/UserInteractionItem';
 import { useSelector } from 'react-redux';
+import AppHeader from '../components/AppHeader';
 
 const ScanHistoryScreen = () => {
   const scanHistoryItems = useSelector((state: any) => state?.scanHistory?.items);
@@ -55,6 +56,7 @@ const ScanHistoryScreen = () => {
 
   return (
     <ScrollView style={styles.outerContainer}>
+      <AppHeader title={headerTitle} showLogo/>
       <View style={styles.innerContainer}>
         {/* Search License Plate Textfield */}
         <UserInteractionItem

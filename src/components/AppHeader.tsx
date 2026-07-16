@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Platform } from 'react-native';
-import { Colors } from '../constants/Colors';
+import { Colors, PANTONE7546 } from '../constants/Colors';
 import { assets } from './Assets';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { headerTitle } from '../constants/Constants';
 
 interface AppHeaderProps {
   title: string;
@@ -9,54 +11,50 @@ interface AppHeaderProps {
 }
 
 const AppHeader: React.FC<AppHeaderProps> = ({ title, showLogo = true }) => {
-  // Try to use logo from assets, fallback to null if not available
   const logoSource = (assets as any).logo;
+  const insets = useSafeAreaInsets();
 
-  // If no title provided, just show logo (for headerLeft)
-  if (!title) {
-    return showLogo && logoSource ? (
-      <View style={styles.logoContainer}>
+  return (
+    <View style={[styles.outerContainer, {paddingTop: insets.top}]}>
+      <View style={styles.innerContainer}>
         <Image
           source={logoSource}
           style={styles.logo}
           resizeMode="contain"
         />
+        <Text style={styles.titleText}>{headerTitle}</Text>
       </View>
-    ) : null;
-  }
-
-  return (
-    <View style={styles.headerContainer}>
-      {showLogo && logoSource && (
-        <View style={styles.logoContainer}>
-          <Image
-            source={logoSource}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-        </View>
-      )}
-      <Text style={styles.title}>{title}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  headerContainer: {
+  outerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 0,
-    marginHorizontal: 0,
+    backgroundColor: PANTONE7546,
     width: '100%',
+  },
+  innerContainer: {
+    padding: 10,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  titleText: {
+    color: Colors.white,
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   logoContainer: {
     justifyContent: 'center',
     alignItems: 'center',
   },
   logo: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     ...Platform.select({
       ios: {
         shadowColor: Colors.white,
@@ -71,11 +69,6 @@ const styles = StyleSheet.create({
         elevation: 0,
       },
     }),
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: Colors.white,
   },
 });
 

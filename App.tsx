@@ -24,10 +24,6 @@ function App() {
       <Provider store={store}>
         <SafeAreaProvider>
           <NavigationContainer>
-            <StatusBar
-              barStyle="light-content"
-              backgroundColor={Colors.secondary}
-            />
             <RootNavigator />
           </NavigationContainer>
         </SafeAreaProvider>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ScanScreen from '../screens/ScanScreen';
-import TowingQueueScreen from '../screens/TowingQueueScreen';
+import Worklist from '../screens/Worklist';
 import ScanHistoryScreen from '../screens/ScanHistoryScreen';
 import { Colors } from '../constants/Colors';
 import TabBarIcon from '../components/TabBarIcon';
@@ -39,8 +39,7 @@ const AppNavigator = () => {
         name="Scan"
         component={ScanScreen}
         options={{
-          headerTitle: 'Parking Enforcement',
-          headerLeft: () => <AppHeader title="" />,
+          headerShown: false,
           tabBarIcon: ({ color, size, focused }) => (
             <TabBarIcon name="scan" color={color} size={size} focused={focused} />
           ),
@@ -58,9 +57,9 @@ const AppNavigator = () => {
       />
       <Tab.Screen
         name="TowingQueue"
-        component={TowingQueueScreen}
+        component={Worklist}
         options={{
-          headerTitle: 'Worklist',
+          headerShown: false,
           headerLeft: () => <AppHeader title="" />,
           tabBarIcon: ({ color, size, focused }) => (
             <TabBarIcon name="towing" color={color} size={size} focused={focused} />
@@ -81,7 +80,7 @@ const AppNavigator = () => {
         name="ScanHistory"
         component={ScanHistoryScreen}
         options={{
-          headerTitle: 'Scan History',
+          headerShown: false,
           headerLeft: () => <AppHeader title="" />,
           tabBarIcon: ({ color, size, focused }) => (
             <TabBarIcon name="history" color={color} size={size} focused={focused} />

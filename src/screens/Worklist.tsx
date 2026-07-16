@@ -21,11 +21,12 @@ import UserInteractionItem from '../components/UserInteractionItem';
 import { checkboxes, downArrowIcon, locationPinIcon, propertySelectionIcon } from '../components/Icons';
 import * as scanHistoryData from "../demo/scanHistoryData.json";
 import EmptyListComponent from '../components/EmptyListComponent';
-import { scanHistoryTexts, towingQueueTexts } from '../constants/Constants';
+import { headerTitle, scanHistoryTexts, towingQueueTexts } from '../constants/Constants';
 import ScanHistoryCardView from '../components/ScanHistoryCardView';
 import { useNavigation } from '@react-navigation/native';
+import AppHeader from '../components/AppHeader';
 
-const TowingQueueScreen = () => {
+const Worklist = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const towingQueueItems = useSelector((state: any) => state?.towingQueue?.items);
@@ -99,6 +100,7 @@ const TowingQueueScreen = () => {
 
   return (
     <ScrollView style={styles.outerContainer}>
+      <AppHeader title={headerTitle} showLogo/>
       {/* Sub Header with Select All feature */}
       {/* <View style={styles.innerContainer}>
         <UserInteractionItem
@@ -375,4 +377,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TowingQueueScreen;
+export default Worklist;
