@@ -7,16 +7,19 @@ type CustomButtonProps = {
     icon?: string;
     label?: string;
     onPress?: () => void;
+    buttonStyle?: any;
+    labelStyle?: any;
+    iconColor?: string;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ icon, label, onPress} : any) => (
+const CustomButton: React.FC<CustomButtonProps> = ({ icon, label, onPress, buttonStyle, labelStyle, iconColor} : any) => (
     <TouchableOpacity
         activeOpacity={0.7}
-        style={[styles.container, styles.shadow]}
+        style={[styles.container, styles.shadow, buttonStyle]}
         onPress={onPress}
     >
-        <SvgXml xml={icon} height={20} width={20} />
-        <Text style={styles.labelText}>{label}</Text>
+        <SvgXml xml={icon} height={20} width={20} color={iconColor}/>
+        <Text style={[styles.labelText, labelStyle]}>{label}</Text>
     </TouchableOpacity>
 )
 

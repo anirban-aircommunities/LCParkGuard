@@ -31,6 +31,8 @@
     "react-native-device-info": "^15.0.2",
     "react-native-gesture-handler": "^2.16.1",
     "react-native-image-picker": "^8.2.1",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-quick-sqlite": "^8.2.7",
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^3.29.0",

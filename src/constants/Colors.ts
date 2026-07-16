@@ -37,3 +37,5 @@ export const PANTONE7546_RGBA_LIGHT = 'rgba(25, 58, 71, 0.1)';
 export const PANTONE5487_RGBA_LIGHT = 'rgba(82, 112, 119, 0.1)';
 export const LOGIN_BACKGROUND = '#9CB8BC';
 export const PANTONE428_RGBA_LIGHT = 'rgba(177, 179, 182, 0.1)';
+export const DARK_BLUE = '#173a46';
+export const LIGHT_BLUE = '#527077';

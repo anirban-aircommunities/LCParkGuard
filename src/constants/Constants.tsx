@@ -62,6 +62,13 @@ export let scanTypes = [
 ];
 // Header 
 export const headerTitle = "Parking Enforcement";
+// Scan Screen Texts
+export const scanTexts = {
+    manual: 'manual',
+    manualM: 'Manual',
+    scan: 'scan',
+    scanS: 'Scan',
+}
 // Scan History Texts 
 export const scanHistoryTexts = {
     licensePlateTextField: "Search License Plate",
@@ -76,7 +83,7 @@ export const scanHistoryTexts = {
     sent: "Sent",
     texted: "Texted"
 }
-// Towing Queue Texts 
+// Worklist Texts 
 export const towingQueueTexts = {
     markedAsTowed: "Item is marked as towed successfully",
     markedAsResolved: "Item is marked as resolved successfully"
