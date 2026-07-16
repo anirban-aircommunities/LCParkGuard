@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   View,
   Text,
@@ -99,10 +99,11 @@ const Worklist = () => {
   );
 
   return (
-    <ScrollView style={styles.outerContainer}>
-      <AppHeader title={headerTitle} showLogo/>
-      {/* Sub Header with Select All feature */}
-      {/* <View style={styles.innerContainer}>
+    <Fragment>
+      <AppHeader title={headerTitle} showLogo />
+      <ScrollView style={styles.outerContainer}>]
+        {/* Sub Header with Select All feature */}
+        {/* <View style={styles.innerContainer}>
         <UserInteractionItem
           labelText={"Towing Queue"}
           iconName={propertySelectionIcon.colored}
@@ -115,31 +116,31 @@ const Worklist = () => {
           valid={undefined}
         />
         </View> */}
-      {/* Worklist Items */}
-      <FlatList
-        data={towingQueueItems}
-        ListEmptyComponent={
-          // Empty List Component 
-          <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />
-        }
-        renderItem={({ item, index }) => (
-          <ScanHistoryCardView
-            checkbox={false}
-            // selectItem={() => dispatch(selectItems(item))}
-            iconName={item.isChecked ? checkboxes.checked : checkboxes.unchecked}
-            iconSize={item.isChecked ? 20 : 25}
-            item={item}
-            hasBottomButtons
-            markAsTowed={() => {
-              Alert.alert("", towingQueueTexts.markedAsTowed, [{ text: "Ok", onPress: () => navigation.navigate("ScanHistory") }])
-            }}
-            markAsResolved={() => {
-              Alert.alert("", towingQueueTexts.markedAsResolved, [{ text: "Ok", onPress: () => navigation.navigate("ScanHistory") }])
-            }}
-          />
-        )}
-      />
-      {/* <View style={styles.header}>
+        {/* Worklist Items */}
+        <FlatList
+          data={towingQueueItems}
+          ListEmptyComponent={
+            // Empty List Component 
+            <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />
+          }
+          renderItem={({ item, index }) => (
+            <ScanHistoryCardView
+              checkbox={false}
+              // selectItem={() => dispatch(selectItems(item))}
+              iconName={item.isChecked ? checkboxes.checked : checkboxes.unchecked}
+              iconSize={item.isChecked ? 20 : 25}
+              item={item}
+              hasBottomButtons
+              markAsTowed={() => {
+                Alert.alert("", towingQueueTexts.markedAsTowed, [{ text: "Ok", onPress: () => navigation.navigate("ScanHistory") }])
+              }}
+              markAsResolved={() => {
+                Alert.alert("", towingQueueTexts.markedAsResolved, [{ text: "Ok", onPress: () => navigation.navigate("ScanHistory") }])
+              }}
+            />
+          )}
+        />
+        {/* <View style={styles.header}>
           <View>
             <Text style={styles.title}>Towing Queue</Text>
             <Text style={styles.subtitle}>
@@ -155,7 +156,7 @@ const Worklist = () => {
           )}
         </View> */}
 
-      {/* {items.length > 0 ? (
+        {/* {items.length > 0 ? (
           <FlatList
             data={items}
             renderItem={renderItem}
@@ -169,7 +170,7 @@ const Worklist = () => {
           </View>
         )} */}
 
-      {/* {items.length > 0 && (
+        {/* {items.length > 0 && (
           <View style={styles.actionButtons}>
             <TouchableOpacity
               style={[
@@ -226,7 +227,8 @@ const Worklist = () => {
             </TouchableOpacity>
           </View>
         )} */}
-    </ScrollView>
+      </ScrollView>
+    </Fragment>
   );
 };
 

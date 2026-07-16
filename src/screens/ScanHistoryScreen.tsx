@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -34,7 +34,7 @@ const ScanHistoryScreen = () => {
 
   // Count Email-To-Self Record Count in a tab
   const getRecordCount = () => {
-    if(selectedTab.name == "All") {
+    if (selectedTab.name == "All") {
       setEmailToSelfRecordCount(scanHistoryData.list.length);
     } else {
       setEmailToSelfRecordCount(scanHistoryData.list?.filter(item => (item as any)?.status == selectedTab.dataType)?.length);
@@ -55,63 +55,65 @@ const ScanHistoryScreen = () => {
 
 
   return (
-    <ScrollView style={styles.outerContainer}>
-      <AppHeader title={headerTitle} showLogo/>
-      <View style={styles.innerContainer}>
-        {/* Search License Plate Textfield */}
-        <UserInteractionItem
-          labelText={scanHistoryTexts.licensePlateTextField}
-          iconName={propertySelectionIcon.colored}
-          value={licensePlate}
-          onChange={text => changeLicensePlate(text)}
-          interactionType="textbox"
-          haveItemHeader
-          placeholder={scanHistoryTexts.licensePlatePlaceholder}
-          all={scanHistoryData.list.length}
-          unauthorized={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.unregistered).length}
-          valid={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.registered).length}
+    <Fragment>
+      <AppHeader title={headerTitle} showLogo />
+      <ScrollView style={styles.outerContainer}>
+        <View style={styles.innerContainer}>
+          {/* Search License Plate Textfield */}
+          <UserInteractionItem
+            labelText={scanHistoryTexts.licensePlateTextField}
+            iconName={propertySelectionIcon.colored}
+            value={licensePlate}
+            onChange={text => changeLicensePlate(text)}
+            interactionType="textbox"
+            haveItemHeader
+            placeholder={scanHistoryTexts.licensePlatePlaceholder}
+            all={scanHistoryData.list.length}
+            unauthorized={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.unregistered).length}
+            valid={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.registered).length}
+          />
+          {/* Select Time Period Dropdown */}
+          <UserInteractionItem
+            labelText={scanHistoryTexts.timePeriodLabel}
+            iconName={propertySelectionIcon.colored}
+            interactionType="dropdown"
+            haveItemHeader
+            dropdownItems={timePeriodArray}
+            selectedItem={selectedTimePeriod}
+            setSelectedItem={setSelectedTimePeriod}
+            all={scanHistoryData.list.length}
+            unauthorized={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.unregistered).length}
+            valid={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.registered).length}
+          />
+          {/* Select Scan Type */}
+          <UserInteractionItem
+            interactionType="tabs"
+            selectedTab={selectedTab}
+            setSelectedTab={selectTab}
+            all={scanHistoryData.list.length}
+            unauthorized={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.unregistered).length}
+            valid={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.registered).length}
+          />
+        </View>
+        {/* Card View */}
+        <FlatList
+          data={scanHistoryItems}
+          /* Empty List Component */
+          ListEmptyComponent={
+            <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />
+          }
+          renderItem={({ item, index }) => (
+            (
+              !selectedTab.dataType ||
+              (selectedTab.dataType && item?.status == selectedTab.dataType)
+            ) &&
+            <ScanHistoryCardView item={item} statusIconName={messaging} statusIconSize={15} />
+          )}
         />
-        {/* Select Time Period Dropdown */}
-        <UserInteractionItem
-          labelText={scanHistoryTexts.timePeriodLabel}
-          iconName={propertySelectionIcon.colored}
-          interactionType="dropdown"
-          haveItemHeader
-          dropdownItems={timePeriodArray}
-          selectedItem={selectedTimePeriod}
-          setSelectedItem={setSelectedTimePeriod}
-          all={scanHistoryData.list.length}
-          unauthorized={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.unregistered).length}
-          valid={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.registered).length}
-        />
-        {/* Select Scan Type */}
-        <UserInteractionItem
-          interactionType="tabs"
-          selectedTab={selectedTab}
-          setSelectedTab={selectTab}
-          all={scanHistoryData.list.length}
-          unauthorized={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.unregistered).length}
-          valid={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.registered).length}
-        />
-      </View>
-      {/* Card View */}
-      <FlatList
-        data={scanHistoryItems}
-        /* Empty List Component */ 
-        ListEmptyComponent={
-          <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />
-        }
-        renderItem={({ item, index }) => (
-          (
-            !selectedTab.dataType ||
-            (selectedTab.dataType && item?.status == selectedTab.dataType) 
-          ) &&
-          <ScanHistoryCardView item={item} statusIconName={messaging} statusIconSize={15} />
-        )}
-      />
-      {/* Email-to-self button */}
-      <CustomButton icon={propertySelectionIcon.colored} label={`${scanHistoryTexts.emailToSelf} (${emailToSelfRecordCount} ${scanHistoryTexts.record}${emailToSelfRecordCount == 1 ? "" : "s"})`} onPress={() => Alert.alert("", scanHistoryTexts.emailSentSuccessfully, [{ text: "Okay" }])} />
-    </ScrollView>
+        {/* Email-to-self button */}
+        <CustomButton icon={propertySelectionIcon.colored} label={`${scanHistoryTexts.emailToSelf} (${emailToSelfRecordCount} ${scanHistoryTexts.record}${emailToSelfRecordCount == 1 ? "" : "s"})`} onPress={() => Alert.alert("", scanHistoryTexts.emailSentSuccessfully, [{ text: "Okay" }])} />
+      </ScrollView>
+    </Fragment>
   );
 };
 
