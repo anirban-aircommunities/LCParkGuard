@@ -18,7 +18,7 @@ import { markAsSentToTowingCompany } from '../redux/slices/scanHistorySlice';
 import { removeFromTowingQueue, selectItems } from '../redux/slices/towingQueueSlice';
 import AppFooter from '../components/AppFooter';
 import UserInteractionItem from '../components/UserInteractionItem';
-import { checkboxes, downArrowIcon, locationPinIcon, propertySelectionIcon } from '../components/Icons';
+import { checkboxes, downArrowIcon, locationPinIcon, messaging, propertySelectionIcon } from '../components/Icons';
 import * as scanHistoryData from "../demo/scanHistoryData.json";
 import EmptyListComponent from '../components/EmptyListComponent';
 import { headerTitle, scanHistoryTexts, towingQueueTexts } from '../constants/Constants';
@@ -131,6 +131,9 @@ const Worklist = () => {
               iconSize={item.isChecked ? 20 : 25}
               item={item}
               hasBottomButtons
+              statusIconName={messaging}
+              statusIconSize={15}
+              towButtonLabel={item?.texted ? towingQueueTexts.requestTow : towingQueueTexts.markAsTowedLabel}
               markAsTowed={() => {
                 Alert.alert("", towingQueueTexts.markedAsTowed, [{ text: "Ok", onPress: () => navigation.navigate("ScanHistory") }])
               }}

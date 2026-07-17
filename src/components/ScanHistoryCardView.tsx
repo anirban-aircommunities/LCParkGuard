@@ -19,17 +19,10 @@ type ScanHistoryCardViewProps = {
     markAsResolved?: () => void;
     statusIconName?: string;
     statusIconSize?: number;
+    towButtonLabel?: string;
 }
 
-const getStatus = (item: any) => {
-    if(Object.keys(item)?.includes("sentToTowingCompany")) {
-        return (item as any)?.sentToTowingCompany ? scanHistoryTexts.sent : scanHistoryTexts.texted;
-    } else {
-        return (item as any)?.status;
-    }
-}
-
-const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, iconName, iconSize, labelIconAdditionalStyle, item, hasBottomButtons, selectItem, markAsTowed, markAsResolved, statusIconName, statusIconSize }: any) => (
+const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, iconName, iconSize, labelIconAdditionalStyle, item, hasBottomButtons, selectItem, markAsTowed, markAsResolved, statusIconName, statusIconSize, towButtonLabel }: any) => (
     <View style={styles.outerContainer}>
         {/* Card Header */}
         <View style={styles.rowStyle}>
@@ -40,13 +33,13 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
                 </TouchableOpacity>}
             <View style={styles.frontRow}>
                 {/* Card Header Label Text */}
-                <Text style={[styles.heading, checkbox && {paddingLeft: 10}, Object.keys(item).includes("sentToTowingCompany") && {width: '77%'}]}>{(item as any)?.licensePlate}</Text>
+                <Text style={[styles.heading, checkbox && {paddingLeft: 10}, item?.texted && {width: '77%'}]}>{(item as any)?.licensePlate}</Text>
                 {/* Card Header Label Side View */}
                 <View style={[styles.rowStyle, styles.rowBackground]}>
                     {/* Card Header Label Side Icon */}
-                    {Object.keys(item).includes("sentToTowingCompany") && <SvgXml xml={statusIconName} height={statusIconSize} width={statusIconSize} color={Colors.white}/>}
+                    <SvgXml xml={statusIconName} height={statusIconSize} width={statusIconSize} color={Colors.white}/>
                     {/* Card Header Label Side Text */}
-                    <Text style={[styles.scannedText, Object.keys(item).includes("sentToTowingCompany") && {marginLeft: 5}]}>{getStatus(item)}</Text>
+                    <Text style={[styles.scannedText]}>{item?.texted ? scanHistoryTexts.texted : scanHistoryTexts.sent}</Text>
                 </View>
             </View>
         </View>
@@ -131,13 +124,13 @@ const ScanHistoryCardView: React.FC<ScanHistoryCardViewProps> = ({ checkbox, ico
                 style={styles.bottomButtonStyle}    
                 onPress={markAsTowed}
             >
-                <Text style={styles.bottomButtonTextStyle}>Mark as Towed</Text>
+                <Text style={styles.bottomButtonTextStyle}>{towButtonLabel}</Text>
             </TouchableOpacity>
             {/* "Mark as Resolved" button */}
             <TouchableOpacity
                 activeOpacity={0.7} 
                 onPress={markAsResolved}
-                style={[styles.bottomButtonStyle, {backgroundColor: 'rgba(0, 255, 0, 0.5)'}]}    
+                style={[styles.bottomButtonStyle, {backgroundColor: 'rgba(0, 255, 0, 0.24)'}]}    
             >
                 <Text style={styles.bottomButtonTextStyle}>Mark as Resolved</Text>
             </TouchableOpacity>
@@ -172,6 +165,7 @@ const styles = StyleSheet.create({
         color: Colors.white,
         fontWeight: 'bold',
         fontSize: 13,
+        marginLeft: 5
     },
     subText: { fontWeight: '300', paddingLeft: 0, color: "#000", fontSize: 16 },
     subItem: { padding: 0, alignItems: 'flex-start' },
@@ -194,7 +188,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,
-        backgroundColor: 'rgba(255, 0, 0, 0.5)',
+        backgroundColor: 'rgba(255, 0, 0, 0.2)',
         borderRadius: 10
     },
     bottomButtonTextStyle: {

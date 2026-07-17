@@ -7,6 +7,7 @@ export interface TowingQueueItem {
   propertyName?: string;
   address?: string;
   status?: 'pending' | 'in-progress' | 'completed';
+  texted?: boolean;
   scannedAt?: string;
   source?: string;
   description?: string

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Platform } from 'react-native';
-import { Colors, PANTONE7546 } from '../constants/Colors';
+import { Colors, PANTONE5487, PANTONE7546 } from '../constants/Colors';
 import { assets } from './Assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { headerTitle } from '../constants/Constants';
@@ -17,11 +17,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({ title, showLogo = true }) => {
   return (
     <View style={[styles.outerContainer, {paddingTop: insets.top}]}>
       <View style={styles.innerContainer}>
-        <Image
-          source={logoSource}
-          style={styles.logo}
-          resizeMode="contain"
-        />
+        <View style={styles.blankView} />
         <Text style={styles.titleText}>{headerTitle}</Text>
       </View>
     </View>
@@ -41,12 +37,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 15
   },
   titleText: {
     color: Colors.white,
     fontWeight: 'bold',
     fontSize: 20,
+    marginLeft: 10
   },
   logoContainer: {
     justifyContent: 'center',
@@ -70,6 +68,14 @@ const styles = StyleSheet.create({
       },
     }),
   },
+  blankView: {
+    borderWidth: 1,
+    borderColor: PANTONE5487, 
+    backgroundColor: PANTONE5487,
+    borderRadius: 6,
+    height: 25, 
+    width: 25
+  }
 });
 
 export default AppHeader;

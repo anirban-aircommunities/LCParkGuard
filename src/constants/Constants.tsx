@@ -86,5 +86,7 @@ export const scanHistoryTexts = {
 // Worklist Texts 
 export const towingQueueTexts = {
     markedAsTowed: "Item is marked as towed successfully",
-    markedAsResolved: "Item is marked as resolved successfully"
+    markedAsResolved: "Item is marked as resolved successfully",
+    requestTow: 'Request Tow',
+    markAsTowedLabel: 'Mark as Towed'
 }

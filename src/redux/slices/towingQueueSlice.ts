@@ -18,6 +18,7 @@ const towingQueueItems: TowingQueueItem[] = [
     "propertyName": "John Doe",
     "address": "ADA Area",
     "status": "pending",
+    texted: true,
     "scannedAt": "Jun 18, 2026 at 3:33 am",
     "source": "manual",
     "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
@@ -31,6 +32,7 @@ const towingQueueItems: TowingQueueItem[] = [
     "propertyName": "John Doe",
     "address": "ADA Area",
     "status": "in-progress",
+    texted: false,
     "scannedAt": "Jun 18, 2026 at 3:33 am",
     "source": "manual",
     "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
@@ -44,6 +46,7 @@ const towingQueueItems: TowingQueueItem[] = [
     "propertyName": "John Doe",
     "address": "ADA Area",
     "status": "completed",
+    texted: true,
     "scannedAt": "Jun 18, 2026 at 3:33 am",
     "source": "manual",
     "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
