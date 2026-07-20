@@ -186,7 +186,7 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
           />
         </View>
 
-        {inputMethod === 'scan' && (
+        {inputMethod === 'scan' ? (
           <View style={styles.scanContainer}>
             <ScanTabContent
               useCameraDevice={useCameraDevice}
@@ -201,9 +201,7 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
               setIsProcessing={(text) => setIsProcessing(text)}
             />
           </View>
-        )}
-
-        {inputMethod === 'manual' && (
+        ) : (
           <ManualTabContent
             licensePlate={licensePlate}
             parkingSpot={parkingSpot}

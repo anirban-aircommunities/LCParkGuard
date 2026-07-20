@@ -68,6 +68,9 @@ export const scanTexts = {
   manualM: 'Manual',
   scan: 'scan',
   scanS: 'Scan',
+  licensePlateTextField: 'License Plate Number',
+  licensePlatePlaceholder: 'ENTER PLATE NUMBER (E.G., ABC-1234)',
+  checkVehicle: 'Check Vehicle'
 };
 // Scan History Texts
 export const scanHistoryTexts = {

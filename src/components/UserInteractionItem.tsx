@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {
   Colors,
+  PANTONE428,
   PANTONE7546,
   PANTONE7546_RGBA_DEEP,
   PANTONE7546_RGBA_LIGHT,
@@ -46,34 +47,26 @@ type UserInteractionItemProps = {
   numberOfLines?: number | undefined;
   item?: any;
   isDesc?: boolean;
+  autoCapitalize?: string;
+  returnKeyType?: string;
+  whiteBackground?: boolean;
 };
-const renderInteractingFeature = (
-  interactionType: string,
-  value: any,
-  onChange: () => void,
-  placeholder: any,
-  dropdownItems: any,
-  setSelectedItem: (item: any) => void,
-  selectedItem: any,
-  selectedTab: any,
-  setSelectedTab: (item: any, index: number) => void,
-  all: number | undefined,
-  unauthorized: number | undefined,
-  valid: number | undefined
-) => {
+const renderInteractingFeature = (props: any) => {
   const [isPropertyDropdownOpen, setIsPropertyDropdownOpen] = useState(false);
-  let dropdownItemsList = dropdownItems;
-  switch (interactionType) {
+  let dropdownItemsList = props?.dropdownItems;
+  switch (props?.interactionType) {
     case 'textbox':
       // Text Field
       return (
         <TextInput
-          value={value}
-          onChange={onChange}
-          style={styles.textFieldStyle}
-          placeholder={placeholder}
+          value={props?.value}
+          onChangeText={props?.onChange}
+          style={[styles.textFieldStyle, props?.whiteBackground && styles.whiteBackground]}
+          placeholder={props?.placeholder}
           placeholderTextColor={Colors.grey2}
           autoFocus={false}
+          autoCapitalize={props?.autoCapitalize}
+          returnKeyType={props?.returnKeyType}
         />
       );
     case 'dropdown':
@@ -86,7 +79,7 @@ const renderInteractingFeature = (
             activeOpacity={0.7}
           >
             <Text style={styles.dropdownButtonText}>
-              {(selectedItem as any)?.name}
+              {(props?.selectedItem as any)?.name}
             </Text>
             <SvgXml
               xml={
@@ -102,24 +95,24 @@ const renderInteractingFeature = (
                   key={(element as any)?.id}
                   style={[
                     styles.dropdownItem,
-                    (selectedItem as any)?.id == (element as any)?.id &&
+                    (props?.selectedItem as any)?.id == (element as any)?.id &&
                       styles.dropdownItemSelected,
                   ]}
                   onPress={() => {
-                    setSelectedItem(element);
+                    props?.setSelectedItem(element);
                     setIsPropertyDropdownOpen(false);
                   }}
                 >
                   <Text
                     style={[
                       styles.dropdownItemText,
-                      (selectedItem as any)?.id != (element as any)?.id &&
+                      (props?.selectedItem as any)?.id != (element as any)?.id &&
                         styles.dropdownItemTextSelected,
                     ]}
                   >
                     {(element as any)?.name}
                   </Text>
-                  {(selectedItem as any)?.id == (element as any)?.id && (
+                  {(props?.selectedItem as any)?.id == (element as any)?.id && (
                     <Text style={styles.checkmark}>✓</Text>
                   )}
                 </TouchableOpacity>
@@ -144,7 +137,7 @@ const renderInteractingFeature = (
                 styles.innerContainer,
                 {
                   backgroundColor:
-                    (item as any)?.id == (selectedTab as any)?.id
+                    (item as any)?.id == (props?.selectedTab as any)?.id
                       ? Colors.white
                       : Colors.grey4,
                   width:
@@ -154,11 +147,11 @@ const renderInteractingFeature = (
               ]}
               disabled={false}
               onPress={() => {
-                setSelectedTab && setSelectedTab(item, index); // Called on Tab Press
+                props?.setSelectedTab && props?.setSelectedTab(item, index); // Called on Tab Press
               }}
             >
               <Text style={styles.tabText}>{`${(item as any)?.name} (${
-                index == 0 ? all : index == 1 ? unauthorized : valid
+                index == 0 ? props?.all : index == 1 ? props?.unauthorized : props?.valid
               })`}</Text>
             </TouchableOpacity>
           )}
@@ -169,49 +162,22 @@ const renderInteractingFeature = (
   }
 };
 
-const UserInteractionItem: React.FC<UserInteractionItemProps> = ({
-  haveItemHeader,
-  haveItemDescription,
-  haveButton,
-  descText,
-  iconName,
-  iconSize,
-  labelIconAdditionalStyle,
-  labelText,
-  labelSize,
-  labelTextAdditionalStyle,
-  labelContainerAdditionalStyle,
-  interactionType,
-  value,
-  onChange,
-  placeholder,
-  dropdownItems,
-  setSelectedItem,
-  selectedItem,
-  selectedTab,
-  setSelectedTab,
-  all,
-  unauthorized,
-  valid,
-  numberOfLines,
-  item,
-  isDesc,
-}: any) => (
+const UserInteractionItem: React.FC<UserInteractionItemProps> = (props: any) => (
   <View style={styles.container}>
     {/* Label Text Row */}
-    {haveItemHeader && (
-      <View style={haveButton && [styles.edgeToEdge]}>
-        <View style={[styles.itemContainer, labelContainerAdditionalStyle]}>
+    {props?.haveItemHeader && (
+      <View style={props?.haveButton && [styles.edgeToEdge]}>
+        <View style={[styles.itemContainer, props?.labelContainerAdditionalStyle]}>
           {/* Label Icon Container */}
-          {iconName && (
-            <View style={[styles.iconContainer, labelIconAdditionalStyle]}>
+          {props?.iconName && (
+            <View style={[styles.iconContainer, props?.labelIconAdditionalStyle]}>
               {/* Label Icon */}
-              <SvgXml xml={iconName} height={iconSize} width={iconSize} />
+              <SvgXml xml={props?.iconName} height={props?.iconSize} width={props?.iconSize} />
             </View>
           )}
           {/* Label Text, with "Read More" feature */}
           <ReadMore
-            numberOfLines={numberOfLines}
+            numberOfLines={props?.numberOfLines}
             seeLessStyle={styles.seeMore}
             seeLessText="Less"
             seeMoreText="More"
@@ -219,20 +185,21 @@ const UserInteractionItem: React.FC<UserInteractionItemProps> = ({
             wrapperStyle={styles.readMoreWrapper}
             style={[
               styles.labelText,
-              { fontSize: labelSize },
-              labelTextAdditionalStyle,
+              { fontSize: props?.labelSize },
+              props?.labelTextAdditionalStyle,
+              !props?.iconName && {paddingLeft: 0}
             ]}
           >
-            {labelText}{' '}
-            {isDesc && (
+            {props?.labelText}{' '}
+            {props?.isDesc && (
               <Text style={styles.descScannedAt}>
-                ({(item as any)?.scannedAt})
+                ({(props?.item as any)?.scannedAt})
               </Text>
             )}
           </ReadMore>
         </View>
         {/* "Select All" option */}
-        {haveButton && (
+        {props?.haveButton && (
           <TouchableOpacity activeOpacity={0.7}>
             <Text style={styles.labelButtonText}>Select All</Text>
           </TouchableOpacity>
@@ -240,27 +207,13 @@ const UserInteractionItem: React.FC<UserInteractionItemProps> = ({
       </View>
     )}
     {/* Subheading Row */}
-    {haveItemDescription && (
-      <Text style={styles.descText} numberOfLines={numberOfLines}>
-        {descText}
+    {props?.haveItemDescription && (
+      <Text style={styles.descText} numberOfLines={props?.numberOfLines}>
+        {props?.descText}
       </Text>
     )}
     {/* Text Field / Dropdown / Tabs - Interaction with user */}
-    {interactionType &&
-      renderInteractingFeature(
-        interactionType,
-        value,
-        onChange,
-        placeholder,
-        dropdownItems,
-        setSelectedItem,
-        selectedItem,
-        selectedTab,
-        setSelectedTab,
-        all,
-        unauthorized,
-        valid
-      )}
+    {props?.interactionType && renderInteractingFeature(props)}
   </View>
 );
 
@@ -424,4 +377,9 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   readMoreWrapper: { flex: 0.8 },
+  whiteBackground: {
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: PANTONE428
+  }
 });

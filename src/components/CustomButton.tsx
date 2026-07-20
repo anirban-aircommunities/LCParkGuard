@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React, { Fragment } from 'react';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { SvgXml } from 'react-native-svg';
 
@@ -10,6 +10,8 @@ type CustomButtonProps = {
   buttonStyle?: any;
   labelStyle?: any;
   iconColor?: string;
+  disabled?: boolean;
+  loading?: boolean;
 };
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -19,14 +21,24 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   buttonStyle,
   labelStyle,
   iconColor,
+  disabled,
+  loading
 }: any) => (
   <TouchableOpacity
     activeOpacity={0.7}
     style={[styles.container, styles.shadow, buttonStyle]}
     onPress={onPress}
+    disabled={disabled}
   >
-    <SvgXml xml={icon} height={20} width={20} color={iconColor} />
-    <Text style={[styles.labelText, labelStyle]}>{label}</Text>
+    {
+      loading ? (
+        <ActivityIndicator color={Colors.white} />
+      ) :
+        <Fragment>
+          <SvgXml xml={icon} height={20} width={20} color={iconColor} />
+          <Text style={[styles.labelText, labelStyle]}>{label}</Text>
+        </Fragment>
+    }
   </TouchableOpacity>
 );
 

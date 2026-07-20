@@ -8,11 +8,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Colors } from '../../constants/Colors';
+import { Colors, PANTONE5487 } from '../../constants/Colors';
 import { useScanViewModel } from '../../viewmodels/ScanViewModel';
 import { scanTexts } from '../../constants/Constants';
 import { useDispatch } from 'react-redux';
 import { addToTowingQueue } from '../../redux/slices/towingQueueSlice';
+import { SvgXml } from 'react-native-svg';
+import { locationPinIcon } from '../../components/Icons';
+import UserInteractionItem from '../../components/UserInteractionItem';
+import CustomButton from '../../components/CustomButton';
 
 type ManualTabContentProps = {
   licensePlate?: string;
@@ -122,33 +126,6 @@ const ManualTabContent: React.FC<ManualTabContentProps> = ({
     handleClear();
   };
 
-  const renderCheckVehicleButton = () => {
-    if (showVerificationResult) {
-      return null;
-    }
-
-    return (
-      <TouchableOpacity
-        style={[
-          styles.checkVehicleButton,
-          (loading || !licensePlate.trim()) &&
-            styles.checkVehicleButtonDisabled,
-        ]}
-        onPress={handleCheckAuthorization}
-        disabled={loading || !licensePlate.trim()}
-      >
-        {loading ? (
-          <ActivityIndicator color={Colors.white} />
-        ) : (
-          <>
-            <Text style={styles.checkVehicleIcon}>⌖</Text>
-            <Text style={styles.checkVehicleButtonText}>Check Vehicle</Text>
-          </>
-        )}
-      </TouchableOpacity>
-    );
-  };
-
   const renderVerificationPanel = () => {
     if (!showVerificationResult || !currentVehicle) {
       return null;
@@ -208,17 +185,35 @@ const ManualTabContent: React.FC<ManualTabContentProps> = ({
   };
   return (
     <View style={styles.vehicleCard}>
-      <Text style={styles.inputLabel}>License Plate Number</Text>
-      <TextInput
-        style={styles.plateInput}
-        placeholder="ENTER PLATE NUMBER (E.G., ABC-1234)"
-        placeholderTextColor={Colors.textLight}
+      {/* Text Field */}
+      <UserInteractionItem
+        labelText={scanTexts.licensePlateTextField}
         value={licensePlate}
-        onChangeText={setLicensePlate}
+        onChange={setLicensePlate}
+        interactionType="textbox"
+        haveItemHeader  
+        placeholder={scanTexts.licensePlatePlaceholder}
+        all={undefined}
+        unauthorized={undefined}
+        valid={undefined}
         autoCapitalize="characters"
         returnKeyType="done"
+        whiteBackground
       />
-      {renderCheckVehicleButton()}
+      {/* Check Vehicle Button */}
+      <CustomButton
+        icon={locationPinIcon.white}
+        label={scanTexts.checkVehicle}
+        onPress={handleCheckAuthorization}
+        buttonStyle={[
+          styles.checkVehicleButton,
+          (loading || !licensePlate.trim()) &&
+            styles.checkVehicleButtonDisabled,
+        ]}
+        labelStyle={styles.checkVehicleButtonText}
+        disabled={loading || !licensePlate.trim() || showVerificationResult}
+        loading={loading}
+      />
       {renderVerificationPanel()}
     </View>
   );
@@ -252,13 +247,14 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
   },
   checkVehicleButton: {
-    backgroundColor: '#9E9E9E',
+    backgroundColor: PANTONE5487,
     borderRadius: 8,
     paddingVertical: 14,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: 8,
+    margin: 0
   },
   checkVehicleButtonDisabled: {
     opacity: 0.6,
@@ -271,7 +267,7 @@ const styles = StyleSheet.create({
   checkVehicleButtonText: {
     color: Colors.white,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: 'bold'
   },
   inputLabel: {
     fontSize: 14,
