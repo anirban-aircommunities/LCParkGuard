@@ -70,7 +70,10 @@ export const scanTexts = {
   scanS: 'Scan',
   licensePlateTextField: 'License Plate Number',
   licensePlatePlaceholder: 'ENTER PLATE NUMBER (E.G., ABC-1234)',
-  checkVehicle: 'Check Vehicle'
+  checkVehicle: 'Check Vehicle',
+  vehicleRegisteredTitle: 'This vehicle is registered to space A-56, A-57',
+  vehicleUnegisteredTitle: 'We don\'t recognize this license plate.',
+  vehicleRegisteredSubTitle: 'Resident - Rebecca Thompson - Unit 18F',
 };
 // Scan History Texts
 export const scanHistoryTexts = {

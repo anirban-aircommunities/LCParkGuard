@@ -2,13 +2,35 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Vehicle } from '../../models/Vehicle';
 
 interface VehicleState {
-  currentVehicle: Vehicle | null;
-  loading: boolean;
-  error: string | null;
+  currentVehicle?: Vehicle | null;
+  loading?: boolean;
+  error?: string | null;
+  registeredVehicles?: any;
 }
 
 const initialState: VehicleState = {
-  currentVehicle: null,
+  currentVehicle: {
+    id: "1",
+    licensePlate: 'ABC123',
+    parkingSpot: '2221',
+    propertyId: '1222',
+    propertyName: '1sddd',
+    address: '1ddd',
+    status: 'registered',
+    scannedAt: '1ddd',
+  },
+  registeredVehicles: [
+    {
+      id: "1",
+      licensePlate: 'ABC123',
+      parkingSpot: '2221',
+      propertyId: '1222',
+      propertyName: '1sddd',
+      address: '1ddd',
+      status: 'registered',
+      scannedAt: '1ddd',
+    }
+  ],
   loading: false,
   error: null,
 };

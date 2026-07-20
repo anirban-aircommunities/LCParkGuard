@@ -5,17 +5,19 @@ import { SvgXml } from 'react-native-svg';
 
 type CustomButtonProps = {
   icon?: string;
+  iconSize?: number;
   label?: string;
   onPress?: () => void;
   buttonStyle?: any;
   labelStyle?: any;
   iconColor?: string;
-  disabled?: boolean;
+  disabled?: boolean | undefined | null;
   loading?: boolean;
 };
 
 const CustomButton: React.FC<CustomButtonProps> = ({
   icon,
+  iconSize,
   label,
   onPress,
   buttonStyle,
@@ -35,8 +37,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         <ActivityIndicator color={Colors.white} />
       ) :
         <Fragment>
-          <SvgXml xml={icon} height={20} width={20} color={iconColor} />
-          <Text style={[styles.labelText, labelStyle]}>{label}</Text>
+          <SvgXml xml={icon} height={iconSize ? iconSize : 20} width={iconSize ? iconSize : 20} color={iconColor} />
+          {label && <Text style={[styles.labelText, labelStyle]}>{label}</Text>}
         </Fragment>
     }
   </TouchableOpacity>

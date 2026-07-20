@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, useEffect } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -11,12 +11,13 @@ import {
 import { Colors, PANTONE5487 } from '../../constants/Colors';
 import { useScanViewModel } from '../../viewmodels/ScanViewModel';
 import { scanTexts } from '../../constants/Constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToTowingQueue } from '../../redux/slices/towingQueueSlice';
 import { SvgXml } from 'react-native-svg';
 import { locationPinIcon } from '../../components/Icons';
 import UserInteractionItem from '../../components/UserInteractionItem';
 import CustomButton from '../../components/CustomButton';
+import VehicleVerificationCardView from './VehicleVerificationCardView';
 
 type ManualTabContentProps = {
   licensePlate?: string;
@@ -46,20 +47,19 @@ const ManualTabContent: React.FC<ManualTabContentProps> = ({
   setIsTextResidentModalVisible,
 }: any) => {
   const dispatch = useDispatch();
+  // const currentVehicle = useSelector((state: any) => state?.vehicle?.currentVehicle);
   const {
     properties,
     selectedProperty,
+    currentVehicle,
+    registeredVehicles,
     selectProperty,
     checkVehicle,
     loading,
-    currentVehicle,
     clearCurrentVehicle,
   } = useScanViewModel();
 
-  const showVerificationResult =
-    !!currentVehicle &&
-    licensePlate.trim().toUpperCase() ===
-      currentVehicle.licensePlate.toUpperCase();
+  const showVerificationResult = registeredVehicles?.findIndex((item: any) => (item?.licensePlate?.trim() == currentVehicle?.licensePlate)) != -1;
 
   const handleCheckAuthorization = () => {
     if (licensePlate && selectedProperty) {
@@ -125,97 +125,45 @@ const ManualTabContent: React.FC<ManualTabContentProps> = ({
     // Clear all data and reset to default state
     handleClear();
   };
-
-  const renderVerificationPanel = () => {
-    if (!showVerificationResult || !currentVehicle) {
-      return null;
-    }
-
-    const isAuthorized = currentVehicle.status === 'registered';
-
-    return (
-      <View style={styles.verificationCard}>
-        <View style={styles.verificationMessageRow}>
-          <Text
-            style={[
-              styles.verificationStatusIcon,
-              isAuthorized
-                ? styles.authorizedStatusIcon
-                : styles.unauthorizedStatusIcon,
-            ]}
-          >
-            {isAuthorized ? '✓' : '✗'}
-          </Text>
-          <Text style={styles.verificationMessage}>
-            {isAuthorized
-              ? 'This vehicle is authorized for this property.'
-              : "We don't recognize this license plate."}
-          </Text>
-        </View>
-
-        <View style={styles.actionRow}>
-          <TouchableOpacity style={styles.okButton} onPress={handleClear}>
-            <Text style={styles.actionButtonIcon}>✓</Text>
-            <Text style={styles.okButtonText}>OK</Text>
-          </TouchableOpacity>
-          {!isAuthorized && (
-            <TouchableOpacity
-              style={styles.textResidentButton}
-              onPress={handleTextResident}
-            >
-              <Text style={styles.actionButtonIcon}>💬</Text>
-              <Text style={styles.textResidentButtonText}>Text Resident</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-
-        {!isAuthorized && (
-          <TouchableOpacity
-            style={styles.sendToTowingButtonFull}
-            onPress={handleSendToTowingFromScan}
-          >
-            <Text style={styles.actionButtonIcon}>!</Text>
-            <Text style={styles.sendToTowingButtonText}>
-              Send to Towing Queue
-            </Text>
-          </TouchableOpacity>
-        )}
-      </View>
-    );
-  };
   return (
-    <View style={styles.vehicleCard}>
-      {/* Text Field */}
-      <UserInteractionItem
-        labelText={scanTexts.licensePlateTextField}
-        value={licensePlate}
-        onChange={setLicensePlate}
-        interactionType="textbox"
-        haveItemHeader  
-        placeholder={scanTexts.licensePlatePlaceholder}
-        all={undefined}
-        unauthorized={undefined}
-        valid={undefined}
-        autoCapitalize="characters"
-        returnKeyType="done"
-        whiteBackground
-      />
-      {/* Check Vehicle Button */}
-      <CustomButton
-        icon={locationPinIcon.white}
-        label={scanTexts.checkVehicle}
-        onPress={handleCheckAuthorization}
-        buttonStyle={[
-          styles.checkVehicleButton,
-          (loading || !licensePlate.trim()) &&
+    <Fragment>
+      <View style={styles.vehicleCard}>
+        {/* Text Field */}
+        <UserInteractionItem
+          labelText={scanTexts.licensePlateTextField}
+          value={licensePlate}
+          onChange={setLicensePlate}
+          interactionType="textbox"
+          haveItemHeader
+          placeholder={scanTexts.licensePlatePlaceholder}
+          all={undefined}
+          unauthorized={undefined}
+          valid={undefined}
+          autoCapitalize="characters"
+          returnKeyType="done"
+          whiteBackground
+        />
+        {/* Check Vehicle Button */}
+        <CustomButton
+          icon={locationPinIcon.white}
+          iconColor={Colors.white}
+          label={scanTexts.checkVehicle}
+          onPress={handleCheckAuthorization}
+          buttonStyle={[
+            styles.checkVehicleButton,
+            (loading || !licensePlate.trim()) &&
             styles.checkVehicleButtonDisabled,
-        ]}
-        labelStyle={styles.checkVehicleButtonText}
-        disabled={loading || !licensePlate.trim() || showVerificationResult}
-        loading={loading}
-      />
-      {renderVerificationPanel()}
-    </View>
+          ]}
+          labelStyle={styles.checkVehicleButtonText}
+          disabled={loading || !licensePlate.trim() || showVerificationResult}
+          loading={loading}
+        />
+      </View>
+      {/* Vehicle Verification Card View */}
+      {licensePlate.trim() != '' && <VehicleVerificationCardView
+        isRegistered={showVerificationResult}
+      />}
+    </Fragment>
   );
 };
 
@@ -226,12 +174,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 12,
     padding: 16,
-    marginTop: 8,
+    marginTop: 15,
     borderWidth: 1,
     borderColor: Colors.border,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
+    shadowColor: Colors.border,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 1,
     shadowRadius: 4,
     elevation: 2,
   },
@@ -274,88 +222,6 @@ const styles = StyleSheet.create({
     color: Colors.textPrimary,
     marginBottom: 8,
     fontWeight: '500',
-  },
-  verificationCard: {
-    backgroundColor: Colors.white,
-    borderRadius: 12,
-    padding: 16,
-    marginTop: 16,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  verificationMessageRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 16,
-  },
-  verificationStatusIcon: {
-    fontSize: 18,
-    fontWeight: '700',
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    textAlign: 'center',
-    lineHeight: 28,
-    marginRight: 10,
-    overflow: 'hidden',
-  },
-  authorizedStatusIcon: {
-    color: Colors.white,
-    backgroundColor: '#4CAF50',
-  },
-  unauthorizedStatusIcon: {
-    color: Colors.white,
-    backgroundColor: '#F44336',
-  },
-  verificationMessage: {
-    flex: 1,
-    fontSize: 15,
-    color: Colors.textPrimary,
-    lineHeight: 22,
-  },
-  actionRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 8,
-  },
-  okButton: {
-    flex: 1,
-    backgroundColor: '#4CAF50',
-    borderRadius: 8,
-    paddingVertical: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-  },
-  okButtonText: {
-    color: Colors.white,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  textResidentButton: {
-    flex: 1,
-    backgroundColor: Colors.tabPantone7546,
-    borderRadius: 8,
-    paddingVertical: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-  },
-  textResidentButtonText: {
-    color: Colors.white,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  sendToTowingButtonFull: {
-    backgroundColor: '#F44336',
-    borderRadius: 8,
-    paddingVertical: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
   },
   sendToTowingButtonText: {
     color: Colors.white,

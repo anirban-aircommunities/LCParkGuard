@@ -7,6 +7,7 @@ import {
 } from '../redux/slices/vehicleSlice';
 import { addToTowingQueue } from '../redux/slices/towingQueueSlice';
 import { Property } from '../models/Property';
+import { Alert } from 'react-native';
 
 export const useScanViewModel = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,9 @@ export const useScanViewModel = () => {
     (state: RootState) => state.property
   );
   const { currentVehicle, loading } = useSelector(
+    (state: RootState) => state.vehicle
+  );
+  const { registeredVehicles } = useSelector(
     (state: RootState) => state.vehicle
   );
 
@@ -60,6 +64,7 @@ export const useScanViewModel = () => {
     properties,
     selectedProperty,
     currentVehicle,
+    registeredVehicles,
     loading,
     selectProperty,
     checkVehicle,

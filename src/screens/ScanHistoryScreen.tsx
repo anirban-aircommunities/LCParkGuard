@@ -151,7 +151,7 @@ const ScanHistoryScreen = () => {
                 item?.status == selectedTab.dataType)) && (
               <ScanHistoryCardView
                 item={item}
-                statusIconName={messaging}
+                statusIconName={messaging.stroke}
                 statusIconSize={15}
               />
             )

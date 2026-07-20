@@ -203,7 +203,7 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
           </View>
         ) : (
           <ManualTabContent
-            licensePlate={licensePlate}
+            licensePlate={licensePlate?.trim()}
             parkingSpot={parkingSpot}
             setLicensePlate={(text) => setLicensePlate(text)}
             setParkingSpot={(text) => setParkingSpot(text)}

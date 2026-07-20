@@ -154,7 +154,7 @@ const Worklist = () => {
               iconSize={item.isChecked ? 20 : 25}
               item={item}
               hasBottomButtons
-              statusIconName={messaging}
+              statusIconName={messaging.stroke}
               statusIconSize={15}
               towButtonLabel={
                 item?.texted
