@@ -15,13 +15,26 @@ import { TowingQueueItem } from '../models/TowingQueue';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { markAsSentToTowingCompany } from '../redux/slices/scanHistorySlice';
-import { removeFromTowingQueue, selectItems } from '../redux/slices/towingQueueSlice';
+import {
+  removeFromTowingQueue,
+  selectItems,
+} from '../redux/slices/towingQueueSlice';
 import AppFooter from '../components/AppFooter';
 import UserInteractionItem from '../components/UserInteractionItem';
-import { checkboxes, downArrowIcon, locationPinIcon, messaging, propertySelectionIcon } from '../components/Icons';
-import * as scanHistoryData from "../demo/scanHistoryData.json";
+import {
+  checkboxes,
+  downArrowIcon,
+  locationPinIcon,
+  messaging,
+  propertySelectionIcon,
+} from '../components/Icons';
+import * as scanHistoryData from '../demo/scanHistoryData.json';
 import EmptyListComponent from '../components/EmptyListComponent';
-import { headerTitle, scanHistoryTexts, towingQueueTexts } from '../constants/Constants';
+import {
+  headerTitle,
+  scanHistoryTexts,
+  towingQueueTexts,
+} from '../constants/Constants';
 import ScanHistoryCardView from '../components/ScanHistoryCardView';
 import { useNavigation } from '@react-navigation/native';
 import AppHeader from '../components/AppHeader';
@@ -29,8 +42,12 @@ import AppHeader from '../components/AppHeader';
 const Worklist = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const towingQueueItems = useSelector((state: any) => state?.towingQueue?.items);
-  const towingQueueSelectedItems = useSelector((state: any) => state?.towingQueue?.selectedItems);
+  const towingQueueItems = useSelector(
+    (state: any) => state?.towingQueue?.items
+  );
+  const towingQueueSelectedItems = useSelector(
+    (state: any) => state?.towingQueue?.selectedItems
+  );
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
 
   const toggleSelection = (id: string) => {
@@ -60,7 +77,7 @@ const Worklist = () => {
       return `Today at ${date.toLocaleTimeString('en-US', {
         hour: 'numeric',
         minute: '2-digit',
-        hour12: true
+        hour12: true,
       })}`;
     }
 
@@ -77,12 +94,14 @@ const Worklist = () => {
     <View style={styles.queueItem}>
       <TouchableOpacity
         style={styles.checkbox}
-        onPress={() => toggleSelection((item as any)?.id)}>
+        onPress={() => toggleSelection((item as any)?.id)}
+      >
         <View
           style={[
             styles.checkboxInner,
             selectedItems.has((item as any)?.id) && styles.checkboxChecked,
-          ]}>
+          ]}
+        >
           {selectedItems.has((item as any)?.id) && (
             <Text style={styles.checkmark}>✓</Text>
           )}
@@ -93,7 +112,9 @@ const Worklist = () => {
           {item.licensePlate} - {item.parkingSpot}
         </Text>
         <Text style={styles.propertyName}>{item.propertyName}</Text>
-        <Text style={styles.timeChecked}>Time Checked: {formatDate((item as any)?.addedAt)}</Text>
+        <Text style={styles.timeChecked}>
+          Time Checked: {formatDate((item as any)?.addedAt)}
+        </Text>
       </View>
     </View>
   );
@@ -120,25 +141,41 @@ const Worklist = () => {
         <FlatList
           data={towingQueueItems}
           ListEmptyComponent={
-            // Empty List Component 
+            // Empty List Component
             <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />
           }
           renderItem={({ item, index }) => (
             <ScanHistoryCardView
               checkbox={false}
               // selectItem={() => dispatch(selectItems(item))}
-              iconName={item.isChecked ? checkboxes.checked : checkboxes.unchecked}
+              iconName={
+                item.isChecked ? checkboxes.checked : checkboxes.unchecked
+              }
               iconSize={item.isChecked ? 20 : 25}
               item={item}
               hasBottomButtons
               statusIconName={messaging}
               statusIconSize={15}
-              towButtonLabel={item?.texted ? towingQueueTexts.requestTow : towingQueueTexts.markAsTowedLabel}
+              towButtonLabel={
+                item?.texted
+                  ? towingQueueTexts.requestTow
+                  : towingQueueTexts.markAsTowedLabel
+              }
               markAsTowed={() => {
-                Alert.alert("", towingQueueTexts.markedAsTowed, [{ text: "Ok", onPress: () => navigation.navigate("ScanHistory") }])
+                Alert.alert('', towingQueueTexts.markedAsTowed, [
+                  {
+                    text: 'Ok',
+                    onPress: () => navigation.navigate('ScanHistory'),
+                  },
+                ]);
               }}
               markAsResolved={() => {
-                Alert.alert("", towingQueueTexts.markedAsResolved, [{ text: "Ok", onPress: () => navigation.navigate("ScanHistory") }])
+                Alert.alert('', towingQueueTexts.markedAsResolved, [
+                  {
+                    text: 'Ok',
+                    onPress: () => navigation.navigate('ScanHistory'),
+                  },
+                ]);
               }}
             />
           )}
@@ -230,7 +267,7 @@ const Worklist = () => {
             </TouchableOpacity>
           </View>
         )} */}
-        <View style={{height: 20}} />
+        <View style={{ height: 20 }} />
       </ScrollView>
     </Fragment>
   );
@@ -351,20 +388,18 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     borderWidth: 1,
-    backgroundColor: Colors.white
+    backgroundColor: Colors.white,
   },
   sendButton: {
     // backgroundColor: Colors.background,
     borderColor: Colors.border,
     backgroundColor: Colors.white,
-
   },
   emailButton: {
     backgroundColor: Colors.white,
     borderColor: Colors.border,
     alignItems: 'center',
     // paddingHorizontal: 'auto'
-
   },
   actionButtonDisabled: {
     opacity: 0.5,

@@ -2,11 +2,11 @@
 
 **Installed versions (verify with `npm run blackduck:verify`):**
 
-| Component | Polaris shows (stale) | Actual |
-|-----------|------------------------|--------|
-| Hermes | `facebookhermes 0.14.0` | `hermes-engine` / `hermes-compiler` **250829098.0.9** |
-| React | `React from Facebook 19.2.0` | **react@19.2.3** |
-| React Native | (tree may show 0.83.1) | **react-native@0.84.1** |
+| Component    | Polaris shows (stale)        | Actual                                                |
+| ------------ | ---------------------------- | ----------------------------------------------------- |
+| Hermes       | `facebookhermes 0.14.0`      | `hermes-engine` / `hermes-compiler` **250829098.0.9** |
+| React        | `React from Facebook 19.2.0` | **react@19.2.3**                                      |
+| React Native | (tree may show 0.83.1)       | **react-native@0.84.1**                               |
 
 **Disposition for all rows below:** **Not Affected** (unless your policy requires **Remediated** for React after confirming 19.2.3 on the scanned branch).
 
@@ -22,15 +22,15 @@
 Black Duck KB mismatch: component listed as facebookhermes 0.14.0. Park Guard (LCParkGuard) ships react-native@0.84.1 with hermes-compiler@250829098.0.9 and ios hermes-engine@250829098.0.9 (Hermes V1) per package-lock.json and ios/Podfile.lock. Listed CVEs apply to legacy Hermes engine builds (<=0.12.x era), not the RN 0.84 bundled engine. Per Meta guidance (facebook/hermes#937), exploitation requires executing attacker-controlled JavaScript in Hermes; this mobile app runs only Metro-bundled application JS. Not applicable — incorrect component/version mapping and no vulnerable runtime in shipped artifact. Evidence: LCParkGuard/blackduck/component-manifest.json; npm run blackduck:verify.
 ```
 
-| Issue ID | Severity | CVE | Title |
-|----------|----------|-----|-------|
-| [4369BE4B2AD5886671B1FE1A47AF9818](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/4369BE4B2AD5886671B1FE1A47AF9818) | Critical | CVE-2020-1914 | Always-Incorrect Control Flow Implementation |
-| [5084A6B09CE3A13375EAA3BF60FCFE30](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/5084A6B09CE3A13375EAA3BF60FCFE30) | Critical | CVE-2023-23556 | Out-of-bounds Write |
-| [FE8B5AB924CFBCB58E8C4A145AB77468](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/FE8B5AB924CFBCB58E8C4A145AB77468) | Critical | CVE-2023-23557 | Access of Resource Using Incompatible Type |
-| [54558AE0A410EFEC04FD47A5025C5C06](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/54558AE0A410EFEC04FD47A5025C5C06) | High | CVE-2022-40138 | Out-of-bounds Write |
-| [557575701971EC88C205D52D9364D66B](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/557575701971EC88C205D52D9364D66B) | High | CVE-2020-1915 | Out-of-bounds Read |
-| [2381738BD41AB641E7F1CEA3166B443B](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/2381738BD41AB641E7F1CEA3166B443B) | High | CVE-2023-24832 | NULL Pointer Dereference |
-| [ED0A669F594693CC7C8C2FCC161ADD41](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/ED0A669F594693CC7C8C2FCC161ADD41) | High | CVE-2023-24833 | Use After Free |
+| Issue ID                                                                                                                                                                                                                                                               | Severity | CVE            | Title                                        |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------------- | -------------------------------------------- |
+| [4369BE4B2AD5886671B1FE1A47AF9818](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/4369BE4B2AD5886671B1FE1A47AF9818) | Critical | CVE-2020-1914  | Always-Incorrect Control Flow Implementation |
+| [5084A6B09CE3A13375EAA3BF60FCFE30](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/5084A6B09CE3A13375EAA3BF60FCFE30) | Critical | CVE-2023-23556 | Out-of-bounds Write                          |
+| [FE8B5AB924CFBCB58E8C4A145AB77468](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/FE8B5AB924CFBCB58E8C4A145AB77468) | Critical | CVE-2023-23557 | Access of Resource Using Incompatible Type   |
+| [54558AE0A410EFEC04FD47A5025C5C06](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/54558AE0A410EFEC04FD47A5025C5C06) | High     | CVE-2022-40138 | Out-of-bounds Write                          |
+| [557575701971EC88C205D52D9364D66B](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/557575701971EC88C205D52D9364D66B) | High     | CVE-2020-1915  | Out-of-bounds Read                           |
+| [2381738BD41AB641E7F1CEA3166B443B](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/2381738BD41AB641E7F1CEA3166B443B) | High     | CVE-2023-24832 | NULL Pointer Dereference                     |
+| [ED0A669F594693CC7C8C2FCC161ADD41](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/ED0A669F594693CC7C8C2FCC161ADD41) | High     | CVE-2023-24833 | Use After Free                               |
 
 ---
 
@@ -83,11 +83,11 @@ Disposition: Not Affected — incorrect component/version in SCA; re-scan after 
 Evidence: LCParkGuard/blackduck/component-manifest.json; ios/Podfile.lock.
 ```
 
-| Issue ID | Title |
-|----------|-------|
+| Issue ID                                                                                                                                                                                                                                                               | Title                              |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
 | [DC2890CB87B0B3275003188877250085](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/DC2890CB87B0B3275003188877250085) | Use of Out-of-range Pointer Offset |
-| [5EA4EEE3985D461D3CC7F4FDFF87807E](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/5EA4EEE3985D461D3CC7F4FDFF87807E) | Incorrect Type Conversion or Cast |
-| [5907C4DA4590F1C39DC57E5DB1F3C15E](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/5907C4DA4590F1C39DC57E5DB1F3C15E) | Buffer Over-read |
+| [5EA4EEE3985D461D3CC7F4FDFF87807E](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/5EA4EEE3985D461D3CC7F4FDFF87807E) | Incorrect Type Conversion or Cast  |
+| [5907C4DA4590F1C39DC57E5DB1F3C15E](https://polaris.blackduck.com/portfolio/portfolios/fc0f6a89-b081-491c-8492-2e5a320600cc/portfolio-items/d8b9d6a5-6357-4183-9bc8-82382ecc3a44/projects/36a40f57-6ca0-4c9c-923c-927106dbbc3b/issues/5907C4DA4590F1C39DC57E5DB1F3C15E) | Buffer Over-read                   |
 
 ---
 

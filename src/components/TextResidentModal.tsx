@@ -31,7 +31,7 @@ interface TextResidentModalProps {
 function buildQuickMessage(
   type: (typeof QUICK_MESSAGES)[number]['id'],
   licensePlate: string,
-  propertyName?: string,
+  propertyName?: string
 ): string {
   const location = propertyName ? ` at ${propertyName}` : '';
   const plate = licensePlate.toUpperCase();
@@ -76,7 +76,10 @@ const TextResidentModal: React.FC<TextResidentModalProps> = ({
 
   const handleSendText = () => {
     if (!canSend) {
-      Alert.alert('Missing Information', 'Phone number and message are required.');
+      Alert.alert(
+        'Missing Information',
+        'Phone number and message are required.'
+      );
       return;
     }
 
@@ -98,18 +101,25 @@ const TextResidentModal: React.FC<TextResidentModalProps> = ({
       transparent
       animationType="fade"
       statusBarTranslucent
-      onRequestClose={onClose}>
+      onRequestClose={onClose}
+    >
       <KeyboardAvoidingView
         style={styles.overlay}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={onClose} />
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <TouchableOpacity
+          style={styles.backdrop}
+          activeOpacity={1}
+          onPress={onClose}
+        />
         <View style={styles.modalCard}>
           <View style={styles.header}>
             <Text style={styles.title}>Text Resident</Text>
             <TouchableOpacity
               style={styles.closeButton}
               onPress={onClose}
-              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            >
               <Text style={styles.closeButtonText}>✕</Text>
             </TouchableOpacity>
           </View>
@@ -117,7 +127,8 @@ const TextResidentModal: React.FC<TextResidentModalProps> = ({
           <ScrollView
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.formContent}>
+            contentContainerStyle={styles.formContent}
+          >
             <Text style={styles.label}>Resident Name</Text>
             <TextInput
               style={styles.input}
@@ -158,8 +169,11 @@ const TextResidentModal: React.FC<TextResidentModalProps> = ({
                 <TouchableOpacity
                   key={item.id}
                   style={styles.quickMessageButton}
-                  onPress={() => handleQuickMessage(item.id)}>
-                  <Text style={styles.quickMessageButtonText}>{item.label}</Text>
+                  onPress={() => handleQuickMessage(item.id)}
+                >
+                  <Text style={styles.quickMessageButtonText}>
+                    {item.label}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -167,7 +181,8 @@ const TextResidentModal: React.FC<TextResidentModalProps> = ({
             <TouchableOpacity
               style={[styles.sendButton, !canSend && styles.sendButtonDisabled]}
               onPress={handleSendText}
-              disabled={!canSend}>
+              disabled={!canSend}
+            >
               <Text style={styles.sendButtonIcon}>💬</Text>
               <Text style={styles.sendButtonText}>Send Text</Text>
             </TouchableOpacity>

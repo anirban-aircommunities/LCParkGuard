@@ -17,7 +17,14 @@ const vehicleSlice = createSlice({
   name: 'vehicle',
   initialState,
   reducers: {
-    checkVehicleRequest: (state, action: PayloadAction<{ licensePlate: string; parkingSpot: string; propertyId: string }>) => {
+    checkVehicleRequest: (
+      state,
+      action: PayloadAction<{
+        licensePlate: string;
+        parkingSpot: string;
+        propertyId: string;
+      }>
+    ) => {
       state.loading = true;
       state.error = null;
     },
@@ -37,5 +44,10 @@ const vehicleSlice = createSlice({
   },
 });
 
-export const { checkVehicleRequest, checkVehicleSuccess, checkVehicleFailure, clearVehicle } = vehicleSlice.actions;
+export const {
+  checkVehicleRequest,
+  checkVehicleSuccess,
+  checkVehicleFailure,
+  clearVehicle,
+} = vehicleSlice.actions;
 export default vehicleSlice.reducer;

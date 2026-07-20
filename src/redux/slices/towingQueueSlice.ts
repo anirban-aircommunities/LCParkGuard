@@ -10,48 +10,51 @@ interface TowingQueueState {
 
 const towingQueueItems: TowingQueueItem[] = [
   {
-    "id": "1",
-    "carOwner": "Rebecca Thompson",
-    "licensePlate": "ABC123",
-    "parkingSpot": "N/A",
-    "isChecked": false,
-    "propertyName": "John Doe",
-    "address": "ADA Area",
-    "status": "pending",
+    id: '1',
+    carOwner: 'Rebecca Thompson',
+    licensePlate: 'ABC123',
+    parkingSpot: 'N/A',
+    isChecked: false,
+    propertyName: 'John Doe',
+    address: 'ADA Area',
+    status: 'pending',
     texted: true,
-    "scannedAt": "Jun 18, 2026 at 3:33 am",
-    "source": "manual",
-    "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
+    scannedAt: 'Jun 18, 2026 at 3:33 am',
+    source: 'manual',
+    description:
+      'hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd',
   },
   {
-    "id": "2",
-    "carOwner": "Rebecca Thompson",
-    "licensePlate": "ABC123",
-    "parkingSpot": "N/A",
-    "isChecked": true,
-    "propertyName": "John Doe",
-    "address": "ADA Area",
-    "status": "in-progress",
+    id: '2',
+    carOwner: 'Rebecca Thompson',
+    licensePlate: 'ABC123',
+    parkingSpot: 'N/A',
+    isChecked: true,
+    propertyName: 'John Doe',
+    address: 'ADA Area',
+    status: 'in-progress',
     texted: false,
-    "scannedAt": "Jun 18, 2026 at 3:33 am",
-    "source": "manual",
-    "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
+    scannedAt: 'Jun 18, 2026 at 3:33 am',
+    source: 'manual',
+    description:
+      'hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd',
   },
   {
-    "id": "3",
-    "carOwner": "Rebecca Thompson",
-    "licensePlate": "ABC123",
-    "parkingSpot": "N/A",
-    "isChecked": false,
-    "propertyName": "John Doe",
-    "address": "ADA Area",
-    "status": "completed",
+    id: '3',
+    carOwner: 'Rebecca Thompson',
+    licensePlate: 'ABC123',
+    parkingSpot: 'N/A',
+    isChecked: false,
+    propertyName: 'John Doe',
+    address: 'ADA Area',
+    status: 'completed',
     texted: true,
-    "scannedAt": "Jun 18, 2026 at 3:33 am",
-    "source": "manual",
-    "description": "hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd"
-  }
-]
+    scannedAt: 'Jun 18, 2026 at 3:33 am',
+    source: 'manual',
+    description:
+      'hgfsjhgkjdfhgfdk ghfjhgfkjhgdfkj hgjfdhgjkdhgfdjk hgfjdhgjkdhgjf hgjfdh gjkfdh dshgjds hgfdsjkhgkadg fhgjakshgjgaks ghgkjshfksfdh. hfdjhfjdkshfjdk ahd',
+  },
+];
 
 const initialState: TowingQueueState = {
   items: towingQueueItems,
@@ -67,7 +70,10 @@ const towingQueueSlice = createSlice({
     addToTowingQueue: (state, action: PayloadAction<TowingQueueItem>) => {
       state.items.unshift(action.payload);
     },
-    updateTowingQueueItem: (state, action: PayloadAction<{ id: string; status: TowingQueueItem['status'] }>) => {
+    updateTowingQueueItem: (
+      state,
+      action: PayloadAction<{ id: string; status: TowingQueueItem['status'] }>
+    ) => {
       const item = state.items.find((item) => item.id === action.payload.id);
       if (item) {
         item.status = action.payload.status;
@@ -90,5 +96,12 @@ const towingQueueSlice = createSlice({
   },
 });
 
-export const { addToTowingQueue, updateTowingQueueItem, removeFromTowingQueue, selectItems, setLoading, setError } = towingQueueSlice.actions;
+export const {
+  addToTowingQueue,
+  updateTowingQueueItem,
+  removeFromTowingQueue,
+  selectItems,
+  setLoading,
+  setError,
+} = towingQueueSlice.actions;
 export default towingQueueSlice.reducer;

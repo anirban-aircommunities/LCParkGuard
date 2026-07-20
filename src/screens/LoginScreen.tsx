@@ -41,7 +41,8 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
             onPress={onLogin}
             activeOpacity={0.85}
             accessibilityRole="button"
-            accessibilityLabel="Login">
+            accessibilityLabel="Login"
+          >
             <Text style={styles.loginButtonText}>Login</Text>
           </TouchableOpacity>
         </View>

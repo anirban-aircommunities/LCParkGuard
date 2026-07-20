@@ -14,7 +14,8 @@
     "blackduck:verify": "bash scripts/blackduck-scan.sh verify",
     "blackduck:preflight": "bash scripts/blackduck-scan.sh preflight",
     "blackduck:sbom": "bash scripts/blackduck-scan.sh sbom",
-    "blackduck:detect": "bash scripts/blackduck-scan.sh detect"
+    "blackduck:detect": "bash scripts/blackduck-scan.sh detect",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@fawazahmed/react-native-read-more": "^3.0.4",

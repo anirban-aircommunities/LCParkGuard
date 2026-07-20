@@ -8,9 +8,9 @@ interface AppFooterProps {
   variant?: 'subtle' | 'prominent';
 }
 
-const AppFooter: React.FC<AppFooterProps> = ({ 
-  showLogo = true, 
-  variant = 'subtle' 
+const AppFooter: React.FC<AppFooterProps> = ({
+  showLogo = true,
+  variant = 'subtle',
 }) => {
   // Try to use logo from assets, fallback to null if not available
   const logoSource = (assets as any).logo;
@@ -21,10 +21,7 @@ const AppFooter: React.FC<AppFooterProps> = ({
     <View style={[styles.footer, variant === 'subtle' && styles.footerSubtle]}>
       <Image
         source={logoSource}
-        style={[
-          styles.logo,
-          variant === 'subtle' && styles.logoSubtle,
-        ]}
+        style={[styles.logo, variant === 'subtle' && styles.logoSubtle]}
         resizeMode="contain"
       />
       {variant === 'prominent' && (

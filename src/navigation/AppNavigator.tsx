@@ -34,14 +34,20 @@ const AppNavigator = () => {
         headerLeftContainerStyle: {
           paddingLeft: 10,
         },
-      }}>
+      }}
+    >
       <Tab.Screen
         name="Scan"
         component={ScanScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({ color, size, focused }) => (
-            <TabBarIcon name="scan" color={color} size={size} focused={focused} />
+            <TabBarIcon
+              name="scan"
+              color={color}
+              size={size}
+              focused={focused}
+            />
           ),
           tabBarLabel: ({ focused, color }) => (
             <Text
@@ -49,7 +55,8 @@ const AppNavigator = () => {
                 color,
                 fontSize: 12,
                 fontWeight: focused ? 'bold' : 'normal',
-              }}>
+              }}
+            >
               Scan
             </Text>
           ),
@@ -62,7 +69,12 @@ const AppNavigator = () => {
           headerShown: false,
           headerLeft: () => <AppHeader title="" />,
           tabBarIcon: ({ color, size, focused }) => (
-            <TabBarIcon name="towing" color={color} size={size} focused={focused} />
+            <TabBarIcon
+              name="towing"
+              color={color}
+              size={size}
+              focused={focused}
+            />
           ),
           tabBarLabel: ({ focused, color }) => (
             <Text
@@ -70,7 +82,8 @@ const AppNavigator = () => {
                 color,
                 fontSize: 12,
                 fontWeight: focused ? 'bold' : 'normal',
-              }}>
+              }}
+            >
               Worklist
             </Text>
           ),
@@ -83,7 +96,12 @@ const AppNavigator = () => {
           headerShown: false,
           headerLeft: () => <AppHeader title="" />,
           tabBarIcon: ({ color, size, focused }) => (
-            <TabBarIcon name="history" color={color} size={size} focused={focused} />
+            <TabBarIcon
+              name="history"
+              color={color}
+              size={size}
+              focused={focused}
+            />
           ),
           tabBarLabel: ({ focused, color }) => (
             <Text
@@ -91,7 +109,8 @@ const AppNavigator = () => {
                 color,
                 fontSize: 12,
                 fontWeight: focused ? 'bold' : 'normal',
-              }}>
+              }}
+            >
               Scan History
             </Text>
           ),

@@ -63,5 +63,6 @@ const propertySlice = createSlice({
   },
 });
 
-export const { setSelectedProperty, setLoading, setError } = propertySlice.actions;
+export const { setSelectedProperty, setLoading, setError } =
+  propertySlice.actions;
 export default propertySlice.reducer;

@@ -9,13 +9,18 @@ interface TabBarIconProps {
   focused?: boolean;
 }
 
-const TabBarIcon: React.FC<TabBarIconProps> = ({ name, color, size = 24, focused = false }) => {
+const TabBarIcon: React.FC<TabBarIconProps> = ({
+  name,
+  color,
+  size = 24,
+  focused = false,
+}) => {
   const iconSource =
     name === 'scan'
       ? assets.camera
       : name === 'towing'
-        ? assets.shipping
-        : assets.notebook;
+      ? assets.shipping
+      : assets.notebook;
 
   return (
     <Image

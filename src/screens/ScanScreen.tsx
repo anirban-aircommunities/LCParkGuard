@@ -15,7 +15,11 @@ import { addScanHistory } from '../redux/slices/scanHistorySlice';
 import { PlateRecognizerResponse } from './plateRecognizer/plateRecognizer';
 import TextResidentModal from '../components/TextResidentModal';
 import UserInteractionItem from '../components/UserInteractionItem';
-import { keypadIcon, propertySelectionIcon, scanIcon } from '../components/Icons';
+import {
+  keypadIcon,
+  propertySelectionIcon,
+  scanIcon,
+} from '../components/Icons';
 import AppHeader from '../components/AppHeader';
 import { headerTitle, scanTexts } from '../constants/Constants';
 import SelectedPropertyInfo from './scanScreenComponents/SelectedPropertyInfo';
@@ -40,7 +44,6 @@ interface CameraScreenProps {
 }
 
 const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
-
   const [isScanning, setIsScanning] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [capturedImage, setCapturedImage] = useState<string | null>(null);
@@ -48,7 +51,8 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
   const [licensePlate, setLicensePlate] = useState('');
   const [parkingSpot, setParkingSpot] = useState('');
   const [isPropertyDropdownOpen, setIsPropertyDropdownOpen] = useState(false);
-  const [isTextResidentModalVisible, setIsTextResidentModalVisible] = useState(false);
+  const [isTextResidentModalVisible, setIsTextResidentModalVisible] =
+    useState(false);
 
   const dispatch = useDispatch();
   const {
@@ -97,7 +101,13 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
       dispatch(addScanHistory(scanHistoryItem));
       setHasAddedToHistory(true);
     }
-  }, [currentVehicle, selectedProperty, dispatch, hasAddedToHistory, inputMethod]);
+  }, [
+    currentVehicle,
+    selectedProperty,
+    dispatch,
+    hasAddedToHistory,
+    inputMethod,
+  ]);
 
   // Reset hasAddedToHistory and clear vehicle when license plate changes
   useEffect(() => {
@@ -110,12 +120,12 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
 
   return (
     <Fragment>
-      <AppHeader title={headerTitle} showLogo/>
+      <AppHeader title={headerTitle} showLogo />
       <KeyboardAwareScrollView style={styles.container}>
         {/* Property Selection Section */}
         <UserInteractionItem
           haveItemHeader
-          labelText={"Property Selection"}
+          labelText={'Property Selection'}
           iconName={propertySelectionIcon.colored}
           interactionType="dropdown"
           dropdownItems={properties}
@@ -126,41 +136,59 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
           valid={undefined}
         />
         {/* Selected Property Info */}
-        {selectedProperty && <SelectedPropertyInfo selectedProperty={selectedProperty}/>}
+        {selectedProperty && (
+          <SelectedPropertyInfo selectedProperty={selectedProperty} />
+        )}
 
         {/* Vehicle Check Section */}
         <View style={styles.tabContainer}>
           <CustomButton
             label={scanTexts.manualM}
-            icon={inputMethod === scanTexts.manual ? keypadIcon.white : keypadIcon.colored}
+            icon={
+              inputMethod === scanTexts.manual
+                ? keypadIcon.white
+                : keypadIcon.colored
+            }
             onPress={() => setInputMethod(scanTexts.manual)}
             buttonStyle={[
               styles.tab,
               inputMethod === scanTexts.manual && styles.tabActive,
               styles.tabLeft,
-              {margin: 0, flex: 0.48}
+              { margin: 0, flex: 0.48 },
             ]}
-            labelStyle={{color: inputMethod === scanTexts.manual ? Colors.white : PANTONE7546}}
-            iconColor={inputMethod === scanTexts.manual ? Colors.white : PANTONE7546}
+            labelStyle={{
+              color:
+                inputMethod === scanTexts.manual ? Colors.white : PANTONE7546,
+            }}
+            iconColor={
+              inputMethod === scanTexts.manual ? Colors.white : PANTONE7546
+            }
           />
           <CustomButton
             label={scanTexts.scanS}
-            icon={inputMethod === scanTexts.scan ? scanIcon.white : scanIcon.colored}
+            icon={
+              inputMethod === scanTexts.scan ? scanIcon.white : scanIcon.colored
+            }
             onPress={() => setInputMethod(scanTexts.scan)}
             buttonStyle={[
               styles.tab,
               inputMethod === scanTexts.scan && styles.tabActive,
               styles.tabRight,
-              {margin: 0, flex: 0.48}
+              { margin: 0, flex: 0.48 },
             ]}
-            labelStyle={{color: inputMethod === scanTexts.scan ? Colors.white : PANTONE7546}}
-            iconColor={inputMethod === scanTexts.scan ? Colors.white : PANTONE7546}
+            labelStyle={{
+              color:
+                inputMethod === scanTexts.scan ? Colors.white : PANTONE7546,
+            }}
+            iconColor={
+              inputMethod === scanTexts.scan ? Colors.white : PANTONE7546
+            }
           />
         </View>
-        
+
         {inputMethod === 'scan' && (
           <View style={styles.scanContainer}>
-            <ScanTabContent 
+            <ScanTabContent
               useCameraDevice={useCameraDevice}
               Camera={Camera}
               onResult={onResult}
@@ -176,7 +204,7 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
         )}
 
         {inputMethod === 'manual' && (
-          <ManualTabContent 
+          <ManualTabContent
             licensePlate={licensePlate}
             parkingSpot={parkingSpot}
             setLicensePlate={(text) => setLicensePlate(text)}
@@ -187,7 +215,9 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
             setCapturedImage={(text) => setCapturedImage(text)}
             setIsProcessing={(text) => setIsProcessing(text)}
             setInputMethod={(text) => setInputMethod(text)}
-            setIsTextResidentModalVisible={(text) => setIsTextResidentModalVisible(text)}
+            setIsTextResidentModalVisible={(text) =>
+              setIsTextResidentModalVisible(text)
+            }
           />
         )}
       </KeyboardAwareScrollView>
@@ -196,7 +226,8 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
         visible={isProcessing}
         transparent={true}
         animationType="fade"
-        statusBarTranslucent={true}>
+        statusBarTranslucent={true}
+      >
         <View style={styles.loadingOverlay}>
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={Colors.secondary} />
@@ -216,7 +247,8 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
   );
 };
 
-{/* <KeyboardAvoidingView
+{
+  /* <KeyboardAvoidingView
         style={styles.keyboardAvoidingView}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}>
@@ -236,7 +268,8 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
             
           </View>
         </ScrollView>
-      </KeyboardAvoidingView> */}
+      </KeyboardAvoidingView> */
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -361,7 +394,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   tab: {
     flex: 1,

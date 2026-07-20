@@ -18,7 +18,7 @@ export const Colors = {
   grey1: '#cdcdcd',
   grey2: '#808080',
   grey3: '#efefef',
-  grey4: '#e5e5e5'
+  grey4: '#e5e5e5',
 };
 
 // PANTONE Colors

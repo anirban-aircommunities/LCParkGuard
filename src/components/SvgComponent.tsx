@@ -7,12 +7,18 @@ interface Svg {
   svgWidth?: any;
 }
 
-export const SvgComponent: React.FC<Svg> = ({svgData, svgHeight, svgWidth}): JSX.Element => (
-    <WebView
-        // style={{ height: '10%', width: '25%', backgroundColor: '#fff' }}
-        scrollEnabled={false}
-        source={{
-            html: `<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; ${"height:" + svgHeight}; ${"width:" + svgWidth} }</style></head><body>${svgData}</body></html>`,
-        }}
-    />
-)
+export const SvgComponent: React.FC<Svg> = ({
+  svgData,
+  svgHeight,
+  svgWidth,
+}): JSX.Element => (
+  <WebView
+    // style={{ height: '10%', width: '25%', backgroundColor: '#fff' }}
+    scrollEnabled={false}
+    source={{
+      html: `<html><head><style>html, body { margin:0; padding:0; overflow:hidden } svg { position:fixed; top:0; left:0; ${
+        'height:' + svgHeight
+      }; ${'width:' + svgWidth} }</style></head><body>${svgData}</body></html>`,
+    }}
+  />
+);

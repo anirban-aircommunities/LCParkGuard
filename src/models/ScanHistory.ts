@@ -6,7 +6,7 @@ export interface ScanHistoryItem {
   isChecked?: boolean;
   propertyName?: string;
   address?: string;
-  status?: "registered" | "unregistered";
+  status?: 'registered' | 'unregistered';
   scannedAt?: string;
   source?: string;
   sentToTowingCompany?: boolean;

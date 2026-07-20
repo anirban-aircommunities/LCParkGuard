@@ -10,49 +10,68 @@ import {
   Alert,
 } from 'react-native';
 import { Colors } from '../constants/Colors';
-import { headerTitle, scanHistoryTexts, scanTypes, timePeriodArray } from '../constants/Constants';
+import {
+  headerTitle,
+  scanHistoryTexts,
+  scanTypes,
+  timePeriodArray,
+} from '../constants/Constants';
 import EmptyListComponent from '../components/EmptyListComponent';
 import CustomButton from '../components/CustomButton';
-import { checkboxes, downArrowIcon, messaging, propertySelectionIcon } from '../components/Icons';
+import {
+  checkboxes,
+  downArrowIcon,
+  messaging,
+  propertySelectionIcon,
+} from '../components/Icons';
 import ScanHistoryCardView from '../components/ScanHistoryCardView';
-import * as scanHistoryData from "../demo/scanHistoryData.json";
+import * as scanHistoryData from '../demo/scanHistoryData.json';
 import UserInteractionItem from '../components/UserInteractionItem';
 import { useSelector } from 'react-redux';
 import AppHeader from '../components/AppHeader';
 
 const ScanHistoryScreen = () => {
-  const scanHistoryItems = useSelector((state: any) => state?.scanHistory?.items);
-  const [licensePlate, changeLicensePlate] = useState("");
-  const [selectedTimePeriod, setSelectedTimePeriod] = useState(timePeriodArray[0]);
+  const scanHistoryItems = useSelector(
+    (state: any) => state?.scanHistory?.items
+  );
+  const [licensePlate, changeLicensePlate] = useState('');
+  const [selectedTimePeriod, setSelectedTimePeriod] = useState(
+    timePeriodArray[0]
+  );
   const [selectedTab, setSelectedTab] = useState(scanTypes[0]);
-  const [emailToSelfRecordCount, setEmailToSelfRecordCount] = useState(scanHistoryData.list.length);
+  const [emailToSelfRecordCount, setEmailToSelfRecordCount] = useState(
+    scanHistoryData.list.length
+  );
 
   // Select Tab
   const selectTab = (item: any, index: number) => {
     setSelectedTab(item);
-  }
+  };
 
   // Count Email-To-Self Record Count in a tab
   const getRecordCount = () => {
-    if (selectedTab.name == "All") {
+    if (selectedTab.name == 'All') {
       setEmailToSelfRecordCount(scanHistoryData.list.length);
     } else {
-      setEmailToSelfRecordCount(scanHistoryData.list?.filter(item => (item as any)?.status == selectedTab.dataType)?.length);
+      setEmailToSelfRecordCount(
+        scanHistoryData.list?.filter(
+          (item) => (item as any)?.status == selectedTab.dataType
+        )?.length
+      );
     }
-  }
+  };
   // On change of text in license plate textfield
   useEffect(() => {
     setSelectedTab(scanTypes[0]);
   }, [licensePlate]);
-  // On change of Time Period 
+  // On change of Time Period
   useEffect(() => {
     setSelectedTab(scanTypes[0]);
   }, [selectedTimePeriod]);
   // On Tab Change
   useEffect(() => {
     getRecordCount();
-  }, [selectedTab])
-
+  }, [selectedTab]);
 
   return (
     <Fragment>
@@ -64,13 +83,21 @@ const ScanHistoryScreen = () => {
             labelText={scanHistoryTexts.licensePlateTextField}
             iconName={propertySelectionIcon.colored}
             value={licensePlate}
-            onChange={text => changeLicensePlate(text)}
+            onChange={(text) => changeLicensePlate(text)}
             interactionType="textbox"
             haveItemHeader
             placeholder={scanHistoryTexts.licensePlatePlaceholder}
             all={scanHistoryData.list.length}
-            unauthorized={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.unregistered).length}
-            valid={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.registered).length}
+            unauthorized={
+              scanHistoryData.list?.filter(
+                (item) => (item as any)?.status == scanHistoryTexts.unregistered
+              ).length
+            }
+            valid={
+              scanHistoryData.list?.filter(
+                (item) => (item as any)?.status == scanHistoryTexts.registered
+              ).length
+            }
           />
           {/* Select Time Period Dropdown */}
           <UserInteractionItem
@@ -82,8 +109,16 @@ const ScanHistoryScreen = () => {
             selectedItem={selectedTimePeriod}
             setSelectedItem={setSelectedTimePeriod}
             all={scanHistoryData.list.length}
-            unauthorized={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.unregistered).length}
-            valid={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.registered).length}
+            unauthorized={
+              scanHistoryData.list?.filter(
+                (item) => (item as any)?.status == scanHistoryTexts.unregistered
+              ).length
+            }
+            valid={
+              scanHistoryData.list?.filter(
+                (item) => (item as any)?.status == scanHistoryTexts.registered
+              ).length
+            }
           />
           {/* Select Scan Type */}
           <UserInteractionItem
@@ -91,8 +126,16 @@ const ScanHistoryScreen = () => {
             selectedTab={selectedTab}
             setSelectedTab={selectTab}
             all={scanHistoryData.list.length}
-            unauthorized={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.unregistered).length}
-            valid={scanHistoryData.list?.filter(item => (item as any)?.status == scanHistoryTexts.registered).length}
+            unauthorized={
+              scanHistoryData.list?.filter(
+                (item) => (item as any)?.status == scanHistoryTexts.unregistered
+              ).length
+            }
+            valid={
+              scanHistoryData.list?.filter(
+                (item) => (item as any)?.status == scanHistoryTexts.registered
+              ).length
+            }
           />
         </View>
         {/* Card View */}
@@ -102,16 +145,30 @@ const ScanHistoryScreen = () => {
           ListEmptyComponent={
             <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />
           }
-          renderItem={({ item, index }) => (
-            (
-              !selectedTab.dataType ||
-              (selectedTab.dataType && item?.status == selectedTab.dataType)
-            ) &&
-            <ScanHistoryCardView item={item} statusIconName={messaging} statusIconSize={15} />
-          )}
+          renderItem={({ item, index }) =>
+            (!selectedTab.dataType ||
+              (selectedTab.dataType &&
+                item?.status == selectedTab.dataType)) && (
+              <ScanHistoryCardView
+                item={item}
+                statusIconName={messaging}
+                statusIconSize={15}
+              />
+            )
+          }
         />
         {/* Email-to-self button */}
-        <CustomButton icon={propertySelectionIcon.colored} label={`${scanHistoryTexts.emailToSelf} (${emailToSelfRecordCount} ${scanHistoryTexts.record}${emailToSelfRecordCount == 1 ? "" : "s"})`} onPress={() => Alert.alert("", scanHistoryTexts.emailSentSuccessfully, [{ text: "Okay" }])} />
+        <CustomButton
+          icon={propertySelectionIcon.colored}
+          label={`${scanHistoryTexts.emailToSelf} (${emailToSelfRecordCount} ${
+            scanHistoryTexts.record
+          }${emailToSelfRecordCount == 1 ? '' : 's'})`}
+          onPress={() =>
+            Alert.alert('', scanHistoryTexts.emailSentSuccessfully, [
+              { text: 'Okay' },
+            ])
+          }
+        />
       </ScrollView>
     </Fragment>
   );

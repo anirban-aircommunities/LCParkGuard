@@ -1,4 +1,4 @@
-import {Platform} from 'react-native';
+import { Platform } from 'react-native';
 
 const API_KEY = '9ea28314c45892e8454cd2c22222ef65cc81bf41';
 const API_URL = 'https://api.platerecognizer.com/v1/plate-reader/';
@@ -11,9 +11,9 @@ export interface PlateResult {
   };
   vehicle?: {
     type: string;
-    make?: Array<{make: string; score: number}>;
-    model?: Array<{model: string; score: number}>;
-    color?: Array<{color: string; score: number}>;
+    make?: Array<{ make: string; score: number }>;
+    model?: Array<{ model: string; score: number }>;
+    color?: Array<{ color: string; score: number }>;
   };
   orientation?: string;
   direction?: number;
@@ -45,7 +45,7 @@ async function parseErrorMessage(response: Response): Promise<string> {
 }
 
 export const recognizePlate = async (
-  imageUri: string,
+  imageUri: string
 ): Promise<PlateRecognizerResponse> => {
   const formData = new FormData();
 
@@ -88,7 +88,9 @@ export const recognizePlate = async (
     return plateData;
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : 'Failed to recognize license plate';
+      error instanceof Error
+        ? error.message
+        : 'Failed to recognize license plate';
     throw new Error(message);
   }
 };

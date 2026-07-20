@@ -23,14 +23,14 @@ that is **not** the current codebase. HEAD should show **0.84.1** and **25082909
 
 ## Step 1 — Correct component versions in Polaris
 
-| Black Duck shows (wrong) | Set to (correct) | Evidence |
-|--------------------------|------------------|----------|
-| `facebookhermes` **0.14.0** | `hermes-engine` **250829098.0.9** | `ios/Podfile.lock` |
-| `hermes-compiler` **0.14.0** | **250829098.0.9** | `package-lock.json` |
-| `react-native` **0.83.1** | **0.84.1** | `package-lock.json` |
-| `React from Facebook` **19.2.0** | **19.2.3** | `package-lock.json` |
-| `boost` **1.59.0** | N/A or **ReactNativeDependencies 0.84.1** | RN 0.84 `Podfile.lock` (no boost 1.59 pod) |
-| `inflight` **1.0.6** | **glob 10.5.0** (no inflight in lockfile) | `package.json` overrides |
+| Black Duck shows (wrong)         | Set to (correct)                          | Evidence                                   |
+| -------------------------------- | ----------------------------------------- | ------------------------------------------ |
+| `facebookhermes` **0.14.0**      | `hermes-engine` **250829098.0.9**         | `ios/Podfile.lock`                         |
+| `hermes-compiler` **0.14.0**     | **250829098.0.9**                         | `package-lock.json`                        |
+| `react-native` **0.83.1**        | **0.84.1**                                | `package-lock.json`                        |
+| `React from Facebook` **19.2.0** | **19.2.3**                                | `package-lock.json`                        |
+| `boost` **1.59.0**               | N/A or **ReactNativeDependencies 0.84.1** | RN 0.84 `Podfile.lock` (no boost 1.59 pod) |
+| `inflight` **1.0.6**             | **glob 10.5.0** (no inflight in lockfile) | `package.json` overrides                   |
 
 ---
 
@@ -114,13 +114,13 @@ Re-scan after lockfile commit.
 
 ## Issue ID quick reference
 
-| Severity | CVE | Black Duck issue |
-|----------|-----|------------------|
-| Critical | CVE-2020-1914 | 4369BE4B2AD5886671B1FE1A47AF9818 |
+| Severity | CVE            | Black Duck issue                 |
+| -------- | -------------- | -------------------------------- |
+| Critical | CVE-2020-1914  | 4369BE4B2AD5886671B1FE1A47AF9818 |
 | Critical | CVE-2023-23556 | 5084A6B09CE3A13375EAA3BF60FCFE30 |
 | Critical | CVE-2023-23557 | FE8B5AB924CFBCB58E8C4A145AB77468 |
 | Critical | CVE-2025-55182 | A0782A3A4212E8412864A4DE7EDFAF10 |
-| High | CVE-2022-40138 | 54558AE0A410EFEC04FD47A5025C5C06 |
-| High | CVE-2020-1915 | 557575701971EC88C205D52D9364D66B |
-| High | CVE-2023-24832 | 2381738BD41AB641E7F1CEA3166B443B |
-| High | CVE-2023-24833 | ED0A669F594693CC7C8C2FCC161ADD41 |
+| High     | CVE-2022-40138 | 54558AE0A410EFEC04FD47A5025C5C06 |
+| High     | CVE-2020-1915  | 557575701971EC88C205D52D9364D66B |
+| High     | CVE-2023-24832 | 2381738BD41AB641E7F1CEA3166B443B |
+| High     | CVE-2023-24833 | ED0A669F594693CC7C8C2FCC161ADD41 |

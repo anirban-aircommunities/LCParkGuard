@@ -15,7 +15,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({ title, showLogo = true }) => {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.outerContainer, {paddingTop: insets.top}]}>
+    <View style={[styles.outerContainer, { paddingTop: insets.top }]}>
       <View style={styles.innerContainer}>
         <View style={styles.blankView} />
         <Text style={styles.titleText}>{headerTitle}</Text>
@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 15
+    marginBottom: 15,
   },
   titleText: {
     color: Colors.white,
     fontWeight: 'bold',
     fontSize: 20,
-    marginLeft: 10
+    marginLeft: 10,
   },
   logoContainer: {
     justifyContent: 'center',
@@ -70,12 +70,12 @@ const styles = StyleSheet.create({
   },
   blankView: {
     borderWidth: 1,
-    borderColor: PANTONE5487, 
+    borderColor: PANTONE5487,
     backgroundColor: PANTONE5487,
     borderRadius: 6,
-    height: 25, 
-    width: 25
-  }
+    height: 25,
+    width: 25,
+  },
 });
 
 export default AppHeader;

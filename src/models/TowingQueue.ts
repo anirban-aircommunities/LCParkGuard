@@ -10,5 +10,5 @@ export interface TowingQueueItem {
   texted?: boolean;
   scannedAt?: string;
   source?: string;
-  description?: string
+  description?: string;
 }

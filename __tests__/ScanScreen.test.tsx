@@ -62,7 +62,9 @@ jest.mock('react-native-vision-camera', () => {
 const mockedUseScanViewModel = useScanViewModel as jest.MockedFunction<
   typeof useScanViewModel
 >;
-const mockedUseDispatch = useDispatch as jest.MockedFunction<typeof useDispatch>;
+const mockedUseDispatch = useDispatch as jest.MockedFunction<
+  typeof useDispatch
+>;
 const mockedRecognizePlate = recognizePlate as jest.MockedFunction<
   typeof recognizePlate
 >;
@@ -85,7 +87,9 @@ const propertyB = {
 
 const platePlaceholder = 'ENTER PLATE NUMBER (E.G., ABC-1234)';
 
-function plateResponse(overrides: Partial<PlateRecognizerResponse>): PlateRecognizerResponse {
+function plateResponse(
+  overrides: Partial<PlateRecognizerResponse>
+): PlateRecognizerResponse {
   return {
     processing_time: 0,
     results: [],
@@ -108,7 +112,9 @@ function vehicle(overrides: Partial<Vehicle>): Vehicle {
   };
 }
 
-function defaultViewModel(overrides: Partial<ReturnType<typeof useScanViewModel>> = {}) {
+function defaultViewModel(
+  overrides: Partial<ReturnType<typeof useScanViewModel>> = {}
+) {
   return {
     properties: [propertyA, propertyB],
     selectedProperty: propertyA,
@@ -146,7 +152,7 @@ describe('ScanScreen', () => {
   it('opens the property dropdown and selects another property', async () => {
     const selectProperty = jest.fn();
     mockedUseScanViewModel.mockImplementation(() =>
-      defaultViewModel({ selectProperty }),
+      defaultViewModel({ selectProperty })
     );
 
     const { getByText, getAllByText } = render(<ScanScreen />);
@@ -181,7 +187,7 @@ describe('ScanScreen', () => {
   it('calls checkVehicle when Check Vehicle is pressed with plate and property', () => {
     const checkVehicle = jest.fn();
     mockedUseScanViewModel.mockImplementation(() =>
-      defaultViewModel({ checkVehicle }),
+      defaultViewModel({ checkVehicle })
     );
 
     const { getByText, getByPlaceholderText } = render(<ScanScreen />);
@@ -194,7 +200,7 @@ describe('ScanScreen', () => {
 
   it('hides Check Vehicle button while loading', () => {
     mockedUseScanViewModel.mockImplementation(() =>
-      defaultViewModel({ loading: true }),
+      defaultViewModel({ loading: true })
     );
 
     const { queryByText, getByPlaceholderText } = render(<ScanScreen />);
@@ -212,7 +218,7 @@ describe('ScanScreen', () => {
           parkingSpot: 'A-1',
           status: 'unregistered',
         }),
-      }),
+      })
     );
 
     const { getByText, getByPlaceholderText } = render(<ScanScreen />);
@@ -233,10 +239,12 @@ describe('ScanScreen', () => {
           parkingSpot: 'A-1',
           status: 'unregistered',
         }),
-      }),
+      })
     );
 
-    const { getByText, getByPlaceholderText, getAllByText } = render(<ScanScreen />);
+    const { getByText, getByPlaceholderText, getAllByText } = render(
+      <ScanScreen />
+    );
 
     fireEvent.changeText(getByPlaceholderText(platePlaceholder), 'BAD1');
     fireEvent.press(getByText('Text Resident'));
@@ -257,7 +265,7 @@ describe('ScanScreen', () => {
           parkingSpot: 'A-1',
           status: 'unregistered',
         }),
-      }),
+      })
     );
 
     const { getByText, getByPlaceholderText } = render(<ScanScreen />);
@@ -267,14 +275,14 @@ describe('ScanScreen', () => {
 
     await waitFor(() => {
       expect(mockDispatch).toHaveBeenCalledWith(
-        expect.objectContaining({ type: 'towingQueue/addToTowingQueue' }),
+        expect.objectContaining({ type: 'towingQueue/addToTowingQueue' })
       );
     });
 
     expect(alertSpy).toHaveBeenCalledWith(
       'Success',
       'Added in queue',
-      expect.any(Array),
+      expect.any(Array)
     );
 
     alertSpy.mockRestore();
@@ -288,14 +296,16 @@ describe('ScanScreen', () => {
           parkingSpot: 'A-2',
           status: 'registered',
         }),
-      }),
+      })
     );
 
     const { getByText, getByPlaceholderText } = render(<ScanScreen />);
 
     fireEvent.changeText(getByPlaceholderText(platePlaceholder), 'GOOD1');
 
-    expect(getByText('This vehicle is authorized for this property.')).toBeTruthy();
+    expect(
+      getByText('This vehicle is authorized for this property.')
+    ).toBeTruthy();
     expect(getByText('OK')).toBeTruthy();
   });
 
@@ -309,7 +319,7 @@ describe('ScanScreen', () => {
           parkingSpot: 'A-2',
           status: 'registered',
         }),
-      }),
+      })
     );
 
     const { getByText, getByPlaceholderText } = render(<ScanScreen />);
@@ -337,16 +347,18 @@ describe('ScanScreen', () => {
   it('after scan capture with a detected plate, checkVehicle receives the plate', async () => {
     const checkVehicle = jest.fn();
     mockedUseScanViewModel.mockImplementation(() =>
-      defaultViewModel({ checkVehicle }),
+      defaultViewModel({ checkVehicle })
     );
 
     mockedRecognizePlate.mockResolvedValue(
       plateResponse({
         results: [{ plate: 'abc123', score: 0.95 }],
-      }),
+      })
     );
 
-    const { getByText, getByTestId, getByDisplayValue } = render(<ScanScreen />);
+    const { getByText, getByTestId, getByDisplayValue } = render(
+      <ScanScreen />
+    );
 
     fireEvent.press(getByText('Scan'));
 
@@ -402,7 +414,7 @@ describe('ScanScreen', () => {
     await waitFor(() => {
       expect(alertSpy).toHaveBeenCalledWith(
         'No Plate Found',
-        'Could not detect a license plate in the image. Please try again.',
+        'Could not detect a license plate in the image. Please try again.'
       );
     });
 
