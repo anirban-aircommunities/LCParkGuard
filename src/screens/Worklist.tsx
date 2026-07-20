@@ -101,7 +101,7 @@ const Worklist = () => {
   return (
     <Fragment>
       <AppHeader title={headerTitle} showLogo />
-      <ScrollView style={styles.outerContainer}>]
+      <ScrollView style={styles.outerContainer}>
         {/* Sub Header with Select All feature */}
         {/* <View style={styles.innerContainer}>
         <UserInteractionItem
@@ -230,6 +230,7 @@ const Worklist = () => {
             </TouchableOpacity>
           </View>
         )} */}
+        <View style={{height: 20}} />
       </ScrollView>
     </Fragment>
   );

@@ -1,28 +1,18 @@
-import React, { useState, useRef, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
   Alert,
-  Platform,
   ActivityIndicator,
   Modal,
-  KeyboardAvoidingView,
-  Image,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Colors, PANTONE7546 } from '../constants/Colors';
 import { useScanViewModel } from '../viewmodels/ScanViewModel';
-import { Property } from '../models/Property';
 import { useDispatch } from 'react-redux';
 import { addScanHistory } from '../redux/slices/scanHistorySlice';
-import { addToTowingQueue } from '../redux/slices/towingQueueSlice';
-import { recognizePlate, PlateRecognizerResponse } from './plateRecognizer/plateRecognizer';
-import { assets } from '../components/Assets';
+import { PlateRecognizerResponse } from './plateRecognizer/plateRecognizer';
 import TextResidentModal from '../components/TextResidentModal';
 import UserInteractionItem from '../components/UserInteractionItem';
 import { keypadIcon, propertySelectionIcon, scanIcon } from '../components/Icons';
@@ -30,8 +20,8 @@ import AppHeader from '../components/AppHeader';
 import { headerTitle, scanTexts } from '../constants/Constants';
 import SelectedPropertyInfo from './scanScreenComponents/SelectedPropertyInfo';
 import CustomButton from '../components/CustomButton';
-import CameraLensComponent from './scanScreenComponents/CameraLensComponent';
 import ScanTabContent from './scanScreenComponents/ScanTabContent';
+import ManualTabContent from './scanScreenComponents/ManualTabContent';
 
 // Conditionally import camera to prevent app crash if module not available
 let Camera: any = null;
@@ -58,7 +48,6 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
   const [licensePlate, setLicensePlate] = useState('');
   const [parkingSpot, setParkingSpot] = useState('');
   const [isPropertyDropdownOpen, setIsPropertyDropdownOpen] = useState(false);
-  const [isTowingInfoExpanded, setIsTowingInfoExpanded] = useState(true);
   const [isTextResidentModalVisible, setIsTextResidentModalVisible] = useState(false);
 
   const dispatch = useDispatch();
@@ -72,78 +61,9 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
     clearCurrentVehicle,
   } = useScanViewModel();
 
-  const handleCheckAuthorization = () => {
-    if (licensePlate && selectedProperty) {
-      checkVehicle(licensePlate, parkingSpot || '');
-    } else {
-      Alert.alert(
-        'Missing Information',
-        'Please enter license plate and select a property.',
-      );
-    }
-  };
-
   // Track if we've already added this vehicle to scan history
   const [hasAddedToHistory, setHasAddedToHistory] = useState(false);
   const [hasSentToTowing, setHasSentToTowing] = useState(false);
-
-  const handleClear = () => {
-    // Clear all text inputs
-    setLicensePlate('');
-    setParkingSpot('');
-
-    // Clear vehicle state
-    clearCurrentVehicle();
-
-    // Reset all flags
-    setHasAddedToHistory(false);
-    setHasSentToTowing(false);
-
-    // Reset scan state to default
-    setIsScanning(false);
-    setCapturedImage(null);
-    setIsProcessing(false);
-
-    // Reset to default input method (manual tab)
-    setInputMethod(scanTexts.manual);
-  };
-
-  const handleTextResident = () => {
-    if (!currentVehicle) {
-      return;
-    }
-    setIsTextResidentModalVisible(true);
-  };
-
-  const handleSendToTowingFromScan = () => {
-    if (!currentVehicle || !selectedProperty) {
-      return;
-    }
-
-    const towingQueueItem = {
-      id: Date.now().toString(),
-      licensePlate: currentVehicle.licensePlate,
-      parkingSpot: currentVehicle.parkingSpot,
-      propertyName: selectedProperty.name,
-      address: selectedProperty.address,
-      towingCompany: selectedProperty.towingCompany,
-      towingPhone: selectedProperty.towingPhone,
-      addedAt: new Date().toISOString(),
-      status: 'pending' as const,
-    };
-
-    dispatch(addToTowingQueue(towingQueueItem));
-
-    // Show alert that item was added
-    Alert.alert('Success', 'Added in queue', [{ text: 'OK' }]);
-
-    // Clear all data and reset to default state
-    handleClear();
-  };
-
-  const showVerificationResult =
-    !!currentVehicle &&
-    licensePlate.trim().toUpperCase() === currentVehicle.licensePlate.toUpperCase();
 
   // Set first property as default if none selected
   useEffect(() => {
@@ -171,7 +91,7 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
         address: selectedProperty.address,
         status: currentVehicle.status,
         scannedAt: currentVehicle.scannedAt,
-        source: inputMethod === scanTexts.manual ? scanTexts.manual as const : 'camera' as const,
+        source: inputMethod === scanTexts.manual ? scanTexts.manual : 'camera',
       };
 
       dispatch(addScanHistory(scanHistoryItem));
@@ -187,80 +107,6 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
       clearCurrentVehicle();
     }
   }, [licensePlate, currentVehicle, clearCurrentVehicle]);
-
-  const renderCheckVehicleButton = () => {
-    if (showVerificationResult) {
-      return null;
-    }
-
-    return (
-      <TouchableOpacity
-        style={[
-          styles.checkVehicleButton,
-          (loading || !licensePlate.trim()) && styles.checkVehicleButtonDisabled,
-        ]}
-        onPress={handleCheckAuthorization}
-        disabled={loading || !licensePlate.trim()}>
-        {loading ? (
-          <ActivityIndicator color={Colors.white} />
-        ) : (
-          <>
-            <Text style={styles.checkVehicleIcon}>⌖</Text>
-            <Text style={styles.checkVehicleButtonText}>Check Vehicle</Text>
-          </>
-        )}
-      </TouchableOpacity>
-    );
-  };
-
-  const renderVerificationPanel = () => {
-    if (!showVerificationResult || !currentVehicle) {
-      return null;
-    }
-
-    const isAuthorized = currentVehicle.status === 'registered';
-
-    return (
-      <View style={styles.verificationCard}>
-        <View style={styles.verificationMessageRow}>
-          <Text
-            style={[
-              styles.verificationStatusIcon,
-              isAuthorized ? styles.authorizedStatusIcon : styles.unauthorizedStatusIcon,
-            ]}>
-            {isAuthorized ? '✓' : '✗'}
-          </Text>
-          <Text style={styles.verificationMessage}>
-            {isAuthorized
-              ? 'This vehicle is authorized for this property.'
-              : "We don't recognize this license plate."}
-          </Text>
-        </View>
-
-        <View style={styles.actionRow}>
-          <TouchableOpacity style={styles.okButton} onPress={handleClear}>
-            <Text style={styles.actionButtonIcon}>✓</Text>
-            <Text style={styles.okButtonText}>OK</Text>
-          </TouchableOpacity>
-          {!isAuthorized && (
-            <TouchableOpacity style={styles.textResidentButton} onPress={handleTextResident}>
-              <Text style={styles.actionButtonIcon}>💬</Text>
-              <Text style={styles.textResidentButtonText}>Text Resident</Text>
-            </TouchableOpacity>
-          )}
-        </View>
-
-        {!isAuthorized && (
-          <TouchableOpacity
-            style={styles.sendToTowingButtonFull}
-            onPress={handleSendToTowingFromScan}>
-            <Text style={styles.actionButtonIcon}>!</Text>
-            <Text style={styles.sendToTowingButtonText}>Send to Towing Queue</Text>
-          </TouchableOpacity>
-        )}
-      </View>
-    );
-  };
 
   return (
     <Fragment>
@@ -314,102 +160,83 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
         
         {inputMethod === 'scan' && (
           <View style={styles.scanContainer}>
-            {/* {!isScanning && 
-              <ScanTabContent 
-                useCameraDevice={useCameraDevice}
-                Camera={Camera}
-                onResult={onResult}
-                parkingSpot={parkingSpot}
-                isScanning={isScanning}
-                setLicensePlate={(text) => setLicensePlate(text)}
-                setIsScanning={(text) => setIsScanning(text)}
-                setCapturedImage={(text) => setCapturedImage(text)}
-                setIsProcessing={(text) => setIsProcessing(text)}
-              />
-            } */}
-            {/* {!isScanning ? (
-              
-            ) : isScanning && device && hasPermission && Camera ? (
-              <View style={styles.cameraContainer}>
-                <Camera
-                  ref={cameraRef}
-                  style={styles.cameraView}
-                  device={device}
-                  isActive={isScanning}
-                  photo={true}
-                />
-                <View style={styles.cameraControls}>
-                  <TouchableOpacity
-                    testID="scan-capture-button"
-                    style={[
-                      styles.captureButton,
-                      isProcessing && styles.captureButtonDisabled,
-                    ]}
-                    onPress={takePicture}
-                    disabled={isProcessing}>
-                    <View style={styles.captureButtonInner} />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.stopScanButton}
-                    onPress={handleStopScan}>
-                    <Text style={styles.stopScanButtonText}>Cancel</Text>
-                  </TouchableOpacity>
-                </View>
-                {isProcessing && (
-                  <View style={styles.processingOverlay}>
-                    <Text style={styles.processingText}>Processing...</Text>
-                  </View>
-                )}
-              </View>
-            ) : (
-              <View style={styles.scanArea}>
-                <Text style={styles.cameraIcon}>⚠️</Text>
-                <Text style={styles.scanInstruction}>
-                  {!hasPermission
-                    ? 'Camera permission required'
-                    : 'Camera not available'}
-                </Text>
-              </View>
-            )} */}
-
-            <View style={styles.vehicleCard}>
-              <Text style={styles.inputLabel}>License Plate Number</Text>
-              <TextInput
-                style={styles.plateInput}
-                placeholder="ENTER PLATE NUMBER (E.G., ABC-1234)"
-                placeholderTextColor={Colors.textLight}
-                value={licensePlate}
-                onChangeText={setLicensePlate}
-                autoCapitalize="characters"
-              />
-              {renderCheckVehicleButton()}
-            </View>
-
-            {renderVerificationPanel()}
+            <ScanTabContent 
+              useCameraDevice={useCameraDevice}
+              Camera={Camera}
+              onResult={onResult}
+              parkingSpot={parkingSpot}
+              isScanning={isScanning}
+              isProcessing={isProcessing}
+              setLicensePlate={(text) => setLicensePlate(text)}
+              setIsScanning={(text) => setIsScanning(text)}
+              setCapturedImage={(text) => setCapturedImage(text)}
+              setIsProcessing={(text) => setIsProcessing(text)}
+            />
           </View>
         )}
 
         {inputMethod === 'manual' && (
-          <View style={styles.vehicleCard}>
-            <Text style={styles.inputLabel}>License Plate Number</Text>
-            <TextInput
-              style={styles.plateInput}
-              placeholder="ENTER PLATE NUMBER (E.G., ABC-1234)"
-              placeholderTextColor={Colors.textLight}
-              value={licensePlate}
-              onChangeText={setLicensePlate}
-              autoCapitalize="characters"
-              returnKeyType="done"
-            />
-            {renderCheckVehicleButton()}
-            {renderVerificationPanel()}
-          </View>
+          <ManualTabContent 
+            licensePlate={licensePlate}
+            parkingSpot={parkingSpot}
+            setLicensePlate={(text) => setLicensePlate(text)}
+            setParkingSpot={(text) => setParkingSpot(text)}
+            setHasAddedToHistory={(text) => setHasAddedToHistory(text)}
+            setHasSentToTowing={(text) => setHasSentToTowing(text)}
+            setIsScanning={(text) => setIsScanning(text)}
+            setCapturedImage={(text) => setCapturedImage(text)}
+            setIsProcessing={(text) => setIsProcessing(text)}
+            setInputMethod={(text) => setInputMethod(text)}
+            setIsTextResidentModalVisible={(text) => setIsTextResidentModalVisible(text)}
+          />
         )}
       </KeyboardAwareScrollView>
-      
+      {/* Loading Overlay - Blocks UI while processing */}
+      <Modal
+        visible={isProcessing}
+        transparent={true}
+        animationType="fade"
+        statusBarTranslucent={true}>
+        <View style={styles.loadingOverlay}>
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color={Colors.secondary} />
+            <Text style={styles.loadingText}>Detecting License Plate...</Text>
+            <Text style={styles.loadingSubtext}>Please wait</Text>
+          </View>
+        </View>
+      </Modal>
+
+      <TextResidentModal
+        visible={isTextResidentModalVisible}
+        onClose={() => setIsTextResidentModalVisible(false)}
+        licensePlate={currentVehicle?.licensePlate ?? licensePlate}
+        propertyName={selectedProperty?.name}
+      />
     </Fragment>
   );
 };
+
+{/* <KeyboardAvoidingView
+        style={styles.keyboardAvoidingView}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}>
+        <ScrollView
+          ref={scrollViewRef}
+          style={styles.scrollView}
+          contentContainerStyle={styles.content}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={true}
+          nestedScrollEnabled={true}>
+          {/* <View style={styles.section}>
+            
+          </View>
+
+          
+
+            
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView> */}
 
 const styles = StyleSheet.create({
   container: {
@@ -628,21 +455,6 @@ const styles = StyleSheet.create({
   fullScreenCamera: {
     flex: 1,
   },
-  cameraContainer: {
-    backgroundColor: Colors.white,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: Colors.border,
-    overflow: 'hidden',
-    minHeight: 300,
-    position: 'relative',
-  },
-  cameraView: {
-    width: '100%',
-    minHeight: 300,
-    aspectRatio: 4 / 3,
-  },
   scannedPlateContainer: {
     backgroundColor: Colors.cardBackground,
     borderRadius: 8,
@@ -693,12 +505,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginBottom: 16,
   },
-  inputLabel: {
-    fontSize: 14,
-    color: Colors.textPrimary,
-    marginBottom: 8,
-    fontWeight: '500',
-  },
   input: {
     backgroundColor: Colors.white,
     borderRadius: 8,
@@ -713,144 +519,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-  },
-  vehicleCard: {
-    backgroundColor: Colors.white,
-    borderRadius: 12,
-    padding: 16,
-    marginTop: 8,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  plateInput: {
-    backgroundColor: Colors.white,
-    borderRadius: 8,
-    padding: 14,
-    fontSize: 16,
-    color: Colors.textPrimary,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    marginBottom: 12,
-    letterSpacing: 1,
-  },
-  checkVehicleButton: {
-    backgroundColor: '#9E9E9E',
-    borderRadius: 8,
-    paddingVertical: 14,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-  },
-  checkVehicleButtonDisabled: {
-    opacity: 0.6,
-  },
-  checkVehicleIcon: {
-    color: Colors.white,
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  checkVehicleButtonText: {
-    color: Colors.white,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  verificationCard: {
-    backgroundColor: Colors.white,
-    borderRadius: 12,
-    padding: 16,
-    marginTop: 16,
-    borderWidth: 1,
-    borderColor: Colors.border,
-  },
-  verificationMessageRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 16,
-  },
-  verificationStatusIcon: {
-    fontSize: 18,
-    fontWeight: '700',
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    textAlign: 'center',
-    lineHeight: 28,
-    marginRight: 10,
-    overflow: 'hidden',
-  },
-  authorizedStatusIcon: {
-    color: Colors.white,
-    backgroundColor: '#4CAF50',
-  },
-  unauthorizedStatusIcon: {
-    color: Colors.white,
-    backgroundColor: '#F44336',
-  },
-  verificationMessage: {
-    flex: 1,
-    fontSize: 15,
-    color: Colors.textPrimary,
-    lineHeight: 22,
-  },
-  actionRow: {
-    flexDirection: 'row',
-    gap: 8,
-    marginBottom: 8,
-  },
-  okButton: {
-    flex: 1,
-    backgroundColor: '#4CAF50',
-    borderRadius: 8,
-    paddingVertical: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-  },
-  okButtonText: {
-    color: Colors.white,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  textResidentButton: {
-    flex: 1,
-    backgroundColor: Colors.tabPantone7546,
-    borderRadius: 8,
-    paddingVertical: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-  },
-  textResidentButtonText: {
-    color: Colors.white,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  sendToTowingButtonFull: {
-    backgroundColor: '#F44336',
-    borderRadius: 8,
-    paddingVertical: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-  },
-  sendToTowingButtonText: {
-    color: Colors.white,
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  actionButtonIcon: {
-    color: Colors.white,
-    fontSize: 13,
-    fontWeight: '700',
   },
   loadingOverlay: {
     flex: 1,
