@@ -139,7 +139,7 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
   return (
     <Fragment>
       <AppHeader title={headerTitle} showLogo />
-      <KeyboardAwareScrollView style={styles.container}>
+      <KeyboardAwareScrollView style={styles.container} enableResetScrollToCoords={false}>
         {/* Property Selection Section */}
         <UserInteractionItem
           haveItemHeader
