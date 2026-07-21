@@ -17,9 +17,6 @@ export const useScanViewModel = () => {
   const { currentVehicle, loading } = useSelector(
     (state: RootState) => state.vehicle
   );
-  const { registeredVehicles } = useSelector(
-    (state: RootState) => state.vehicle
-  );
 
   const selectProperty = (property: Property) => {
     dispatch(setSelectedProperty(property));
@@ -64,7 +61,6 @@ export const useScanViewModel = () => {
     properties,
     selectedProperty,
     currentVehicle,
-    registeredVehicles,
     loading,
     selectProperty,
     checkVehicle,

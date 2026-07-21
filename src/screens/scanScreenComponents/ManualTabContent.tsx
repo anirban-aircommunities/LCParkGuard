@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -31,6 +31,7 @@ type ManualTabContentProps = {
   setIsProcessing?: (text: any) => void;
   setInputMethod?: (text: any) => void;
   setIsTextResidentModalVisible?: (text: any) => void;
+  showVerificationResult?: boolean;
 };
 
 const ManualTabContent: React.FC<ManualTabContentProps> = ({
@@ -45,21 +46,18 @@ const ManualTabContent: React.FC<ManualTabContentProps> = ({
   setIsProcessing,
   setInputMethod,
   setIsTextResidentModalVisible,
+  showVerificationResult
 }: any) => {
   const dispatch = useDispatch();
-  // const currentVehicle = useSelector((state: any) => state?.vehicle?.currentVehicle);
   const {
     properties,
     selectedProperty,
     currentVehicle,
-    registeredVehicles,
     selectProperty,
     checkVehicle,
     loading,
     clearCurrentVehicle,
   } = useScanViewModel();
-
-  const showVerificationResult = registeredVehicles?.findIndex((item: any) => (item?.licensePlate?.trim() == currentVehicle?.licensePlate)) != -1;
 
   const handleCheckAuthorization = () => {
     if (licensePlate && selectedProperty) {
@@ -159,10 +157,6 @@ const ManualTabContent: React.FC<ManualTabContentProps> = ({
           loading={loading}
         />
       </View>
-      {/* Vehicle Verification Card View */}
-      {licensePlate.trim() != '' && <VehicleVerificationCardView
-        isRegistered={showVerificationResult}
-      />}
     </Fragment>
   );
 };

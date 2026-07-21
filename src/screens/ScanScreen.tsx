@@ -26,6 +26,7 @@ import SelectedPropertyInfo from './scanScreenComponents/SelectedPropertyInfo';
 import CustomButton from '../components/CustomButton';
 import ScanTabContent from './scanScreenComponents/ScanTabContent';
 import ManualTabContent from './scanScreenComponents/ManualTabContent';
+import VehicleVerificationCardView from './scanScreenComponents/VehicleVerificationCardView';
 
 // Conditionally import camera to prevent app crash if module not available
 let Camera: any = null;
@@ -51,6 +52,7 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
   const [licensePlate, setLicensePlate] = useState('');
   const [parkingSpot, setParkingSpot] = useState('');
   const [isPropertyDropdownOpen, setIsPropertyDropdownOpen] = useState(false);
+  const [showVerficationView, setShowVerficationView] = useState(false);
   const [isTextResidentModalVisible, setIsTextResidentModalVisible] =
     useState(false);
 
@@ -64,6 +66,8 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
     currentVehicle,
     clearCurrentVehicle,
   } = useScanViewModel();
+
+  const showVerificationResult = licensePlate?.trim() == currentVehicle?.licensePlate && currentVehicle?.status == 'registered';
 
   // Track if we've already added this vehicle to scan history
   const [hasAddedToHistory, setHasAddedToHistory] = useState(false);
@@ -117,6 +121,21 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
       clearCurrentVehicle();
     }
   }, [licensePlate, currentVehicle, clearCurrentVehicle]);
+  // Handle showing verification panel 
+  useEffect(() => {
+    if(licensePlate?.trim() && !loading) {
+      setShowVerficationView(true);
+    }
+  }, [currentVehicle, loading]);
+  // Handle hiding verification panel, depending on changing license plate
+  useEffect(() => {
+    setShowVerficationView(false);
+  }, [licensePlate]);
+  // Handle hiding verification panel, depending on switching tabs
+  useEffect(() => {
+    setShowVerficationView(false);
+    setLicensePlate("");
+  }, [inputMethod]);
 
   return (
     <Fragment>
@@ -216,8 +235,13 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
             setIsTextResidentModalVisible={(text) =>
               setIsTextResidentModalVisible(text)
             }
+            showVerificationResult={showVerificationResult}
           />
         )}
+        {/* Vehicle Verification Card View */}
+        {showVerficationView && licensePlate?.trim() && <VehicleVerificationCardView
+          isRegistered={showVerificationResult}
+        />}
       </KeyboardAwareScrollView>
       {/* Loading Overlay - Blocks UI while processing */}
       <Modal

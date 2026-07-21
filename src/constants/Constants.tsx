@@ -23,6 +23,7 @@ export const authorizedVehicleList = [
   '48G68S',
   '21H637',
   'KS3023',
+  'ABC123'
 ];
 // Scan History => Time Period List
 export const timePeriodArray = [
