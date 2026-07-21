@@ -14,7 +14,7 @@ type TextResidentProps = {
 }
 
 const TextResident: React.FC<TextResidentProps> = (props: any) => {
-    const [textResidentPhoneNumber, setTextResidentPhoneNumber] = useState("");
+    const [textResidentPhoneNumber, setTextResidentPhoneNumber] = useState(props?.selectedProperty?.towingPhone);
     const [currentLocation, setCurrentLocation] = useState("");
     const [message, setMessage] = useState("");
     // Quick Messages
@@ -55,7 +55,7 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
 
         const digits = textResidentPhoneNumber?.replace(/\D/g, '');
 
-        Linking.openURL(`sms:${textResidentPhoneNumber}&body=${encodeURIComponent(message.trim())}`).catch(() => {
+        Linking.openURL(`sms:${digits}&body=${encodeURIComponent(message.trim())}`).catch(() => {
             Alert.alert("", 'Unable to open Messages', [{text: "Ok"}]);
         });
     };
