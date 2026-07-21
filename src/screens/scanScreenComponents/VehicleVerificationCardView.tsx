@@ -21,18 +21,21 @@ const VehicleVerificationCardView: React.FC<VehicleVerificationCardViewProps> = 
     return (
         <Fragment>
             <View style={styles.vehicleVerificationCard}>
+                {/* Verification Status */}
                 <View style={[styles.verificationCardTopView, { backgroundColor: isRegistered ? 'rgba(26, 179, 26, 0.2)' : 'rgba(255,0,0,0.2)' }]}>
                     <SvgXml xml={locationPinIcon.white} color={isRegistered ? 'rgba(10, 149, 10, 1)' : 'rgba(255,0,0,1)'} />
                     <Text style={[styles.title, !isRegistered && { marginBottom: 0 }]}>{isRegistered ? scanTexts.vehicleRegisteredTitle : scanTexts.vehicleUnegisteredTitle}</Text>
                     {isRegistered && <Text style={styles.subTitle}>{scanTexts.vehicleRegisteredSubTitle}</Text>}
                 </View>
                 <View style={styles.actionButtons}>
+                    {/* Button 1 */}
                     <CustomButton
                         icon={downArrowIcon.grey}
                         iconColor={'#008000'}
                         iconSize={30}
                         buttonStyle={[styles.actionButtonStyle, !(button2Selected || button3Selected) && styles.separatorLine, { flex: buttonFlex }]}
                     />
+                    {/* Button 2 */}
                     {isRegistered ? <CustomButton
                         icon={button2Selected ? messaging.whiteBackground : messaging.transparentBackground}
                         iconColor={button2Selected ? '#fff' : PANTONE7546}
@@ -40,6 +43,7 @@ const VehicleVerificationCardView: React.FC<VehicleVerificationCardViewProps> = 
                         onPress={() => [setButton2Selected(true), setButton3Selected(false)]}
                         buttonStyle={[styles.actionButtonStyle, styles.messagingIcon, button2Selected && styles.selectedIcon, !(button2Selected || button3Selected) && styles.separatorLine, { flex: buttonFlex }]}
                     /> : null}
+                    {/* Button 3 */}
                     <CustomButton
                         icon={propertySelectionIcon.colored}
                         iconColor={!button3Selected ? '#ff0000' : '#fff'}
@@ -49,6 +53,7 @@ const VehicleVerificationCardView: React.FC<VehicleVerificationCardViewProps> = 
                     />
                 </View>
             </View>
+            {/* "Text Resident" Feature */}
             {button2Selected &&
             <TextResident 
                 currentVehicle={currentVehicle} 

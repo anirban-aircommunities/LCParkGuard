@@ -125,6 +125,7 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
             />
             {/* "Cancel" & "Send Text" Buttons */}
             <View style={styles.buttonContainer}>
+                {/* Cancel */}
                 <CustomButton
                     label={scanTexts.cancel}
                     onPress={props?.removeSelection}
@@ -132,6 +133,7 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
                     labelStyle={{}}
                 />
                 <View style={{ width: 10 }} />
+                {/* Send Text */}
                 <CustomButton
                     label={scanTexts.sendText}
                     icon={messaging.whiteBackground}
