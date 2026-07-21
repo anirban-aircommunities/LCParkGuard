@@ -50,6 +50,8 @@ type UserInteractionItemProps = {
   autoCapitalize?: string;
   returnKeyType?: string;
   whiteBackground?: boolean;
+  keyboardType?: string;
+  multiline?: boolean;
 };
 const renderInteractingFeature = (props: any) => {
   const [isPropertyDropdownOpen, setIsPropertyDropdownOpen] = useState(false);
@@ -67,6 +69,8 @@ const renderInteractingFeature = (props: any) => {
           autoFocus={false}
           autoCapitalize={props?.autoCapitalize}
           returnKeyType={props?.returnKeyType}
+          keyboardType={props?.keyboardType}
+          multiline={props?.multiline}
         />
       );
     case 'dropdown':

@@ -13,7 +13,6 @@ import { useScanViewModel } from '../viewmodels/ScanViewModel';
 import { useDispatch } from 'react-redux';
 import { addScanHistory } from '../redux/slices/scanHistorySlice';
 import { PlateRecognizerResponse } from './plateRecognizer/plateRecognizer';
-import TextResidentModal from '../components/TextResidentModal';
 import UserInteractionItem from '../components/UserInteractionItem';
 import {
   keypadIcon,
@@ -241,6 +240,8 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
         {/* Vehicle Verification Card View */}
         {showVerficationView && licensePlate?.trim() && <VehicleVerificationCardView
           isRegistered={showVerificationResult}
+          currentVehicle={currentVehicle}
+          selectedProperty={selectedProperty}
         />}
       </KeyboardAwareScrollView>
       {/* Loading Overlay - Blocks UI while processing */}
@@ -258,13 +259,6 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
           </View>
         </View>
       </Modal>
-
-      <TextResidentModal
-        visible={isTextResidentModalVisible}
-        onClose={() => setIsTextResidentModalVisible(false)}
-        licensePlate={currentVehicle?.licensePlate ?? licensePlate}
-        propertyName={selectedProperty?.name}
-      />
     </Fragment>
   );
 };

@@ -4,6 +4,7 @@ import { Colors } from '../constants/Colors';
 import { SvgXml } from 'react-native-svg';
 
 type CustomButtonProps = {
+  key?: number | string;
   icon?: string;
   iconSize?: number;
   label?: string;
@@ -13,9 +14,11 @@ type CustomButtonProps = {
   iconColor?: string;
   disabled?: boolean | undefined | null;
   loading?: boolean;
+  iconStyle?: any;
 };
 
 const CustomButton: React.FC<CustomButtonProps> = ({
+  key,
   icon,
   iconSize,
   label,
@@ -24,10 +27,12 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   labelStyle,
   iconColor,
   disabled,
-  loading
+  loading,
+  iconStyle
 }: any) => (
   <TouchableOpacity
     activeOpacity={0.7}
+    key={key}
     style={[styles.container, styles.shadow, buttonStyle]}
     onPress={onPress}
     disabled={disabled}
@@ -37,7 +42,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         <ActivityIndicator color={Colors.white} />
       ) :
         <Fragment>
-          <SvgXml xml={icon} height={iconSize ? iconSize : 20} width={iconSize ? iconSize : 20} color={iconColor} />
+          <SvgXml xml={icon} height={iconSize ? iconSize : 20} width={iconSize ? iconSize : 20} color={iconColor} style={iconStyle}/>
           {label && <Text style={[styles.labelText, labelStyle]}>{label}</Text>}
         </Fragment>
     }
@@ -48,6 +53,7 @@ export default CustomButton;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: 'row',
     backgroundColor: Colors.white,
     borderColor: Colors.grey1,

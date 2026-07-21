@@ -75,6 +75,14 @@ export const scanTexts = {
   vehicleRegisteredTitle: 'This vehicle is registered to space A-56, A-57',
   vehicleUnegisteredTitle: 'We don\'t recognize this license plate.',
   vehicleRegisteredSubTitle: 'Resident - Rebecca Thompson - Unit 18F',
+  textResidentPhoneNumber: 'Phone Number',
+  textResidentPhoneNumberPlaceholder: 'ENTER PHONE NUMBER [E.G., (555) 123-4567]',
+  currentLocation: 'Current Location',
+  currentLocationPlaceholder: 'ENTER CURRENT LOCATION',
+  message: 'Message',
+  messagePlaceholder: 'ENTER MESSAGE',
+  cancel: "Cancel",
+  sendText: "Send Text",
 };
 // Scan History Texts
 export const scanHistoryTexts = {
