@@ -54,10 +54,11 @@ const VehicleVerificationCardView: React.FC<VehicleVerificationCardViewProps> = 
                 </View>
             </View>
             {/* "Text Resident" Feature */}
-            {button2Selected &&
+            {(button2Selected || button3Selected) &&
             <TextResident 
                 currentVehicle={currentVehicle} 
                 selectedProperty={selectedProperty} 
+                shouldShowRequestTowView={button3Selected}
                 removeSelection={() => [setButton2Selected(false), setButton3Selected(false)]}
             />}
         </Fragment>

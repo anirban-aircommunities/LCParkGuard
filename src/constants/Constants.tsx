@@ -83,6 +83,7 @@ export const scanTexts = {
   messagePlaceholder: 'ENTER MESSAGE',
   cancel: "Cancel",
   sendText: "Send Text",
+  confirm: "Confirm",
 };
 // Scan History Texts
 export const scanHistoryTexts = {

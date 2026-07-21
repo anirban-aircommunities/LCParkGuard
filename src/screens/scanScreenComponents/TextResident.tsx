@@ -11,6 +11,7 @@ type TextResidentProps = {
     currentVehicle?: any;
     selectedProperty?: any;
     removeSelection?: () => void;
+    shouldShowRequestTowView?: boolean;
 }
 
 const TextResident: React.FC<TextResidentProps> = (props: any) => {
@@ -42,27 +43,35 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
                 return setMessage(`Parking notice for plate ${plate}. Please contact parking enforcement.`);
         }
     }
-    // Send SMS 
-    const sendSms = () => {
-        if (!textResidentPhoneNumber?.trim() || !currentLocation?.trim() || !message?.trim()) {
+    // Send SMS / Request Tow
+    const handleAction = () => {
+        let isNumberFieldValidated = !props.shouldShowRequestTowView && !textResidentPhoneNumber?.trim();
+        let fieldsValidated = isNumberFieldValidated || !currentLocation?.trim() || !message?.trim();
+        if (fieldsValidated) {
             Alert.alert(
                 'Missing Information',
-                'Phone number, current location and message are required.',
+                `${!props.shouldShowRequestTowView ? "Phone number, c" : "C"}urrent location and message are required.`,
                 [{text: "Ok"}]
             );
             return;
         }
 
-        const digits = textResidentPhoneNumber?.replace(/\D/g, '');
+        if(!props.shouldShowRequestTowView) {
+            // Send SMS
+            const digits = textResidentPhoneNumber?.replace(/\D/g, '');
 
-        Linking.openURL(`sms:${digits}&body=${encodeURIComponent(message.trim())}`).catch(() => {
-            Alert.alert("", 'Unable to open Messages', [{text: "Ok"}]);
-        });
+            Linking.openURL(`sms:${digits}&body=${encodeURIComponent(message.trim())}`).catch(() => {
+                Alert.alert("", 'Unable to open Messages', [{text: "Ok"}]);
+            });
+        } else {
+            // Request Tow
+            Alert.alert("", "Request Towed", [{text: "Ok"}])
+        }
     };
     return (
         <View style={styles.container}>
             {/* Text Field */}
-            <UserInteractionItem
+            {!props.shouldShowRequestTowView && <UserInteractionItem
                 labelText={scanTexts.textResidentPhoneNumber}
                 value={textResidentPhoneNumber}
                 onChange={setTextResidentPhoneNumber}
@@ -76,7 +85,7 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
                 returnKeyType="done"
                 whiteBackground
                 keyboardType="phone-pad"
-            />
+            />}
             {/* Current Location */}
             <UserInteractionItem
                 labelText={scanTexts.currentLocation}
@@ -123,7 +132,7 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
                     />
                 )}
             />
-            {/* "Cancel" & "Send Text" Buttons */}
+            {/* "Cancel" & "Send Text" / "Confirm" Buttons */}
             <View style={styles.buttonContainer}>
                 {/* Cancel */}
                 <CustomButton
@@ -133,12 +142,11 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
                     labelStyle={{}}
                 />
                 <View style={{ width: 10 }} />
-                {/* Send Text */}
+                {/* Send Text / Confirm */}
                 <CustomButton
-                    label={scanTexts.sendText}
-                    icon={messaging.whiteBackground}
-                    onPress={sendSms}
-                    buttonStyle={styles.sendTextButton}
+                    label={scanTexts.confirm}
+                    onPress={handleAction}
+                    buttonStyle={[styles.sendTextButton, props?.shouldShowRequestTowView && {backgroundColor: '#ff0000'}]}
                     labelStyle={styles.buttonTextStyle}
                 />
             </View>
