@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Alert, FlatList, Linking, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, Linking, StyleSheet, View } from "react-native";
 import { Colors, PANTONE5487, PANTONE7546 } from "../../constants/Colors";
 import UserInteractionItem from "../../components/UserInteractionItem";
 import { scanTexts } from "../../constants/Constants";
 import CustomButton from "../../components/CustomButton";
-import { messaging } from "../../components/Icons";
 import { useNavigation } from "@react-navigation/native";
 
 type TextResidentProps = {
@@ -51,26 +50,25 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
         let fieldsValidated = isNumberFieldValidated || !currentLocation?.trim() || !message?.trim();
         if (fieldsValidated) {
             Alert.alert(
-                'Missing Information',
-                `${!props.shouldShowRequestTowView ? "Phone number, c" : "C"}urrent location and message are required.`,
-                [{text: "Ok"}]
+                scanTexts.missingInformation,
+                `${!props.shouldShowRequestTowView ? scanTexts.requestTowPhoneNo : scanTexts.c}${scanTexts.requestTowValidation}`,
+                [{ text: "Ok" }]
             );
             return;
         }
 
-        if(!props.shouldShowRequestTowView) {
+        if (!props.shouldShowRequestTowView) {
             // Send SMS
             const digits = textResidentPhoneNumber?.replace(/\D/g, '');
-
-            Linking.openURL(`sms:${digits}&body=${encodeURIComponent(message.trim())}`).catch(() => {
-                Alert.alert("", 'Unable to open Messages', [{text: "Ok"}]);
+            Linking.openURL(`sms:${[digits]}&body=${encodeURIComponent(message.trim())}`).catch(() => {
+                Alert.alert("", scanTexts.imessageAppOpenFailure, [{ text: "Ok" }]);
             });
         } else {
             // Request Tow
             Alert.alert(
-                "", 
-                "Request Towed", 
-                [{ 
+                "",
+                scanTexts.requestTowed,
+                [{
                     text: "Ok",
                     onPress: () => (navigation.navigate as any)("Worklist")
                 }]
@@ -153,9 +151,9 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
                 <View style={{ width: 10 }} />
                 {/* Send Text / Confirm */}
                 <CustomButton
-                    label={scanTexts.confirm}
+                    label={props?.shouldShowRequestTowView ? scanTexts.confirm : scanTexts.sendText}
                     onPress={handleAction}
-                    buttonStyle={[styles.sendTextButton, props?.shouldShowRequestTowView && {backgroundColor: '#ff0000'}]}
+                    buttonStyle={[styles.sendTextButton, props?.shouldShowRequestTowView && { backgroundColor: Colors.red }]}
                     labelStyle={styles.buttonTextStyle}
                 />
             </View>

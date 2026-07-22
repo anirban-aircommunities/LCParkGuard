@@ -84,6 +84,12 @@ export const scanTexts = {
   cancel: "Cancel",
   sendText: "Send Text",
   confirm: "Confirm",
+  missingInformation: 'Missing Information',
+  requestTowPhoneNo: "Phone number, c",
+  c: "C",
+  requestTowValidation: "urrent location and message are required.",
+  imessageAppOpenFailure: 'Unable to open Messages',
+  requestTowed: "Request Towed"
 };
 // Scan History Texts
 export const scanHistoryTexts = {
