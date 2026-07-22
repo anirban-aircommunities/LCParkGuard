@@ -26,6 +26,7 @@ import CustomButton from '../components/CustomButton';
 import ScanTabContent from './scanScreenComponents/ScanTabContent';
 import ManualTabContent from './scanScreenComponents/ManualTabContent';
 import VehicleVerificationCardView from './scanScreenComponents/VehicleVerificationCardView';
+import { clearVehicle } from '../redux/slices/vehicleSlice';
 
 // Conditionally import camera to prevent app crash if module not available
 let Camera: any = null;
@@ -122,13 +123,14 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
   }, [licensePlate, currentVehicle, clearCurrentVehicle]);
   // Handle showing verification panel 
   useEffect(() => {
-    if(licensePlate?.trim() && !loading) {
+    if(licensePlate?.trim() && !loading && currentVehicle != null) {
       setShowVerficationView(true);
     }
   }, [currentVehicle, loading]);
   // Handle hiding verification panel, depending on changing license plate
   useEffect(() => {
     setShowVerficationView(false);
+    dispatch(clearVehicle());
   }, [licensePlate]);
   // Handle hiding verification panel, depending on switching tabs
   useEffect(() => {
@@ -238,7 +240,7 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
           />
         )}
         {/* Vehicle Verification Card View */}
-        {showVerficationView && licensePlate?.trim() && <VehicleVerificationCardView
+        {showVerficationView && <VehicleVerificationCardView
           isRegistered={showVerificationResult}
           currentVehicle={currentVehicle}
           selectedProperty={selectedProperty}
