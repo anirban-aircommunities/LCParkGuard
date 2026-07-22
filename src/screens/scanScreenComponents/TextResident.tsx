@@ -12,6 +12,7 @@ type TextResidentProps = {
     selectedProperty?: any;
     removeSelection?: () => void;
     shouldShowRequestTowView?: boolean;
+    clearData?: () => void;
 }
 
 const TextResident: React.FC<TextResidentProps> = (props: any) => {
@@ -60,7 +61,9 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
         if (!props.shouldShowRequestTowView) {
             // Send SMS
             const digits = textResidentPhoneNumber?.replace(/\D/g, '');
-            Linking.openURL(`sms:${[digits]}&body=${encodeURIComponent(message.trim())}`).catch(() => {
+            Linking.openURL(`sms:${[digits]}&body=${encodeURIComponent(message.trim())}`)
+            .then(() => props?.clearData())
+            .catch(() => {
                 Alert.alert("", scanTexts.imessageAppOpenFailure, [{ text: "Ok" }]);
             });
         } else {
@@ -70,7 +73,7 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
                 scanTexts.requestTowed,
                 [{
                     text: "Ok",
-                    onPress: () => (navigation.navigate as any)("Worklist")
+                    onPress: () => props?.clearData()
                 }]
             )
         }
@@ -144,7 +147,10 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
                 {/* Cancel */}
                 <CustomButton
                     label={scanTexts.cancel}
-                    onPress={props?.removeSelection}
+                    onPress={() => {
+                        props?.removeSelection();
+                        props?.clearData();
+                    }}
                     buttonStyle={styles.cancelButton}
                     labelStyle={{}}
                 />

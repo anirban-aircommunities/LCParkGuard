@@ -12,9 +12,10 @@ type VehicleVerificationCardViewProps = {
     isRegistered?: boolean;
     currentVehicle?: any;
     selectedProperty?: any;
+    clearData?: () => void;
 }
 
-const VehicleVerificationCardView: React.FC<VehicleVerificationCardViewProps> = ({ isRegistered, currentVehicle, selectedProperty }: any) => {
+const VehicleVerificationCardView: React.FC<VehicleVerificationCardViewProps> = ({ isRegistered, currentVehicle, selectedProperty, clearData }: any) => {
     const [button2Selected, setButton2Selected] = useState(false);
     const [button3Selected, setButton3Selected] = useState(false);
     let buttonFlex: number = isRegistered ? 0.33 : 0.5;
@@ -58,6 +59,7 @@ const VehicleVerificationCardView: React.FC<VehicleVerificationCardViewProps> = 
             <TextResident 
                 currentVehicle={currentVehicle} 
                 selectedProperty={selectedProperty} 
+                clearData={clearData}
                 shouldShowRequestTowView={button3Selected}
                 removeSelection={() => [setButton2Selected(false), setButton3Selected(false)]}
             />}

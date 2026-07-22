@@ -73,6 +73,12 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
   const [hasAddedToHistory, setHasAddedToHistory] = useState(false);
   const [hasSentToTowing, setHasSentToTowing] = useState(false);
 
+  // Clear Data
+  const clearData = () => {
+    setLicensePlate("");
+    setShowVerficationView(false);
+  }
+
   // Set first property as default if none selected
   useEffect(() => {
     if (properties.length > 0 && !selectedProperty) {
@@ -243,6 +249,7 @@ const ScanScreen: React.FC<CameraScreenProps> = ({ onResult }) => {
         {showVerficationView && <VehicleVerificationCardView
           isRegistered={showVerificationResult}
           currentVehicle={currentVehicle}
+          clearData={clearData}
           selectedProperty={selectedProperty}
         />}
       </KeyboardAwareScrollView>
