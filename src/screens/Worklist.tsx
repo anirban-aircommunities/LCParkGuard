@@ -165,7 +165,7 @@ const Worklist = () => {
                 Alert.alert('', towingQueueTexts.markedAsTowed, [
                   {
                     text: 'Ok',
-                    onPress: () => navigation.navigate('ScanHistory'),
+                    onPress: () => (navigation.navigate as any)('ScanHistory'),
                   },
                 ]);
               }}
@@ -173,7 +173,7 @@ const Worklist = () => {
                 Alert.alert('', towingQueueTexts.markedAsResolved, [
                   {
                     text: 'Ok',
-                    onPress: () => navigation.navigate('ScanHistory'),
+                    onPress: () => (navigation.navigate as any)('ScanHistory'),
                   },
                 ]);
               }}

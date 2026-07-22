@@ -5,6 +5,7 @@ import UserInteractionItem from "../../components/UserInteractionItem";
 import { scanTexts } from "../../constants/Constants";
 import CustomButton from "../../components/CustomButton";
 import { messaging } from "../../components/Icons";
+import { useNavigation } from "@react-navigation/native";
 
 type TextResidentProps = {
     licensePlate?: string;
@@ -17,6 +18,7 @@ type TextResidentProps = {
 const TextResident: React.FC<TextResidentProps> = (props: any) => {
     const [textResidentPhoneNumber, setTextResidentPhoneNumber] = useState(props?.selectedProperty?.towingPhone);
     const [currentLocation, setCurrentLocation] = useState("");
+    const navigation = useNavigation();
     const [message, setMessage] = useState("");
     // Quick Messages
     const QUICK_MESSAGES = [
@@ -65,7 +67,14 @@ const TextResident: React.FC<TextResidentProps> = (props: any) => {
             });
         } else {
             // Request Tow
-            Alert.alert("", "Request Towed", [{text: "Ok"}])
+            Alert.alert(
+                "", 
+                "Request Towed", 
+                [{ 
+                    text: "Ok",
+                    onPress: () => (navigation.navigate as any)("Worklist")
+                }]
+            )
         }
     };
     return (

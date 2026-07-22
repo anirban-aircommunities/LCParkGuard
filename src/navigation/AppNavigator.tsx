@@ -63,7 +63,7 @@ const AppNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="TowingQueue"
+        name="Worklist"
         component={Worklist}
         options={{
           headerShown: false,
