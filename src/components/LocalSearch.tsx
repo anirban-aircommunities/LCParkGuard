@@ -1,1 +1,1 @@
-export const LocalSearch = (text: string, list: any, keyName: string) => text ? list?.filter((item: any) => item[keyName]?.includes(text?.trim())) : list;
+export const LocalSearch = (text: string, list: any, keyName: string) => text ? list?.filter((item: any) => item[keyName]?.toUpperCase()?.includes(text?.trim()?.toUpperCase())) : list;
