@@ -31,14 +31,14 @@ const VehicleVerificationCardView: React.FC<VehicleVerificationCardViewProps> = 
                     {/* Button 1 */}
                     <CustomButton
                         icon={downArrowIcon.grey}
-                        iconColor={'#008000'}
+                        iconColor={Colors.green}
                         iconSize={30}
                         buttonStyle={[styles.actionButtonStyle, !(button2Selected || button3Selected) && styles.separatorLine, { flex: buttonFlex }]}
                     />
                     {/* Button 2 */}
                     {isRegistered ? <CustomButton
                         icon={button2Selected ? messaging.whiteBackground : messaging.transparentBackground}
-                        iconColor={button2Selected ? '#fff' : PANTONE7546}
+                        iconColor={button2Selected ? Colors.white : PANTONE7546}
                         iconSize={30}
                         onPress={() => [setButton2Selected(true), setButton3Selected(false)]}
                         buttonStyle={[styles.actionButtonStyle, styles.messagingIcon, button2Selected && styles.selectedIcon, !(button2Selected || button3Selected) && styles.separatorLine, { flex: buttonFlex }]}
@@ -46,10 +46,10 @@ const VehicleVerificationCardView: React.FC<VehicleVerificationCardViewProps> = 
                     {/* Button 3 */}
                     <CustomButton
                         icon={propertySelectionIcon.colored}
-                        iconColor={!button3Selected ? '#ff0000' : '#fff'}
+                        iconColor={!button3Selected ? Colors.red : Colors.white}
                         iconSize={30}
                         onPress={() => [setButton2Selected(false), setButton3Selected(true)]}
-                        buttonStyle={[styles.actionButtonStyle, styles.messagingIcon, { flex: buttonFlex }, button3Selected && styles.selectedIcon]}
+                        buttonStyle={[styles.actionButtonStyle, styles.messagingIcon, { flex: buttonFlex }, button3Selected && [styles.selectedIcon, {backgroundColor: Colors.red}]]}
                     />
                 </View>
             </View>
