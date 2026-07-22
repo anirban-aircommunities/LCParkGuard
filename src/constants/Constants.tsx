@@ -111,4 +111,5 @@ export const towingQueueTexts = {
   markedAsResolved: 'Item is marked as resolved successfully',
   requestTow: 'Request Tow',
   markAsTowedLabel: 'Mark as Towed',
+  emptyText: 'No worklists found',
 };

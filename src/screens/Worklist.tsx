@@ -142,22 +142,22 @@ const Worklist = () => {
           data={towingQueueItems}
           ListEmptyComponent={
             // Empty List Component
-            <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />
+            <EmptyListComponent emptyText={towingQueueTexts.emptyText} />
           }
           renderItem={({ item, index }) => (
             <ScanHistoryCardView
               checkbox={false}
               // selectItem={() => dispatch(selectItems(item))}
               iconName={
-                item.isChecked ? checkboxes.checked : checkboxes.unchecked
+                (item as any)?.isChecked ? checkboxes.checked : checkboxes.unchecked
               }
-              iconSize={item.isChecked ? 20 : 25}
+              iconSize={(item as any)?.isChecked ? 20 : 25}
               item={item}
               hasBottomButtons
               statusIconName={messaging.stroke}
               statusIconSize={15}
               towButtonLabel={
-                item?.texted
+                (item as any)?.texted
                   ? towingQueueTexts.requestTow
                   : towingQueueTexts.markAsTowedLabel
               }

@@ -29,6 +29,7 @@ import * as scanHistoryData from '../demo/scanHistoryData.json';
 import UserInteractionItem from '../components/UserInteractionItem';
 import { useSelector } from 'react-redux';
 import AppHeader from '../components/AppHeader';
+import { LocalSearch } from '../components/LocalSearch';
 
 const ScanHistoryScreen = () => {
   const scanHistoryItems = useSelector(
@@ -42,6 +43,7 @@ const ScanHistoryScreen = () => {
   const [emailToSelfRecordCount, setEmailToSelfRecordCount] = useState(
     scanHistoryData.list.length
   );
+  const [searchedList, setSearchedList] = useState(scanHistoryItems);
 
   // Select Tab
   const selectTab = (item: any, index: number) => {
@@ -83,7 +85,11 @@ const ScanHistoryScreen = () => {
             labelText={scanHistoryTexts.licensePlateTextField}
             iconName={propertySelectionIcon.colored}
             value={licensePlate}
-            onChange={(text) => changeLicensePlate(text)}
+            onChange={(text) => {
+              changeLicensePlate(text);
+              // Update the list as per the text entered in search box
+              setSearchedList(LocalSearch(text?.trim(), scanHistoryItems, "licensePlate"));
+            }}
             interactionType="textbox"
             haveItemHeader
             placeholder={scanHistoryTexts.licensePlatePlaceholder}
@@ -140,7 +146,7 @@ const ScanHistoryScreen = () => {
         </View>
         {/* Card View */}
         <FlatList
-          data={scanHistoryItems}
+          data={searchedList}
           /* Empty List Component */
           ListEmptyComponent={
             <EmptyListComponent emptyText={scanHistoryTexts.emptyScanText} />

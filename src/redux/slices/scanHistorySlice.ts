@@ -27,7 +27,7 @@ const initialState: ScanHistoryState = {
     {
       id: '2',
       carOwner: 'Rebecca Thompson',
-      licensePlate: 'ABC123',
+      licensePlate: 'PQR789',
       parkingSpot: 'N/A',
       isChecked: true,
       propertyName: 'John Doe',
@@ -42,7 +42,7 @@ const initialState: ScanHistoryState = {
     {
       id: '3',
       carOwner: 'Rebecca Thompson',
-      licensePlate: 'ABC123',
+      licensePlate: 'XYZ777',
       parkingSpot: 'N/A',
       isChecked: false,
       propertyName: 'John Doe',
@@ -67,10 +67,10 @@ const scanHistorySlice = createSlice({
       // Check if item already exists (same license plate and parking spot)
       const existingIndex = state.items.findIndex(
         (item) =>
-          item.licensePlate.toLowerCase() ===
-            action.payload.licensePlate.toLowerCase() &&
-          item.parkingSpot.toLowerCase() ===
-            action.payload.parkingSpot.toLowerCase()
+          item?.licensePlate?.toLowerCase() ===
+            action?.payload?.licensePlate?.toLowerCase() &&
+          item?.parkingSpot?.toLowerCase() ===
+            action?.payload?.parkingSpot?.toLowerCase()
       );
 
       if (existingIndex !== -1) {
