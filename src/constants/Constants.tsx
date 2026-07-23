@@ -115,5 +115,7 @@ export const towingQueueTexts = {
 };
 // Settings Texts
 export const settingsTexts = {
-  headerTitle: "Settings"
+  headerTitle: "Settings",
+  logoutCardTitle: "Log out",
+  support: 'Support'
 }

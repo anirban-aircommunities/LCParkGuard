@@ -13,6 +13,7 @@ export const Colors = {
   success: '#388E3C', // Green
   border: '#E0E0E0',
   shadow: '#000000',
+  black: '#000000',
   tabPantone7546: '#193A47',
   grey: '#ececec',
   grey1: '#cdcdcd',

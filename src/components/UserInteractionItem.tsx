@@ -53,6 +53,7 @@ type UserInteractionItemProps = {
   keyboardType?: string;
   multiline?: boolean;
 };
+// User Interacting Component
 const renderInteractingFeature = (props: any) => {
   const [isPropertyDropdownOpen, setIsPropertyDropdownOpen] = useState(false);
   let dropdownItemsList = props?.dropdownItems;
@@ -165,7 +166,18 @@ const renderInteractingFeature = (props: any) => {
       return null;
   }
 };
-
+// Read More Text
+const readMore = (text: string, amountOfWords: number) => {
+  const [isExpanded, setIsExpanded] = useState(false)
+  
+  const splittedText = text?.split(' ');
+  const itCanOverflow = splittedText.length > amountOfWords;
+  const beginText = itCanOverflow
+    ? splittedText.slice(0, amountOfWords - 1).join(' ')
+    : text;
+  const endText = splittedText.slice(amountOfWords - 1).join(' ');
+  return endText;
+}
 const UserInteractionItem: React.FC<UserInteractionItemProps> = (props: any) => (
   <View style={styles.container}>
     {/* Label Text Row */}
@@ -180,6 +192,7 @@ const UserInteractionItem: React.FC<UserInteractionItemProps> = (props: any) => 
             </View>
           )}
           {/* Label Text, with "Read More" feature */}
+          {/* <Text>{readMore(props?.labelText, 36)}</Text> */}
           <ReadMore
             numberOfLines={props?.numberOfLines}
             seeLessStyle={styles.seeMore}
