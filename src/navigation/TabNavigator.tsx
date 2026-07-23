@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ScanScreen from '../screens/ScanScreen';
 import Worklist from '../screens/Worklist';
@@ -16,24 +16,7 @@ const TabNavigator = () => {
       screenOptions={{
         tabBarActiveTintColor: Colors.white,
         tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.55)',
-        tabBarStyle: {
-          backgroundColor: Colors.tabPantone7546,
-          borderTopColor: Colors.tabPantone7546,
-          borderTopWidth: 0,
-          height: 60,
-          paddingBottom: 8,
-          paddingTop: 8,
-        },
-        headerStyle: {
-          backgroundColor: Colors.tabPantone7546,
-        },
-        headerTintColor: Colors.white,
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-        headerLeftContainerStyle: {
-          paddingLeft: 10,
-        },
+        tabBarStyle: styles.tabBarStyle,
       }}
     >
       <Tab.Screen
@@ -121,3 +104,16 @@ const TabNavigator = () => {
 };
 
 export default TabNavigator;
+
+const styles = StyleSheet.create({
+  tabBarStyle: {
+    backgroundColor: Colors.tabPantone7546,
+    borderTopColor: Colors.tabPantone7546,
+    borderTopWidth: 0,
+    paddingBottom: 8,
+    paddingTop: 8,
+  },
+  tabHeader: {
+    backgroundColor: Colors.tabPantone7546,
+  },
+})
