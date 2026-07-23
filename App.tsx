@@ -7,7 +7,6 @@
 import React from 'react';
 import { LogBox, StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { store } from './src/redux/store';
@@ -23,9 +22,7 @@ function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>
         <SafeAreaProvider>
-          <NavigationContainer>
             <RootNavigator />
-          </NavigationContainer>
         </SafeAreaProvider>
       </Provider>
     </GestureHandlerRootView>

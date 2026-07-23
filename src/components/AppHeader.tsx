@@ -1,32 +1,41 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, Platform, Dimensions, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Colors, PANTONE5487, PANTONE7546 } from '../constants/Colors';
-import { assets } from './Assets';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { headerTitle } from '../constants/Constants';
 import { SvgXml } from 'react-native-svg';
-import { settings, sync } from './Icons';
+import { backButton, settings, sync } from './Icons';
 
 interface AppHeaderProps {
   title: string;
-  showLogo?: boolean;
+  showIcons?: boolean;
 }
 
-const AppHeader: React.FC<AppHeaderProps> = ({ title, showLogo = true }) => {
-  const logoSource = (assets as any).logo;
+const AppHeader: React.FC<AppHeaderProps> = ({ title, showIcons }) => {
   const insets = useSafeAreaInsets();
-
+  const navigation = useNavigation();
   return (
     <View style={[styles.outerContainer, { paddingTop: insets.top }]}>
       {/* Screen Header */}
-      <View style={styles.innerContainer}>
-        <View style={styles.blankView} />
-        <Text style={styles.titleText}>{headerTitle}</Text>
-      </View>
-      <View style={styles.iconsContainer}>
+      <TouchableOpacity 
+        activeOpacity={0.7}
+        style={[styles.innerContainer, !showIcons && {justifyContent: 'flex-start'}]}
+        onPress={() => navigation.goBack()}
+        disabled={showIcons}
+      >
+        {
+          !showIcons ?
+          <SvgXml xml={backButton} height={25} width={25}/>
+          : <View style={styles.blankView} />
+        }
+        <Text style={styles.titleText}>{title}</Text>
+      </TouchableOpacity>
+      {showIcons && <View style={styles.iconsContainer}>
         {/* Settings */}
         <TouchableOpacity
           activeOpacity={0.7}
+          onPress={() => (navigation.navigate as any)("Settings")}
         >
           <SvgXml xml={settings} color={Colors.white} height={20} width={20} />
         </TouchableOpacity>
@@ -37,7 +46,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({ title, showLogo = true }) => {
         >
           <SvgXml xml={sync} color={Colors.white} height={23} width={23} />
         </TouchableOpacity>
-      </View>
+      </View>}
     </View>
   );
 };

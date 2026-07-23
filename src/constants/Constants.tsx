@@ -113,3 +113,7 @@ export const towingQueueTexts = {
   markAsTowedLabel: 'Mark as Towed',
   emptyText: 'No worklists found',
 };
+// Settings Texts
+export const settingsTexts = {
+  headerTitle: "Settings"
+}

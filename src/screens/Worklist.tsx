@@ -121,7 +121,7 @@ const Worklist = () => {
 
   return (
     <Fragment>
-      <AppHeader title={headerTitle} showLogo />
+      <AppHeader title={headerTitle} showIcons />
       <ScrollView style={styles.outerContainer}>
         {/* Sub Header with Select All feature */}
         {/* <View style={styles.innerContainer}>

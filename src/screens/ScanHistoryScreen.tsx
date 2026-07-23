@@ -77,7 +77,7 @@ const ScanHistoryScreen = () => {
 
   return (
     <Fragment>
-      <AppHeader title={headerTitle} showLogo />
+      <AppHeader title={headerTitle} showIcons />
       <ScrollView style={styles.outerContainer}>
         <View style={styles.innerContainer}>
           {/* Search License Plate Textfield */}
