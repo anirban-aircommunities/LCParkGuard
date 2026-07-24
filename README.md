@@ -4,6 +4,10 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
+> Please extract this folder from this link - https://dev.azure.com/AIRProperties/Property-Applications/_git/pemobileapp?path=/ios/LCParkGuard.xcodeproj.zip&version=GBDevelopment, after downloading or cloning the project, inside ios directory, to get ios/LCParkGuard.xcodeproj this setup file restored inside that directory.
+
+> Please extract this folder from this link - https://dev.azure.com/AIRProperties/Property-Applications/_git/pemobileapp?path=/ios/LCParkGuard.xcworkspace.zip&version=GBDevelopment, after downloading or cloning the project, inside ios directory, to get ios/LCParkGuard.xcworkspace this setup file restored inside that directory.
+
 ## Step 1: Start Metro
 
 First, you will need to run **Metro**, the JavaScript build tool for React Native.
